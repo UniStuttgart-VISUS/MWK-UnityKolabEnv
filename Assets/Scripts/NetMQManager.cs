@@ -16,6 +16,7 @@ public class NetMQManager : MonoBehaviour
             _pubSocket = new PublisherSocket();
             _pubSocket.Options.SendHighWatermark = 1000;
             _pubSocket.Bind("tcp://127.0.0.1:12345");
+            Debug.Log("ZMQ: Bound to socket successfully");
         }
     }
 
@@ -24,9 +25,18 @@ public class NetMQManager : MonoBehaviour
     {
         
     }
-    
+
+    private void OnDestroy()
+    {
+        Debug.Log("ZMQ Destroy: Teardown socket");
+        _pubSocket.Unbind("tcp://127.0.0.1:12345");
+        _pubSocket.Dispose();
+    }
+
     private void OnApplicationQuit()
     {
+        Debug.Log("ZMQ Quit: Cleanup socket");
+        _pubSocket.Unbind("tcp://127.0.0.1:12345");
         _pubSocket.Dispose();
         NetMQConfig.Cleanup(false);
     }

@@ -1,0 +1,88 @@
+Photon Voice Change Log
+
+v2.5 (March 11th, 2019)
+   PUN2: v2.7 (1fa6aff)
+   PhotonVoiceApi: revision 5005
+   CHANGED: Recorder.IsRecording property added to stop and restart 'recording' after initialization.
+   CHANGED: Recorder.ReactOnSystemChanges property added to reinit due to changes in system audio devices. Default is false for backward compatibility.
+   FIXED: UI in DemoVoice scene, left sidebar should contain all info and gets updated if you change values in Editor.
+   FIXED: WebRtcAudioDsp: proper mapping of AudioSettings.speakerMode to channels number.
+   CHANGED: WebRtcAudioDsp: minor refactoring.
+   FIXED: PhotonVoiceStatsGui, PhotonVoiceLagSimulationGui: return after auto disable components when no VoiceConnection is not found.
+   FIXED: PhotonVoiceLagSimulationGui: VoiceClient.DebugLostPercent applied only when simulation is enabled.
+   FIXED: VoiceConnection: Frames stats reset if not receiving any.
+   FIXED: Recorder custom inspector: "Level" is shown only when recording and set to 0 when not transmitting.
+   
+v2.4.1 (February 15th, 2019)
+   PUN2: v2.7 (1fa6aff)
+   PhotonVoiceApi: revision 5005
+       CHANGED: iOS native plugin initialization moved to separate thread to avoid 0.5 - 1 sec. pauses in main thread execution
+   FIXED: issue that was breaking asset import
+   NOTE: Unity 5.6.6f2 is now the minimum supported Unity version
+   
+v2.4 (February 15th, 2019)
+   PUN2: v2.7 (1fa6aff)
+   PhotonVoiceApi: revision 4981
+   ADDED: Android 64-bit libraries (Unity 2017.4+)
+   ADDED: PhotonVoiceStatsGui Utility Script
+   ADDED: more debug info to VoiceConnection (and PhotonVoiceNetwork) custom Editor
+   CHANGED: Recorder.AudioGroup obsolete, use Recorder.InterestGroup instead
+   CHANGED: VoiceConnection.Client is now LoadBalancingTransport after renaming LoadBalancingFrontend
+   FIXED: AEC Mobile couldn't be enabled in WebRtcAudioDsp
+   CHANGED: allow PhotonVoiceNetwork to join a room with a custom name when AutoConnectAndJoin is disabled
+   CHANGED: DemoVoiceUI scene now has UI properly initialized with correct values
+   CHANGED: PhotonVoiceLagSimulationGui refactored to not clash with PhotonLagSimulationGui
+   
+v2.3 (January 25th, 2019)
+    PUN2: v2.6 (578494a)
+    PhotonVoiceApi: revision 4948
+    FIXED: Speaker linking issues (debug echo toggling, disconnect & reconnect)
+
+v2.2 (December 20th, 2018)
+    PUN2: v2.6v (eeaa6a7)
+    PhotonVoiceApi: revision 4948
+    FIXED: self-hosted Photon Server support (Photon Voice client UserId if no set, will use the same UserId as PUN if available or a new GUID)
+    ADDED: Nintendo Switch support (requires separate add-on)
+    FIXED: 'late Speaker linking' (if a remote voice info event is received before PUN prefab instantiation, could happen during scene switching) 
+    FIXED: AudioSource.spatialBlend is set to 1.0f only when Speaker/AudioSource are created automatically by PhotonVoiceView
+    FIXED: log level filtering
+    FIXED: VAD threshold calibration persists between Recorder sessions
+    FIXED: PS4 integration after update to PhotonVoice2 (still require separate add-on)
+
+v2.1.3 (December 7th, 2018)
+    PUN2: v2.5 (4d59ede)
+    PhotonVoiceApi: revision 4915
+    FIXED: disconnects during delays due to scene loading
+    FIXED: iOS crash due to native plugin files versions mismatch
+    CHANGED: iOS audio output forced to speaker by default when using Photon microphone type
+    
+v2.1.2 (December 3rd, 2018)
+    PUN2: v2.5 (4d59ede)
+    PhotonVoiceApi: revision 4876
+    FIXED: issue due to using Mic. name/Id from Editor in builds
+    CHANGED: renamed Recorder.PhotonVoiceCreatedParams.AudioSource to Recorder.PhotonVoiceCreatedParams.AudioDesc 
+    CHANGED: renamed VoiceAudioPreprocessor to WebRtcAudioDsp
+
+v2.1.1 (November 21st, 2018)
+    PUN2: v2.5 (4d59ede)
+    PhotonVoiceApi: revision 4876 
+    FIXED: Unity Editor freezing when using PUN 2 integration
+
+v2.1 (November 8th, 2018)
+    PUN2: v2.4.1v (14cb68f)
+    PhotonVoiceApi: revision 4876 
+    FIXED: PhotonVoiceNetwork fields can now be updated from the Unity Editor
+    ADDED: Assembly Definitions for Photon Voice 2
+    ADDED: Photon Chat as it was forgotten in initial release
+    FIXED: Photon Voice 2 can connect to self-hosted Photon Server after setting SerializtionProtocol version to 1.6 in this case
+    FIXED: NullRefException when trying to access Recorder.Logger before Recorder.Awake is called
+    FIXED: PhotonVoiceView's Recorder setup when the ViewID changes if the Recorder is not part of the prefab
+    FIXED: Errors or crashes when trying to setup local voice due to exceptions
+    CHANGED: Recorder falls back to Unity microphone if Photon microphone setup encounter an error
+
+v2.0 (October 10th, 2018)
+    PUN2: v2.2.1 (3cd5540)
+    PhotonVoiceApi: revision 4823
+    Initial release of the new major Photon Voice version 2.
+    Work-in-progress documentation: https://doc.photonengine.com/en-us/voice/v2
+    PhotonVoice reference API: https://doc-api.photonengine.com/en/voice/v2

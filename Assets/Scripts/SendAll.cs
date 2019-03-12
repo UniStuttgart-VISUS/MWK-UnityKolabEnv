@@ -11,7 +11,7 @@ public class SendAll : MonoBehaviour
     public GameObject netManager;
     public GameObject vrOrigin;
     public GameObject additionalRotationFrom;
-    private int count = 0;
+    public int count = 0;
     public float multiplier = 1.0f;
     
     // Start is called before the first frame update

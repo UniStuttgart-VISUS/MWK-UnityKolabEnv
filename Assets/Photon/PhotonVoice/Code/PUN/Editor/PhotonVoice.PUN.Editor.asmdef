@@ -1,0 +1,14 @@
+{
+    "name": "PhotonVoice.PUN.Editor",
+    "references": [
+        "PhotonRealtime",
+        "PhotonVoice",
+        "PhotonVoice.Editor"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
