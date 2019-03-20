@@ -5,4 +5,5 @@ using UnityEngine;
 public static class EnvConstants
 {
     public const bool UseInviwoPositioning = true;
+    public const bool RttVisualization = true;
 }

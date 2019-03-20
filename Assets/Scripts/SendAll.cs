@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using UnityEngine;
 using NetMQ;
 using NetMQ.Sockets;
@@ -13,6 +14,7 @@ public class SendAll : MonoBehaviour
     public GameObject additionalRotationFrom;
     public int count = 0;
     public float multiplier = 1.0f;
+    public GameObject localRttMatGO;
     
     // Start is called before the first frame update
     void Start()
@@ -58,6 +60,7 @@ public class SendAll : MonoBehaviour
         if (count % 2 == 0 || true)
         {
             string jsonSend = "{" +
+                                  "\"seqNum\":" + count + "," +
                                   "\"camVecCamL\":" + JsonUtility.ToJson(vec1) + "," +
                                   "\"camVecCamR\":" + JsonUtility.ToJson(vec2) + "," +
                                   "\"camUpCamL\":" + JsonUtility.ToJson(vecUp) + "," +
@@ -66,6 +69,12 @@ public class SendAll : MonoBehaviour
                                   "\"camFwdCamR\":" + JsonUtility.ToJson(vecFwd) +
                               "}";
             _pubSocket.SendMoreFrame("camera").SendFrame(jsonSend);
+        }
+
+        if (localRttMatGO != null)
+        {
+            int xPos = (int)Math.Floor((count % 100) * 9.75) - 500;
+            localRttMatGO.GetComponent<Renderer>().material.SetInt("_X",xPos);
         }
 
         count++;
