@@ -34,8 +34,8 @@ public class SendAll : MonoBehaviour
             return;
         }       
 
-        Vector3 vec1 = (InputTracking.GetLocalPosition(XRNode.LeftEye) + new Vector3(0,-1,0 ) + vrOrigin.transform.position) * multiplier;
-        Vector3 vec2 = (InputTracking.GetLocalPosition(XRNode.RightEye) + new Vector3(0,-1,0 ) + vrOrigin.transform.position) * multiplier;
+        Vector3 vec1 = (InputTracking.GetLocalPosition(XRNode.LeftEye) + new Vector3(0,-2,0 ) + vrOrigin.transform.position) * multiplier;
+        Vector3 vec2 = (InputTracking.GetLocalPosition(XRNode.RightEye) + new Vector3(0,-2,0 ) + vrOrigin.transform.position) * multiplier;
 
         Vector3 vecFwd = baseCamera.transform.forward;
         Vector3 vecUp = baseCamera.transform.up;

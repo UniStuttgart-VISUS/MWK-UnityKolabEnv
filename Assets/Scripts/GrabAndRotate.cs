@@ -4,6 +4,7 @@ using UnityEngine;
 using HTC.UnityPlugin.Vive;
 using Photon.Pun;
 
+[RequireComponent(typeof(PhotonView))]
 public class GrabAndRotate : MonoBehaviourPun, IPunObservable
 {
     public bool isGrabbing;
@@ -25,13 +26,19 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
     {
         if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Trigger) && !isGrabbing)
         {
-            //start grab
+            //start grab            
             isGrabbing = true;
             initialPos = VivePose.GetPoseEx(HandRole.RightHand).pos;
             additionalRotation = new Vector3();
             initialRotation = transform.rotation.eulerAngles;
+            //photon take ownership if necessary
+            if (!this.photonView.IsMine)
+            {
+                this.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            }
         } else if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Trigger) && isGrabbing) {
             //end grab
+            this.GetComponent<PhotonView>().TransferOwnership(0);
             isGrabbing = false;
         }
         else if(isGrabbing)
@@ -43,11 +50,12 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
             this.transform.rotation = Quaternion.Euler(additionalRotation) * Quaternion.Euler(initialRotation);
         }
 
-        if (!isGrabbing)
+        //only use values from network if not grabbed locally
+        if (!isGrabbing && !this.GetComponent<PhotonView>().IsMine)
         {
             //Add incoming network translation / rotation (not really accounting for collisions or concurrency right now)
-            transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
-            transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
+            transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 2);
+            transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParticipantSync : MonoBehaviourPun, IPunObservable
 {
@@ -11,6 +12,7 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     public GameObject[] localObject;
     Vector3 latestPos;
     Quaternion latestRot;
+    private bool firstData = true;
     
     // Start is called before the first frame update
     void Start()
@@ -38,9 +40,20 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     {
         if (!photonView.IsMine)
         {
+            if (firstData)
+            {
+                firstData = false;
+                transform.position = latestPos;
+                transform.rotation = latestRot;
+            }
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
+            transform.Find("NameLabel").GetComponent<TextMesh>().text = photonView.Owner.NickName;
+        }
+        else
+        {
+            transform.Find("NameLabel").GetComponent<TextMesh>().text = PhotonNetwork.LocalPlayer.NickName;
         }
     }
 

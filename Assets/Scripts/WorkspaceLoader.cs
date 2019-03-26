@@ -57,6 +57,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
 
         connStatusText.text = "Disconnected";
         userNameText.text = participantName;
+        PhotonNetwork.NickName = participantName;
     }
 
     // Update is called once per frame
@@ -140,6 +141,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
             newButton.transform.Find("CountsText").GetComponent<Text>().text = info.PlayerCount + "/" + info.MaxPlayers;
             newButton.GetComponent<Button>().onClick.AddListener(delegate{joinClick(info.Name);});
         }
+        if(ownWorkspaces.Count > 0) joinClick(ownWorkspaces[0].Name);
     }
     
     public override void OnCreateRoomFailed(short returnCode, string message)
