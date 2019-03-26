@@ -116,7 +116,12 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnConnectedToMaster");
         connStatusText.text = "Connected";
-        PhotonNetwork.JoinLobby(TypedLobby.Default);        
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        
+        if (EnvConstants.CreateRoomOnLoad)
+        {
+            createClick();
+        }
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
