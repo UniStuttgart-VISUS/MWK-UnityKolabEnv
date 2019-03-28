@@ -1,0 +1,39 @@
+HEADER
+REMARK Spartan exported Sat Jan 27 12:48:45 1996
+HETATM    1 Cl   UNK  0001       3.534  -3.122  -0.329
+HETATM    2 Xe   UNK  0001       1.831  -1.618   0.443
+HETATM    3 Xe   UNK  0001       0.485   2.395   0.443
+HETATM    4 Xe   UNK  0001      -2.316  -0.777   0.443
+HETATM    5 Xe   UNK  0001      -1.831   1.618  -0.443
+HETATM    6 Xe   UNK  0001      -0.485  -2.395  -0.443
+HETATM    7 Xe   UNK  0001       2.316   0.777  -0.443
+HETATM    8 Cl   UNK  0001       0.476   2.351   2.843
+HETATM    9 Cl   UNK  0001      -2.274  -0.763   2.843
+HETATM   10 Cl   UNK  0001      -1.798   1.588  -2.843
+HETATM   11 Cl   UNK  0001      -0.476  -2.351  -2.843
+HETATM   12 Cl   UNK  0001       2.274   0.763  -2.843
+HETATM   13 Cl   UNK  0001       1.798  -1.588   2.843
+HETATM   14 Cl   UNK  0001       0.937   4.622  -0.329
+HETATM   15 Cl   UNK  0001      -4.471  -1.500  -0.329
+HETATM   16 Cl   UNK  0001      -3.534   3.122   0.329
+HETATM   17 Cl   UNK  0001      -0.937  -4.622   0.329
+HETATM   18 Cl   UNK  0001       4.471   1.500   0.329
+CONECT    1    2
+CONECT    2    1   13    6    7
+CONECT    3    8   14    5    7
+CONECT    4    9   15    6    5
+CONECT    5    3    4   10   16
+CONECT    6    2    4   11   17
+CONECT    7    2    3   12   18
+CONECT    8    3
+CONECT    9    4
+CONECT   10    5
+CONECT   11    6
+CONECT   12    7
+CONECT   13    2
+CONECT   14    3
+CONECT   15    4
+CONECT   16    5
+CONECT   17    6
+CONECT   18    7
+END
