@@ -29,8 +29,11 @@ public class NetMQManager : MonoBehaviour
     private void OnDestroy()
     {
         Debug.Log("ZMQ Destroy: Teardown socket");
-        _pubSocket.Unbind("tcp://127.0.0.1:12345");
-        _pubSocket.Dispose();
+        if (_pubSocket != null)
+        {
+            _pubSocket.Unbind("tcp://127.0.0.1:12345");
+            _pubSocket.Dispose();
+        }
     }
 
     private void OnApplicationQuit()
