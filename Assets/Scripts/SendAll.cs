@@ -4,6 +4,7 @@ using UnityEngine;
 using NetMQ;
 using NetMQ.Sockets;
 using UnityEngine.XR;
+using Valve.VR;
 
 public class SendAll : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class SendAll : MonoBehaviour
     public int count = 0;
     public float multiplier = 1.0f;
     public GameObject localRttMatGO;
+    public Vector3 offsetY;
     
     // Start is called before the first frame update
     void Start()
@@ -34,14 +36,13 @@ public class SendAll : MonoBehaviour
             return;
         }       
 
-        Vector3 vec1 = (InputTracking.GetLocalPosition(XRNode.LeftEye) + new Vector3(0,-2,0 ) + vrOrigin.transform.position) * multiplier;
-        Vector3 vec2 = (InputTracking.GetLocalPosition(XRNode.RightEye) + new Vector3(0,-2,0 ) + vrOrigin.transform.position) * multiplier;
-
+        Vector3 vec1 = (InputTracking.GetLocalPosition(XRNode.LeftEye) + offsetY + vrOrigin.transform.position) * multiplier;
+        Vector3 vec2 = (InputTracking.GetLocalPosition(XRNode.RightEye) + offsetY + vrOrigin.transform.position) * multiplier;
+       
         Vector3 vecFwd = baseCamera.transform.forward;
         Vector3 vecUp = baseCamera.transform.up;
 
-        Vector3 addRotation = additionalRotationFrom.transform.eulerAngles;
-        
+        Vector3 addRotation = additionalRotationFrom.transform.eulerAngles;       
            
         if (!EnvConstants.UseInviwoPositioning)
         {

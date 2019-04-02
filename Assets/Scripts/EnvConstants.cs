@@ -61,7 +61,7 @@ public class EnvConstants : MonoBehaviour
  
     public bool _useInviwoPositioning = true;
     public bool _rttVisualization = false;
-    public bool _createRoomOnLoad = false;
-    public bool _autoJoinFirstRoomOnLoad = true;
+    public bool _createRoomOnLoad = true;
+    public bool _autoJoinFirstRoomOnLoad = false;
     public bool _externalRendererMode = false;
 }

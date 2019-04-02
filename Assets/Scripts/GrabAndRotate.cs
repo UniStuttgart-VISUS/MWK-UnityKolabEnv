@@ -24,8 +24,11 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        if(!ViveInput.Active) Debug.LogWarning("ViveInput inactive");
+            
         if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Trigger) && !isGrabbing)
         {
+            Debug.Log("Start grab");
             //start grab            
             isGrabbing = true;
             initialPos = VivePose.GetPoseEx(HandRole.RightHand).pos;
@@ -38,11 +41,13 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
             }
         } else if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Trigger) && isGrabbing) {
             //end grab
+            Debug.Log("End grab");
             this.GetComponent<PhotonView>().TransferOwnership(0);
             isGrabbing = false;
         }
         else if(isGrabbing)
         {
+            Debug.Log("Update grab");
             Vector3 currentPos = VivePose.GetPoseEx(HandRole.RightHand).pos;
             additionalRotation.z = -((initialPos.x - currentPos.x) * 100) % 360;
             additionalRotation.y = -((initialPos.y - currentPos.y) * 100) % 360;
@@ -53,9 +58,10 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
         //only use values from network if not grabbed locally
         if (!isGrabbing && !this.GetComponent<PhotonView>().IsMine)
         {
+            Debug.Log("Update grab remote");
             //Add incoming network translation / rotation (not really accounting for collisions or concurrency right now)
-            transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 2);
-            transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
+            //transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 2);
+            this.transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
         }
     }
 
@@ -64,12 +70,14 @@ public class GrabAndRotate : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             //We own this player: send the others our data
+            Debug.Log("Send: "+transform.rotation);
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
         else
         {
             //Network player, receive data
+            Debug.Log("Receive: "+latestRot);
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
         }

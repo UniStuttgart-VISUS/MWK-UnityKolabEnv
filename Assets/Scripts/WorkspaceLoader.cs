@@ -101,6 +101,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
 
     void joinClick(string name)
     {
+        Debug.Log("Joining "+name);
         PhotonNetwork.JoinRoom(name);
     }
     

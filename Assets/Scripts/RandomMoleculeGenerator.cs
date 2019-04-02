@@ -132,11 +132,12 @@ public class RandomMoleculeGenerator : MonoBehaviour
         foreach (Transform child in transform)
         {
             bcNew.Encapsulate(child.gameObject.GetComponent<Renderer>().bounds);
+            child.transform.position += new Vector3(-bcNew.center.x, -bcNew.center.y+1.5f, -bcNew.center.z);
         }
         
-        //Recenter
-        Vector3 recenter = new Vector3(-bcNew.center.x, -bcNew.center.y+1.5f, -bcNew.center.z);
-        transform.position = recenter;
+        //Recenter all children
+        /*Vector3 recenter = new Vector3(-bcNew.center.x, -bcNew.center.y+1.5f, -bcNew.center.z);
+        transform.position = recenter;*/
         
     }
     

@@ -8,6 +8,7 @@
         Pass {
             Colormask 0           
             ZWrite Off
+            Cull Off
             Stencil {
                 Ref 1
                 Comp always
@@ -38,6 +39,7 @@
             ColorMask 0
             ZWrite on
             ZTest Always
+            Cull Off
             Stencil
             {
                 Ref [_StencilRef]
