@@ -75,8 +75,8 @@ Material:
     - _StencilRef: 1
     - _UVSec: 0
     - _Width: 2851
-    - _X: -1274
-    - _Y: -1581
+    - _X: -1340
+    - _Y: -1584
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 0}
