@@ -44,14 +44,16 @@ public class ReceiveAndApplyBounding : MonoBehaviour
             Debug.Log("Scale factors: "+scaleX+"  "+scaleY+"  "+scaleZ);
  
             //Apply largest multiplier to zmqsender
-            zmqSenderScript.multiplier = Mathf.Max(scaleX/targetSize.x, scaleY/targetSize.y, scaleZ/targetSize.z);
+            var mult = Mathf.Max(scaleX / targetSize.x, scaleY / targetSize.y, scaleZ / targetSize.z);
+            zmqSenderScript.multiplier = mult;
 
             //Apply proportional scale to self
             /*centerPos.x -= 0.5f;
             centerPos.y += 0.5f;
             centerPos.z += 0.5f;
             transform.position = centerPos;*/
-            //transform.localScale = new Vector3(1/scaleX, 1/scaleY, 1/scaleZ);
+            
+            transform.localScale = new Vector3(1/mult*scaleX, 1/mult*scaleY, 1/mult*scaleZ);
             
             dirty = false;
         }

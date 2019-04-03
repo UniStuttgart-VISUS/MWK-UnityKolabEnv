@@ -94,7 +94,8 @@ public class SendAll : MonoBehaviour
         Vector3 vecFwd = baseCamera.transform.forward;
         Vector3 vecUp = baseCamera.transform.up;
 
-        Vector3 addRotation = additionalRotationFrom.transform.eulerAngles;       
+        Quaternion addRotation = Quaternion.Inverse(additionalRotationFrom.transform.rotation);
+        //addRotation.y = -addRotation.y;
            
         if (!EnvConstants.UseInviwoPositioning)
         {
@@ -133,7 +134,7 @@ public class SendAll : MonoBehaviour
         count++;
     }
          
-    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles) {
-        return Quaternion.Euler(angles) * (point - pivot) + pivot;
+    public Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion angles) {
+        return angles * (point - pivot) + pivot;
     }
 }   
