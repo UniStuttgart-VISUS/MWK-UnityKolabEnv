@@ -22,6 +22,58 @@ public class SendAll : MonoBehaviour
     void Start()
     {
         if(baseCamera == null) baseCamera = Camera.main;
+
+        // Setup render values
+        uint w = 0, h = 0;
+        OpenVR.System.GetRecommendedRenderTargetSize(ref w, ref h);
+        var sceneWidth = (float)w;
+        var sceneHeight = (float)h;
+        
+        float l_left = 0.0f, l_right = 0.0f, l_top = 0.0f, l_bottom = 0.0f;
+        OpenVR.System.GetProjectionRaw(EVREye.Eye_Left, ref l_left, ref l_right, ref l_top, ref l_bottom);
+        
+        
+        float r_left = 0.0f, r_right = 0.0f, r_top = 0.0f, r_bottom = 0.0f;
+        OpenVR.System.GetProjectionRaw(EVREye.Eye_Right, ref r_left, ref r_right, ref r_top, ref r_bottom);
+        
+        var tanHalfFov = new Vector2(
+            Mathf.Max(-l_left, l_right, -r_left, r_right),
+            Mathf.Max(-l_top, l_bottom, -r_top, r_bottom));
+
+        var textureBounds = new VRTextureBounds_t[2];
+
+        textureBounds[0].uMin = 0.5f + 0.5f * l_left / tanHalfFov.x;
+        textureBounds[0].uMax = 0.5f + 0.5f * l_right / tanHalfFov.x;
+        textureBounds[0].vMin = 0.5f - 0.5f * l_bottom / tanHalfFov.y;
+        textureBounds[0].vMax = 0.5f - 0.5f * l_top / tanHalfFov.y;
+
+        textureBounds[1].uMin = 0.5f + 0.5f * r_left / tanHalfFov.x;
+        textureBounds[1].uMax = 0.5f + 0.5f * r_right / tanHalfFov.x;
+        textureBounds[1].vMin = 0.5f - 0.5f * r_bottom / tanHalfFov.y;
+        textureBounds[1].vMax = 0.5f - 0.5f * r_top / tanHalfFov.y;
+        
+        // Grow the recommended size to account for the overlapping fov
+        sceneWidth = sceneWidth / Mathf.Max(textureBounds[0].uMax - textureBounds[0].uMin, textureBounds[1].uMax - textureBounds[1].uMin);
+        sceneHeight = sceneHeight / Mathf.Max(textureBounds[0].vMax - textureBounds[0].vMin, textureBounds[1].vMax - textureBounds[1].vMin);
+
+        var aspect = tanHalfFov.x / tanHalfFov.y;
+        var fieldOfView = 2.0f * Mathf.Atan(tanHalfFov.y) * Mathf.Rad2Deg;
+
+        Debug.LogWarning("Tex size recommended:" + sceneWidth + " by " + sceneHeight + " px");
+        Debug.LogWarning("Aspect: " +aspect);
+        Debug.LogWarning("FoV: " +fieldOfView);
+
+        for (int i = 0; i < 2; i++)
+        {
+            Debug.LogWarning("TexBounds "+i+" uMin: "+textureBounds[i].uMin.ToString("f4"));
+            Debug.LogWarning("TexBounds "+i+" Left "+(sceneWidth-(sceneWidth*textureBounds[i].uMin))+" px");
+            Debug.LogWarning("TexBounds "+i+" uMax: "+textureBounds[i].uMax.ToString("f4"));
+            Debug.LogWarning("TexBounds "+i+" Right "+(sceneWidth-(sceneWidth*textureBounds[i].uMax))+" px");
+            Debug.LogWarning("TexBounds "+i+" vMin: "+textureBounds[i].vMin.ToString("f4"));
+            Debug.LogWarning("TexBounds "+i+" Top "+(sceneHeight-(sceneHeight*textureBounds[i].vMin))+" px");
+            Debug.LogWarning("TexBounds "+i+" vMax: "+textureBounds[i].vMax.ToString("f4"));
+            Debug.LogWarning("TexBounds "+i+" Bottom "+(sceneHeight-(sceneHeight*textureBounds[i].vMax))+" px");
+        }
     }
 
     // Update is called once per frame
