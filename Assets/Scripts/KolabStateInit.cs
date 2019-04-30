@@ -25,6 +25,10 @@ public class KolabStateInit : MonoBehaviour
                 Debug.Log("Activating " + go.name);
             }
         }
+        else
+        {
+            ExternalApplicationController.Instance.StartInviwoInstance("C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\stereo_spheres.inv");
+        }
     }
 
     // Update is called once per frame

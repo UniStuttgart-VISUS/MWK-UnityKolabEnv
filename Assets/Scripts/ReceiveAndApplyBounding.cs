@@ -46,13 +46,7 @@ public class ReceiveAndApplyBounding : MonoBehaviour
             //Apply largest multiplier to zmqsender
             var mult = Mathf.Max(scaleX / targetSize.x, scaleY / targetSize.y, scaleZ / targetSize.z);
             zmqSenderScript.multiplier = mult;
-
-            //Apply proportional scale to self
-            /*centerPos.x -= 0.5f;
-            centerPos.y += 0.5f;
-            centerPos.z += 0.5f;
-            transform.position = centerPos;*/
-            
+          
             transform.localScale = new Vector3(1/mult*scaleX, 1/mult*scaleY, 1/mult*scaleZ);
             
             dirty = false;
@@ -108,9 +102,7 @@ public class ReceiveAndApplyBounding : MonoBehaviour
             var msg = new List<string>();
             
             while (running)
-            {
-                //Debug.Log("Trying receive");
-                
+            {               
                 if (!subSocket.TryReceiveMultipartStrings(new TimeSpan(0, 0, 0, 0, 300), ref msg)) continue;
                 Debug.Log("Got BBox message: " + msg[1]);
                 bbox = JsonConvert.DeserializeObject<InvBoundingBox>(msg[1]);
