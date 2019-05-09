@@ -14,7 +14,7 @@ public class FileLoaderHelper : MonoBehaviour
     void Start()
     {
         //Scan working dir
-        var info = new DirectoryInfo("C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\");
+        var info = new DirectoryInfo(EnvConstants.WorkspacesPath);
         var fileInfo = info.GetFiles("*.inv");
         foreach (var file in fileInfo)
         {
@@ -30,11 +30,11 @@ public class FileLoaderHelper : MonoBehaviour
             // Create obj
             var square = GameObject.CreatePrimitive(PrimitiveType.Plane);
             square.transform.parent = this.transform;
-            square.transform.localPosition = new Vector3(-1.2f,0.2f,i%5*0.1f);
-            square.transform.localScale = new Vector3(0.2f,0.2f,0.01f);
+            square.transform.localPosition = new Vector3(-0.2f,Mathf.Floor(i/5)*0.65f,-1.5f+(i%5*0.8f));
+            square.transform.localScale = new Vector3(0.05f,0.05f,0.05f);
             square.GetComponent<Renderer>().material = new Material(Shader.Find("Unlit/Texture"));
             square.GetComponent<Renderer>().material.mainTexture = tex;
-            square.transform.RotateAround(square.transform.position, square.transform.right, 180f);
+            square.transform.RotateAround(square.transform.position, square.transform.forward, 90f);
             square.AddComponent<Button>().name = availableFiles[i];
             square.GetComponent<Button>().onClick.AddListener(OnClick);
         }

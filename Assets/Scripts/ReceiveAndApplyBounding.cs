@@ -57,7 +57,7 @@ public class ReceiveAndApplyBounding : MonoBehaviour
     void OnEnable()
     {
         running = true;
-        if (!subscriberThread.IsAlive)
+        if (subscriberThread == null || !subscriberThread.IsAlive)
         {
             subscriberThread = new Thread(NetMqSubscriber);
             subscriberThread.Start("tcp://127.0.0.1:12346");
