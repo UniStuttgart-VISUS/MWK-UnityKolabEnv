@@ -5,9 +5,6 @@ using System.Diagnostics;
 
 public class ExternalApplicationController : Singleton<ExternalApplicationController>
 {
-    public string inviwoPath;
-    public string megamolPath;
-
     private Process inviwoProcess;
     private Process megamolProcess;
     
@@ -24,7 +21,7 @@ public class ExternalApplicationController : Singleton<ExternalApplicationContro
         //Keep track of running processes
         if (inviwoProcess != null && !inviwoProcess.Responding)
         {
-            
+            //do what?
         }
     }
 
@@ -48,7 +45,7 @@ public class ExternalApplicationController : Singleton<ExternalApplicationContro
         //Start instance
         ProcessStartInfo startInfo = new ProcessStartInfo();
         startInfo.LoadUserProfile = true;
-        startInfo.FileName = inviwoPath;
+        startInfo.FileName = EnvConstants.InviwoPath;
         startInfo.Arguments = "-n -c -w "+workspaceFile;
         inviwoProcess = Process.Start(startInfo);
     }
@@ -61,7 +58,7 @@ public class ExternalApplicationController : Singleton<ExternalApplicationContro
         //Start instance
         ProcessStartInfo startInfo = new ProcessStartInfo();
         startInfo.LoadUserProfile = true;
-        startInfo.FileName = inviwoPath;
+        startInfo.FileName = EnvConstants.MegamolPath;
         //startInfo.Arguments = "Extra Arguments to Pass to the Program";
         megamolProcess = Process.Start(startInfo);
     }

@@ -7,6 +7,8 @@ public class KolabStateInit : MonoBehaviour
     public GameObject[] internalRenderObjs;
     public GameObject[] externalRenderObjs;
     
+    
+    
     // Start is called before the first frame update
     void Start()
     {
