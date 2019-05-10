@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427811192}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f7a3968e616a904c8cbf2b99a8f400d, type: 3}
   m_Name: 
@@ -1427,7 +1427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useInviwoPositioning: 1
   _rttVisualization: 0
-  _createRoomOnLoad: 1
+  _createRoomOnLoad: 0
   _autoJoinFirstRoomOnLoad: 0
   _externalRendererMode: 1
   _projectPath: undefined
@@ -2005,6 +2005,7 @@ GameObject:
   - component: {fileID: 1235639980}
   - component: {fileID: 1235639979}
   - component: {fileID: 1235639978}
+  - component: {fileID: 1235639981}
   m_Layer: 0
   m_Name: _StencilProxyGeometry
   m_TagString: Untagged
@@ -2057,7 +2058,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235639976}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a76a75188605a324dbade4d37e2a3748, type: 3}
   m_Name: 
@@ -2080,6 +2081,20 @@ MonoBehaviour:
   netManager: {fileID: 777577424}
   zmqSenderScript: {fileID: 777577425}
   targetSize: {x: 3, y: 3, z: 3}
+--- !u!114 &1235639981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235639976}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be5bb0c047141e488e9154cbe937d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCutting: 0
+  netManager: {fileID: 777577424}
 --- !u!1001 &1328293266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3770,10 +3785,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8189340, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8189340, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
 --- !u!1001 &1983827362
 PrefabInstance:

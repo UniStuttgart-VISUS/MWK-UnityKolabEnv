@@ -27,7 +27,7 @@ public class EnvConstants : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Encountered argument with no matching property: "+args[i]);
+                //Debug.LogWarning("Encountered argument with no matching property: "+args[i]);
             }
         }
     }
