@@ -144,7 +144,7 @@ public class RenderPropertiesHelper : MonoBehaviour
         }
         else
         {
-            motionAdaptedResolution = new Vector2Int((int)Mathf.Floor(renderBaseResolution.x), (int)Mathf.Floor(renderBaseResolution.y));
+            motionAdaptedResolution = new Vector2Int((int)Mathf.Floor(renderBaseResolution.x/2), (int)Mathf.Floor(renderBaseResolution.y/2));
         }
         
         //Send resolution

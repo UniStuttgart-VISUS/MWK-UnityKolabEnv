@@ -23,6 +23,7 @@ public class ReceiveAndApplyBounding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Start: Create bounding receiver");
         running = true;
         subscriberThread = new Thread(NetMqSubscriber);
         subscriberThread.Start("tcp://127.0.0.1:12346");
@@ -56,12 +57,13 @@ public class ReceiveAndApplyBounding : MonoBehaviour
     // Update these functions
     void OnEnable()
     {
-        running = true;
+        /*running = true;
         if (subscriberThread == null || !subscriberThread.IsAlive)
         {
+            Debug.Log("Enable: Create bounding receiver");
             subscriberThread = new Thread(NetMqSubscriber);
             subscriberThread.Start("tcp://127.0.0.1:12346");
-        }
+        }*/
     }
 
     private void OnDisable()
@@ -104,6 +106,11 @@ public class ReceiveAndApplyBounding : MonoBehaviour
             while (running)
             {               
                 if (!subSocket.TryReceiveMultipartStrings(new TimeSpan(0, 0, 0, 0, 300), ref msg)) continue;
+                if (msg.Count < 2)
+                {
+                    Debug.LogError(msg);
+                    continue;
+                }
                 Debug.Log("Got BBox message: " + msg[1]);
                 bbox = JsonConvert.DeserializeObject<InvBoundingBox>(msg[1]);
                 dirty = true;

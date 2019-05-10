@@ -29,7 +29,7 @@ public class KolabStateInit : MonoBehaviour
         }
         else
         {
-            ExternalApplicationController.Instance.StartInviwoInstance("C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\stereo_spheres.inv");
+            //ExternalApplicationController.Instance.StartInviwoInstance("C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\stereo_spheres.inv");
         }
     }
 
