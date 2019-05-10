@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 22646925}
   - component: {fileID: 22646929}
   - component: {fileID: 22646928}
-  - component: {fileID: 22646927}
   - component: {fileID: 22646926}
   m_Layer: 0
   m_Name: CamRight
@@ -166,14 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326f9add24fafee418bdcd053a0324a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!81 &22646927
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22646924}
-  m_Enabled: 0
 --- !u!124 &22646928
 Behaviour:
   m_ObjectHideFlags: 0
@@ -796,6 +787,10 @@ PrefabInstance:
     - target: {fileID: 2071970, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 1335
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189340, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
