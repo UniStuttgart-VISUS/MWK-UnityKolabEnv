@@ -39,6 +39,12 @@ public class RenderPropertiesHelper : MonoBehaviour
     {
         // Check for available HMD
         trackingSystem = OpenVR.IVRSystem_Version;
+
+        if (!OpenVR.IsHmdPresent())
+        {
+            Debug.LogWarning("No HMD present, skipping render properties init");
+            return;
+        }
         
         // Initially, determine rendering parameters, save them and display on startup once in debugLog
         uint w = 0, h = 0;

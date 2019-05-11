@@ -15,6 +15,11 @@ public class FileLoaderHelper : MonoBehaviour
     {
         //Scan working dir
         var info = new DirectoryInfo(EnvConstants.WorkspacesPath);
+        if (!info.Exists)
+        {
+            Debug.LogWarning("Workspaces path not found, skipping enumeration");
+            return;
+        }
         var fileInfo = info.GetFiles("*.inv");
         foreach (var file in fileInfo)
         {
