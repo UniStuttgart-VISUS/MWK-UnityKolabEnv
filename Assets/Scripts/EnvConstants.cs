@@ -32,6 +32,11 @@ public class EnvConstants : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     public static EnvConstants instance
     {
         get
@@ -108,14 +113,31 @@ public class EnvConstants : MonoBehaviour
         get { return instance._megamolPath; }
         set { instance._megamolPath = value; }
     }
-
-    public bool _useInviwoPositioning = true;
-    public bool _rttVisualization = false;
-    public bool _createRoomOnLoad = true;
-    public bool _autoJoinFirstRoomOnLoad = false;
-    public bool _externalRendererMode = false;
-    public string _projectPath = "undefined";
-    public string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
-    public string _inviwoPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
-    public string _megamolPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    
+    public static List<string> CollisionSN
+    {
+        get { return instance._collisionSN; }
+        set { instance._collisionSN = value; }
+    }
+    
+    [SerializeField]
+    private bool _useInviwoPositioning = true;
+    [SerializeField]
+    private bool _rttVisualization = false;
+    [SerializeField]
+    private bool _createRoomOnLoad = false;
+    [SerializeField]
+    private bool _autoJoinFirstRoomOnLoad = true;
+    [SerializeField]
+    private bool _externalRendererMode = false;
+    [SerializeField]
+    private string _projectPath = "undefined";
+    [SerializeField]
+    private string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
+    [SerializeField]
+    private string _inviwoPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    [SerializeField]
+    private string _megamolPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    [SerializeField]
+    private List<string> _collisionSN = new List<string>();
 }

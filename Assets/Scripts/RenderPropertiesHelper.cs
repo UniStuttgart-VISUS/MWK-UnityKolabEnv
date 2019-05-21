@@ -94,12 +94,12 @@ public class RenderPropertiesHelper : MonoBehaviour
         // Calculate actual position for left eye w/ bounds
         adaptedPositionLeft = new Vector2(-(initialPositionBoth.x)+((1.0f - textureBounds[0].uMax) * sceneWidth),
                                           -(initialPositionBoth.y)-(textureBounds[0].vMin * sceneHeight));
-        Debug.LogWarning(textureBounds[0].uMin + " ---- " + textureBounds[0].uMax);
+        //Debug.LogWarning(textureBounds[0].uMin + " ---- " + textureBounds[0].uMax);
 
         // Calculate actual position for right eye w/ bounds
         adaptedPositionRight = new Vector2(-(initialPositionBoth.x)-(textureBounds[1].uMin * sceneWidth),
                                            -(initialPositionBoth.y)-(textureBounds[1].vMin * sceneHeight));
-        Debug.LogWarning(textureBounds[1].uMin + " ---- " + textureBounds[1].uMax);
+        //Debug.LogWarning(textureBounds[1].uMin + " ---- " + textureBounds[1].uMax);
         
         // Set material props
         if (setMaterialPropsOnStart)

@@ -1,8 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Schema;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
+using Valve.Newtonsoft.Json;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ParticipantSync : MonoBehaviourPun, IPunObservable
 {
@@ -13,6 +19,9 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     Vector3 latestPos;
     Quaternion latestRot;
     private bool firstData = true;
+    
+    public GameObject collisionGO;
+
     
     // Start is called before the first frame update
     void Start()
@@ -38,8 +47,10 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        //Handle position
         if (!photonView.IsMine)
         {
+            //Initial positioning without smoothing
             if (firstData)
             {
                 firstData = false;
@@ -53,7 +64,47 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
         }
         else
         {
+            //For own player, only update name label
             transform.Find("NameLabel").GetComponent<TextMesh>().text = PhotonNetwork.LocalPlayer.NickName;
+        }
+        
+        //Handle collision warning
+        if (photonView.IsMine)
+        {
+            //Write own real position and reference lighthouses
+            Hashtable worldPosProps = new Hashtable();
+            worldPosProps.Add("realPos",InputTracking.GetLocalPosition(XRNode.CenterEye));
+            worldPosProps.Add("referenceBases",JsonConvert.SerializeObject(EnvConstants.CollisionSN));
+            PhotonNetwork.LocalPlayer.SetCustomProperties(worldPosProps);
+            
+            //Get other players real position and search for collisions
+            collisionGO.SetActive(false);
+            foreach (Player player in PhotonNetwork.PlayerListOthers)
+            {
+                Debug.Log(player.CustomProperties.ToString());
+                List<string> refBases =
+                    JsonConvert.DeserializeObject<List<string>>((string)player.CustomProperties["referenceBases"]);
+                if (EnvConstants.CollisionSN.Intersect(refBases).Any())
+                {
+                    //We are in the same tracking space, calculate if collision can occur
+                    Vector3 realPos = (Vector3)player.CustomProperties["realPos"];
+                    var direction = (realPos - InputTracking.GetLocalPosition(XRNode.CenterEye));
+                    if (direction.magnitude < 2.0f)
+                    {
+                        //Visualize
+                        collisionGO.SetActive(true);
+                        collisionGO.transform.position = realPos;
+                        Renderer[] children;
+                        children = collisionGO.GetComponentsInChildren<Renderer>();
+                        foreach(Renderer r in children) {
+                            r.material.color = new Color(1.0f,0.0f,0.0f, 1.0f-direction.magnitude);
+                        }
+                        
+                        //Output warning
+                        //Debug.LogWarning("Collision warning - player "+player.NickName+" has distance of "+direction.magnitude+ " (Bases matching: "+EnvConstants.CollisionSN.Intersect(refBases).Count());
+                    }
+                }
+            }
         }
     }
 
