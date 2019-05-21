@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NetMQ;
@@ -31,8 +32,15 @@ public class NetMQManager : MonoBehaviour
         Debug.Log("ZMQ Destroy: Teardown socket");
         if (_pubSocket != null)
         {
-            _pubSocket.Unbind("tcp://127.0.0.1:12345");
-            _pubSocket.Dispose();
+            try
+            {
+                _pubSocket.Unbind("tcp://127.0.0.1:12345");
+                _pubSocket.Dispose();
+            } catch (ObjectDisposedException e)
+            {
+                Debug.LogWarning("PubSocket already disposed");
+            }
+            
         }
     }
 
