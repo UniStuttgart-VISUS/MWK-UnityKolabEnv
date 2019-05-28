@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text;
+using ExitGames.Client.Photon;
+using Microsoft.Win32;
 using UnityEngine;
+using Valve.Newtonsoft.Json;
 
+[DataContract]
 public class EnvConstants : MonoBehaviour
 {
     
@@ -13,7 +20,16 @@ public class EnvConstants : MonoBehaviour
 
     private void Start()
     {
-        //Read command line arguments if present, overwrite constants via reflection (slow but only done once)
+        //Read from serialized JSON if available
+        if (!DeserializeFromJSON(Application.persistentDataPath + "settings.json"))
+        {
+            if (!DeserializeFromJSON("default_settings.json"))
+            {
+                Debug.LogWarning("Found no per-user settings and no default_settings.json - reverting to failsafe defaults");   
+            }
+        }
+        
+        //Read command line arguments if present, overwrite read settings via reflection (slow but only done once)
         string[] args = System.Environment.GetCommandLineArgs ();
         Debug.Log ("Received args: "+args);
         string input = "";
@@ -30,11 +46,42 @@ public class EnvConstants : MonoBehaviour
                 //Debug.LogWarning("Encountered argument with no matching property: "+args[i]);
             }
         }
+        
+        //Dump everything for debugging
+        Debug.Log("Env init finished, values now are:");
+        Debug.Log(instance);
     }
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SerializeToJSON();
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var prop in typeof(EnvConstants).GetFields(BindingFlags.NonPublic | 
+                                                            BindingFlags.Instance))
+        {
+            if (prop.Name != "instance")
+            {
+                var val = prop.GetValue(instance);
+                var valStr = val == null ? "" : val.ToString();
+                sb.AppendLine(prop.Name + ": " + valStr);
+            }
+        }
+
+        sb.AppendLine("Listed " + typeof(EnvConstants)
+                          .GetFields(BindingFlags.NonPublic | 
+                                     BindingFlags.Instance)
+                          .Length + " properties");
+
+        return sb.ToString();
     }
 
     public static EnvConstants instance
@@ -55,6 +102,44 @@ public class EnvConstants : MonoBehaviour
             }
  
             return e_Instance;
+        }
+        private set => e_Instance = value;
+    }
+
+    public static void SerializeToJSON()
+    {
+        //Serialize
+        string serialized = JsonUtility.ToJson(instance, true);
+        //Write to disk
+        try
+        {
+            using (StreamWriter sw = new StreamWriter(new FileStream(Application.persistentDataPath+"settings.json", FileMode.Truncate, FileAccess.Write)))
+            {
+                sw.Write(serialized);
+                Debug.Log("Wrote settings to default store");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to write serialized settings: "+e.Message);
+        }
+    }
+
+    public static bool DeserializeFromJSON(string path)
+    {
+        try
+        {
+            using (var sr = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
+            {
+                JsonUtility.FromJsonOverwrite(sr.ReadToEnd(),instance);
+                Debug.Log("Successfully read settings from "+path);
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to read serialized settings: "+e.Message);
+            return false;
         }
     }
 
@@ -125,7 +210,7 @@ public class EnvConstants : MonoBehaviour
     [SerializeField]
     private bool _rttVisualization = false;
     [SerializeField]
-    private bool _createRoomOnLoad = false;
+    private bool _createRoomOnLoad = true;
     [SerializeField]
     private bool _autoJoinFirstRoomOnLoad = true;
     [SerializeField]
