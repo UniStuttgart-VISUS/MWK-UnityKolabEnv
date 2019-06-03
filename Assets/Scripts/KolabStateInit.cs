@@ -45,7 +45,8 @@ public class KolabStateInit : MonoBehaviour
             foreach(var item in conf["base_stations"])
             {
                 Debug.Log("Found base ID "+ item["config"]["serialNumber"]);
-                EnvConstants.CollisionSN.Add(item["config"]["serialNumber"].ToString());
+                if(!EnvConstants.CollisionSN.Exists(i => i == item["config"]["serialNumber"].ToString())) 
+                    EnvConstants.CollisionSN.Add(item["config"]["serialNumber"].ToString());
             }
         }
     }

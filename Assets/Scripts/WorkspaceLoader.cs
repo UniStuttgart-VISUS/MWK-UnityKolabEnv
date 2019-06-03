@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -12,9 +13,8 @@ using UnityEngine.EventSystems;
 
 public class WorkspaceLoader : MonoBehaviourPunCallbacks
 {
-    public string participantName = "Participant_";
     public string appVersion = "0.01";
-    public string defaultRoomName = "Workspace_";
+    public string defaultRoomName = "";
     
     private List<RoomInfo> ownWorkspaces = new List<RoomInfo>();
     private bool isJoining = false;
@@ -52,12 +52,11 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
         }
         
         //Set random defaults for now (until we have text entry)
-        defaultRoomName += new Random().Next(0,10000).ToString("x");
-        participantName += new Random().Next(0,10000).ToString("x");
+        //defaultRoomName += new Random().Next(0,10000).ToString("x");
 
         connStatusText.text = "Disconnected";
-        userNameText.text = participantName;
-        PhotonNetwork.NickName = participantName;
+        userNameText.text = EnvConstants.Nickname;
+        PhotonNetwork.NickName = EnvConstants.Nickname;
     }
 
     // Update is called once per frame
@@ -72,7 +71,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
      */
     void createClick()
     {
-        defaultRoomName = "Workspace_"+ new Random().Next(0,10000).ToString("x");
+        defaultRoomName = EnvConstants.Session;
         Debug.Log("Create room with name "+defaultRoomName);
         if (defaultRoomName != "")
         {
@@ -142,7 +141,8 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
             newButton.transform.Find("CountsText").GetComponent<Text>().text = info.PlayerCount + "/" + info.MaxPlayers;
             newButton.GetComponent<Button>().onClick.AddListener(delegate{joinClick(info.Name);});
         }
-        if(ownWorkspaces.Count > 0 && EnvConstants.AutoJoinFirstRoomOnLoad) joinClick(ownWorkspaces[0].Name);
+        if(ownWorkspaces.Any(i => i.Name == EnvConstants.Session)) joinClick(EnvConstants.Session);
+        //if(ownWorkspaces.Count > 0 && EnvConstants.AutoJoinFirstRoomOnLoad) joinClick(ownWorkspaces[0].Name);
     }
     
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -166,7 +166,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("OnCreatedRoom");
-        PhotonNetwork.NickName = participantName;
+        PhotonNetwork.NickName = EnvConstants.Nickname;
         PhotonNetwork.LoadLevel("Main");
     }
 
