@@ -204,7 +204,44 @@ public class EnvConstants : MonoBehaviour
         get { return instance._collisionSN; }
         set { instance._collisionSN = value; }
     }
-    
+
+    public static string Nickname
+    {
+        get { return instance._nickname; }
+        set { instance._nickname = value; }
+    }
+
+    public static string Institution
+    {
+        get { return instance._institution; }
+        set { instance._institution = value; }
+    }
+
+    public static string Session
+    {
+        get { return instance._session; }
+        set { instance._session = value; }
+    }
+
+    public static string Username
+    {
+        get { return instance._username; }
+        set { instance._username = value; }
+    }
+
+    public static string Password
+    {
+        get { return instance._password; }
+        set { instance._password = value; }
+    }
+
+
+    [SerializeField]
+    private string _nickname = "";
+    [SerializeField]
+    private string _institution= "";
+    [SerializeField]
+    private string _session = "";
     [SerializeField]
     private bool _useInviwoPositioning = true;
     [SerializeField]
@@ -217,6 +254,10 @@ public class EnvConstants : MonoBehaviour
     private bool _externalRendererMode = false;
     [SerializeField]
     private string _projectPath = "undefined";
+    [SerializeField]
+    private string _username = "undefined";
+    [SerializeField]
+    private string _password = "undefined";
     [SerializeField]
     private string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
     [SerializeField]
