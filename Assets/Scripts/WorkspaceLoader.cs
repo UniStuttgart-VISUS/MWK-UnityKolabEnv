@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class WorkspaceLoader : MonoBehaviourPunCallbacks
 {
+    public string workspaceName = "Main";
     public string appVersion = "0.01";
     public string defaultRoomName = "TEST";
     
@@ -176,7 +177,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnCreatedRoom");
         PhotonNetwork.NickName = EnvConstants.Nickname;
-        PhotonNetwork.LoadLevel("Main");
+        PhotonNetwork.LoadLevel(workspaceName);
     }
 
     public override void OnJoinedRoom()
