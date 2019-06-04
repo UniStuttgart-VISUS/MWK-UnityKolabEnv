@@ -109,11 +109,18 @@ public class EnvConstants : MonoBehaviour
         set { instance._megamolPath = value; }
     }
 
+    public static bool DesktopMode
+    {
+        get { return instance._desktopMode; }
+        set { instance._desktopMode = value; }
+    }
+
     public bool _useInviwoPositioning = true;
     public bool _rttVisualization = false;
     public bool _createRoomOnLoad = true;
     public bool _autoJoinFirstRoomOnLoad = false;
     public bool _externalRendererMode = false;
+    public bool _desktopMode = false;
     public string _projectPath = "undefined";
     public string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
     public string _inviwoPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
