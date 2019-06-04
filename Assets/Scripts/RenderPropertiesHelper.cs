@@ -42,7 +42,8 @@ public class RenderPropertiesHelper : MonoBehaviour
 
         if (!OpenVR.IsHmdPresent())
         {
-            Debug.LogWarning("No HMD present, skipping render properties init");
+            Debug.LogWarning("No HMD present, render properties init - desktop mode");
+            EnvConstants.DesktopMode = true;
             return;
         }
         

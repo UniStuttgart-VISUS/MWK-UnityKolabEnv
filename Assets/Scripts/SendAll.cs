@@ -42,6 +42,11 @@ public class SendAll : MonoBehaviour
 
         Vector3 vec1 = (InputTracking.GetLocalPosition(XRNode.LeftEye) - offsetY - vrOrigin.transform.position) * multiplier;
         Vector3 vec2 = (InputTracking.GetLocalPosition(XRNode.RightEye) - offsetY - vrOrigin.transform.position) * multiplier;
+
+        if(EnvConstants.DesktopMode)
+        {
+            vec1 = vec2 = baseCamera.transform.position * multiplier;
+        }
        
         Vector3 vecFwd = baseCamera.transform.forward;
         Vector3 vecUp = baseCamera.transform.up;
