@@ -49,6 +49,13 @@ namespace Klak.Spout
             set { targetMaterialProperty = value; }
         }
 
+        public uint texWidth = 1;
+        public uint texHeight = 1;
+        public bool textureChanged {
+            get { bool old = _textureChanged; _textureChanged = false; return old; }
+        }
+        private bool _textureChanged = false;
+
         #endregion
 
         #region Runtime properties
@@ -124,6 +131,9 @@ namespace Klak.Spout
             var width = PluginEntry.GetTextureWidth(_plugin);
             var height = PluginEntry.GetTextureHeight(_plugin);
 
+            texWidth = (uint)width;
+            texHeight = (uint)height;
+
             // Resource validity check
             if (_sharedTexture != null)
             {
@@ -172,9 +182,10 @@ namespace Klak.Spout
                 );
                 _sharedTexture.hideFlags = HideFlags.DontSave;
 
+                _textureChanged = true;
                 // Destroy the previously allocated receiver texture to
                 // refresh specifications.
-                if (_receivedTexture == null) Util.Destroy(_receivedTexture);
+                if (_receivedTexture != null) Util.Destroy(_receivedTexture);
             }
 
             // Texture format conversion with the blit shader
