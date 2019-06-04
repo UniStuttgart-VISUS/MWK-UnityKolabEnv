@@ -264,7 +264,7 @@ public class EnvConstants : MonoBehaviour
     [SerializeField]
     private bool _autoJoinFirstRoomOnLoad = false;
     [SerializeField]
-    private bool _externalRendererMode = false;
+    private bool _externalRendererMode = true;
     [SerializeField]
     private bool _desktopMode = true;
     [SerializeField]
