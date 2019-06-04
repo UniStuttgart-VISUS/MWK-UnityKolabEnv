@@ -7,7 +7,6 @@ using UnityEngine;
 using NetMQ;
 using NetMQ.Sockets;
 using Valve.Newtonsoft.Json;
-using WebSocketSharp;
 
 public class ReceiveAndApplyBounding : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class ReceiveAndApplyBounding : MonoBehaviour
     public SendAll zmqSenderScript;
     private InvBoundingBox bbox;
     public Vector3 targetSize = new Vector3(3.0f, 3.0f, 3.0f);
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,13 +68,13 @@ public class ReceiveAndApplyBounding : MonoBehaviour
     private void OnDisable()
     {
         running = false;
-        subscriberThread.Join();
+        subscriberThread?.Join();
     }
 
     private void OnDestroy()
     {
         running = false;
-        subscriberThread.Join();
+        subscriberThread?.Join();
     }
 
     /// <summary>
@@ -122,8 +121,13 @@ public class ReceiveAndApplyBounding : MonoBehaviour
         }
         finally
         {
-            if (subSocket != null)
+            try
+            {
                 subSocket.Close();
+            } catch (ObjectDisposedException e)
+            {
+                Debug.LogWarning("Tried to close socket but was already disposed");
+            }
         }
         Debug.Log("Subscriber has the deds");
     }

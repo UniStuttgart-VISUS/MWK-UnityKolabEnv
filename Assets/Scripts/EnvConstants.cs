@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text;
+using ExitGames.Client.Photon;
+using Microsoft.Win32;
 using UnityEngine;
+using Valve.Newtonsoft.Json;
 
+[DataContract]
 public class EnvConstants : MonoBehaviour
 {
     
@@ -13,7 +20,16 @@ public class EnvConstants : MonoBehaviour
 
     private void Start()
     {
-        //Read command line arguments if present, overwrite constants via reflection (slow but only done once)
+        //Read from serialized JSON if available
+        if (!DeserializeFromJSON(Application.persistentDataPath + "settings.json"))
+        {
+            if (!DeserializeFromJSON("default_settings.json"))
+            {
+                Debug.LogWarning("Found no per-user settings and no default_settings.json - reverting to failsafe defaults");   
+            }
+        }
+        
+        //Read command line arguments if present, overwrite read settings via reflection (slow but only done once)
         string[] args = System.Environment.GetCommandLineArgs ();
         Debug.Log ("Received args: "+args);
         string input = "";
@@ -30,6 +46,42 @@ public class EnvConstants : MonoBehaviour
                 //Debug.LogWarning("Encountered argument with no matching property: "+args[i]);
             }
         }
+        
+        //Dump everything for debugging
+        Debug.Log("Env init finished, values now are:");
+        Debug.Log(instance);
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SerializeToJSON();
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var prop in typeof(EnvConstants).GetFields(BindingFlags.NonPublic | 
+                                                            BindingFlags.Instance))
+        {
+            if (prop.Name != "instance")
+            {
+                var val = prop.GetValue(instance);
+                var valStr = val == null ? "" : val.ToString();
+                sb.AppendLine(prop.Name + ": " + valStr);
+            }
+        }
+
+        sb.AppendLine("Listed " + typeof(EnvConstants)
+                          .GetFields(BindingFlags.NonPublic | 
+                                     BindingFlags.Instance)
+                          .Length + " properties");
+
+        return sb.ToString();
     }
 
     public static EnvConstants instance
@@ -50,6 +102,44 @@ public class EnvConstants : MonoBehaviour
             }
  
             return e_Instance;
+        }
+        private set => e_Instance = value;
+    }
+
+    public static void SerializeToJSON()
+    {
+        //Serialize
+        string serialized = JsonUtility.ToJson(instance, true);
+        //Write to disk
+        try
+        {
+            using (StreamWriter sw = new StreamWriter(new FileStream(Application.persistentDataPath+"settings.json", FileMode.Truncate, FileAccess.Write)))
+            {
+                sw.Write(serialized);
+                Debug.Log("Wrote settings to default store");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to write serialized settings: "+e.Message);
+        }
+    }
+
+    public static bool DeserializeFromJSON(string path)
+    {
+        try
+        {
+            using (var sr = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
+            {
+                JsonUtility.FromJsonOverwrite(sr.ReadToEnd(),instance);
+                Debug.Log("Successfully read settings from "+path);
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to read serialized settings: "+e.Message);
+            return false;
         }
     }
 
@@ -108,6 +198,42 @@ public class EnvConstants : MonoBehaviour
         get { return instance._megamolPath; }
         set { instance._megamolPath = value; }
     }
+    
+    public static List<string> CollisionSN
+    {
+        get { return instance._collisionSN; }
+        set { instance._collisionSN = value; }
+    }
+
+    public static string Nickname
+    {
+        get { return instance._nickname; }
+        set { instance._nickname = value; }
+    }
+
+    public static string Institution
+    {
+        get { return instance._institution; }
+        set { instance._institution = value; }
+    }
+
+    public static string Session
+    {
+        get { return instance._session; }
+        set { instance._session = value; }
+    }
+
+    public static string Username
+    {
+        get { return instance._username; }
+        set { instance._username = value; }
+    }
+
+    public static string Password
+    {
+        get { return instance._password; }
+        set { instance._password = value; }
+    }
 
     public static bool DesktopMode
     {
@@ -115,14 +241,37 @@ public class EnvConstants : MonoBehaviour
         set { instance._desktopMode = value; }
     }
 
-    public bool _useInviwoPositioning = true;
-    public bool _rttVisualization = false;
-    public bool _createRoomOnLoad = true;
-    public bool _autoJoinFirstRoomOnLoad = false;
-    public bool _externalRendererMode = false;
-    public bool _desktopMode = false;
-    public string _projectPath = "undefined";
-    public string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
-    public string _inviwoPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
-    public string _megamolPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    
+    [SerializeField]
+    private string _nickname = "";
+    [SerializeField]
+    private string _institution= "";
+    [SerializeField]
+    private string _session = "";
+    [SerializeField]
+    private bool _useInviwoPositioning = true;
+    [SerializeField]
+    private bool _rttVisualization = false;
+    [SerializeField]
+    private bool _createRoomOnLoad = true;
+    [SerializeField]
+    private bool _autoJoinFirstRoomOnLoad = true;
+    [SerializeField]
+    private bool _externalRendererMode = false;
+    [SerializeField]
+    private bool _desktopMode = false;
+    [SerializeField]
+    private string _projectPath = "undefined";
+    [SerializeField]
+    private string _username = "undefined";
+    [SerializeField]
+    private string _password = "undefined";
+    [SerializeField]
+    private string _workspacesPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\";
+    [SerializeField]
+    private string _inviwoPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    [SerializeField]
+    private string _megamolPath = "C:\\Users\\flo\\Documents\\KolabWorking\\inviwo\\build\\bin\\Debug\\inviwo.exe";
+    [SerializeField]
+    private List<string> _collisionSN = new List<string>();
 }
