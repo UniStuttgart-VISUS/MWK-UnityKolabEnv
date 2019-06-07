@@ -35,7 +35,7 @@ public class FileLoaderHelper : MonoBehaviour
             // Create obj
             var square = GameObject.CreatePrimitive(PrimitiveType.Plane);
             square.transform.parent = this.transform;
-            square.transform.localPosition = new Vector3(-0.2f,Mathf.Floor(i/5)*0.65f,-1.5f+(i%5*0.8f));
+            square.transform.localPosition = new Vector3(0.0f,-Mathf.Floor(i/5)*0.65f-0.5f,-(i%5*0.8f)-0.5f);
             square.transform.localScale = new Vector3(0.05f,0.05f,0.05f);
             square.GetComponent<Renderer>().material = new Material(Shader.Find("Unlit/Texture"));
             square.GetComponent<Renderer>().material.mainTexture = tex;

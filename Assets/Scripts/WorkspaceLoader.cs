@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
-using UnityEngine.Events;
 using UnityEngine.UI;
-using Object = System.Object;
-using Random = System.Random;
-using UnityEngine.EventSystems;
 
 public class WorkspaceLoader : MonoBehaviourPunCallbacks
 {
     public string appVersion = "0.01";
-    public string defaultRoomName = "";
+    public string defaultRoomName = "TEST";
     
     private List<RoomInfo> ownWorkspaces = new List<RoomInfo>();
     private bool isJoining = false;
@@ -50,11 +45,9 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
             PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = appVersion;
             PhotonNetwork.ConnectUsingSettings();
         }
-        
-        //Set random defaults for now (until we have text entry)
-        //defaultRoomName += new Random().Next(0,10000).ToString("x");
 
         connStatusText.text = "Disconnected";
+        //From config files
         userNameText.text = EnvConstants.Nickname;
         PhotonNetwork.NickName = EnvConstants.Nickname;
     }
@@ -67,7 +60,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
     }
     
     /*
-     * UI Parts
+     * UI Parts / Looby 
      */
     void createClick()
     {
@@ -119,7 +112,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
         connStatusText.text = "Connected";
         PhotonNetwork.JoinLobby(TypedLobby.Default);
         
-        if (EnvConstants.CreateRoomOnLoad)
+        if (EnvConstants.CreateRoomOnLoad && !EnvConstants.FromLoader)
         {
             createClick();
         }
@@ -141,10 +134,26 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
             newButton.transform.Find("CountsText").GetComponent<Text>().text = info.PlayerCount + "/" + info.MaxPlayers;
             newButton.GetComponent<Button>().onClick.AddListener(delegate{joinClick(info.Name);});
         }
-        if(ownWorkspaces.Any(i => i.Name == EnvConstants.Session)) joinClick(EnvConstants.Session);
-        //if(ownWorkspaces.Count > 0 && EnvConstants.AutoJoinFirstRoomOnLoad) joinClick(ownWorkspaces[0].Name);
+        if (ownWorkspaces.Any(i => i.Name == EnvConstants.Session) && EnvConstants.FromLoader) {
+            //We have a production session w/ session name, and an existing session
+            PhotonNetwork.JoinRoom(EnvConstants.Session);
+            Debug.Log("Joining room for requested session: " + EnvConstants.Session);
+        } else if (!ownWorkspaces.Any(i => i.Name == EnvConstants.Session) && EnvConstants.FromLoader) {
+            //We have a production session w/ session name, but no existing session, so we create one
+            Debug.Log("No room for requested session, creating one: " + EnvConstants.Session);
+            RoomOptions roomOptions = new RoomOptions
+            {
+                IsOpen = true,
+                IsVisible = true,
+                MaxPlayers = (byte)10
+            };
+            PhotonNetwork.JoinOrCreateRoom(EnvConstants.Session, roomOptions, TypedLobby.Default);
+        }
+        else if (ownWorkspaces.Count > 0 && EnvConstants.AutoJoinFirstRoomOnLoad && !EnvConstants.FromLoader) {
+            joinClick(ownWorkspaces[0].Name);
+        }
     }
-    
+
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("OnCreateRoomFailed got called. This can happen if the room exists (even if not visible). Try another room name.");
@@ -174,6 +183,5 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
     {
         connStatusText.text = "Joined";
         Debug.Log("OnJoinedRoom: "+PhotonNetwork.CurrentRoom.Name);
-        //PhotonNetwork.LeaveRoom();
     }
 }

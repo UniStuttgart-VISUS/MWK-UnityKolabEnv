@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -1937,7 +1937,7 @@ GameObject:
   - component: {fileID: 1362164808}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1984,7 +1984,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 2
+  m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
   m_AllowMSAA: 1
@@ -3104,7 +3104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e03070f543370042aa2b325d477c8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantName: Participant_
   appVersion: 0.01
   defaultRoomName: Workspace_
   leftUI: {fileID: 110235587}
@@ -3155,12 +3154,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a5a3582a61b264a835b7834817a641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nickname: 
+  _institution: 
+  _session: 
   _useInviwoPositioning: 1
   _rttVisualization: 0
   _createRoomOnLoad: 0
   _autoJoinFirstRoomOnLoad: 1
   _externalRendererMode: 0
+  _desktopMode: 1
   _projectPath: undefined
+  _username: undefined
+  _password: undefined
   _workspacesPath: C:\Users\flo\Documents\KolabWorking\inviwo\
   _inviwoPath: C:\Users\flo\Documents\KolabWorking\inviwo\build\bin\Debug\inviwo.exe
   _megamolPath: C:\Users\flo\Documents\KolabWorking\inviwo\build\bin\Debug\inviwo.exe
