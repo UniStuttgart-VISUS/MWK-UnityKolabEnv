@@ -379,10 +379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bc1ebffb0ecd04c92b00002fcaa114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: StereoCameraView
+  Name: StereoCameraViewRelative
   CameraPositionRelative: 1
-  PositionRelativeTo: {fileID: 123465622}
-  relativeModeNameSuffix: Relative
+  VrCameraPose: {fileID: 1187483855}
 --- !u!1 &126071097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,8 +1601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: StereoCameraView
   CameraPositionRelative: 0
-  PositionRelativeTo: {fileID: 0}
-  relativeModeNameSuffix: Relative
+  VrCameraPose: {fileID: 0}
 --- !u!114 &1187483858
 MonoBehaviour:
   m_ObjectHideFlags: 0
