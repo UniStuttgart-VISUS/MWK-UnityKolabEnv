@@ -43,7 +43,12 @@ public class EnvConstants : MonoBehaviour
             }
             catch (Exception e)
             {
-                //Debug.LogWarning("Encountered argument with no matching property: "+args[i]);
+                if (args[i].Substring(1).ToLower() == "fromloader")
+                {
+                    FromLoader = true;
+                    Debug.Log("Started from Loader, production mode");
+                }
+                else Debug.LogWarning("Encountered argument with no matching property: " + args[i]);
             }
         }
         
@@ -91,7 +96,7 @@ public class EnvConstants : MonoBehaviour
             if (e_Instance == null)
             {
                 // FindObjectOfType() returns the first AManager object in the scene.
-                e_Instance = FindObjectOfType(typeof(EnvConstants)) as EnvConstants;
+                e_Instance = GameObject.Find("_GLOBALS").GetComponent(typeof(EnvConstants)) as EnvConstants;
             }
  
             if (e_Instance == null)
@@ -113,11 +118,8 @@ public class EnvConstants : MonoBehaviour
         //Write to disk
         try
         {
-            using (StreamWriter sw = new StreamWriter(new FileStream(Application.persistentDataPath+"settings.json", FileMode.Truncate, FileAccess.Write)))
-            {
-                sw.Write(serialized);
-                Debug.Log("Wrote settings to default store");
-            }
+            File.WriteAllText(Application.persistentDataPath + "settings.json", serialized);
+            Debug.Log("Wrote settings to default store");
         }
         catch (Exception e)
         {
@@ -241,6 +243,11 @@ public class EnvConstants : MonoBehaviour
         set { instance._desktopMode = value; }
     }
 
+    public static bool FromLoader
+    {
+        get; set;
+    } = false;
+
     
     [SerializeField]
     private string _nickname = "";
@@ -253,13 +260,13 @@ public class EnvConstants : MonoBehaviour
     [SerializeField]
     private bool _rttVisualization = false;
     [SerializeField]
-    private bool _createRoomOnLoad = true;
+    private bool _createRoomOnLoad = false;
     [SerializeField]
-    private bool _autoJoinFirstRoomOnLoad = true;
+    private bool _autoJoinFirstRoomOnLoad = false;
     [SerializeField]
     private bool _externalRendererMode = false;
     [SerializeField]
-    private bool _desktopMode = false;
+    private bool _desktopMode = true;
     [SerializeField]
     private string _projectPath = "undefined";
     [SerializeField]

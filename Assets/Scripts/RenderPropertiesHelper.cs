@@ -44,6 +44,7 @@ public class RenderPropertiesHelper : MonoBehaviour
         {
             Debug.LogWarning("No HMD present, render properties init - desktop mode");
             EnvConstants.DesktopMode = true;
+            XRSettings.enabled = false;
             return;
         }
         
