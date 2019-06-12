@@ -1,5 +1,5 @@
 {
-  "app_key": "application.generated.unity.steamvr.exe",
+  
   "bindings": {
     "/actions/buggy": {
       "chords": [],
@@ -47,27 +47,7 @@
           }
         },
         {
-          "path": "/user/hand/left/input/trackpad",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/buggy/in/reset"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/trackpad",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/buggy/in/reset"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/left/input/trackpad",
+          "path": "/user/hand/left/input/x",
           "mode": "button",
           "parameters": {},
           "inputs": {
@@ -77,12 +57,52 @@
           }
         },
         {
-          "path": "/user/hand/right/input/trackpad",
+          "path": "/user/hand/right/input/x",
           "mode": "button",
           "parameters": {},
           "inputs": {
             "click": {
               "output": "/actions/buggy/in/brake"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/y",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/buggy/in/reset"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/y",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/buggy/in/reset"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/a",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/buggy/in/brake"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/b",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/buggy/in/reset"
             }
           }
         }
@@ -114,6 +134,44 @@
           }
         },
         {
+          "path": "/user/hand/left/input/joystick",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/teleport"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/grip",
+          "mode": "button",
+          "parameters": {
+            "click_activate_threshold": "0.8",
+            "click_deactivate_threshold": "0.7",
+            "force_input": "force"
+          },
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/grabgrip"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trigger",
+          "mode": "button",
+          "parameters": {
+            "click_activate_threshold": "0.8",
+            "click_deactivate_threshold": "0.7",
+            "force_input": "value"
+          },
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/grabpinch"
+            }
+          }
+        },
+        {
           "path": "/user/hand/right/input/trigger",
           "mode": "button",
           "parameters": {},
@@ -124,24 +182,11 @@
           }
         },
         {
-          "path": "/user/hand/left/input/trigger",
-          "mode": "button",
-          "parameters": {
-            "click_activate_threshold": "0.95",
-            "click_deactivate_threshold": "0.9"
-          },
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/grabpinch"
-            }
-          }
-        },
-        {
           "path": "/user/hand/right/input/trigger",
           "mode": "button",
           "parameters": {
-            "click_activate_threshold": "0.95",
-            "click_deactivate_threshold": "0.9"
+            "click_activate_threshold": "0.8",
+            "click_deactivate_threshold": "0.7"
           },
           "inputs": {
             "click": {
@@ -150,19 +195,23 @@
           }
         },
         {
-          "path": "/user/hand/left/input/grip",
+          "path": "/user/hand/right/input/joystick",
           "mode": "button",
           "parameters": {},
           "inputs": {
             "click": {
-              "output": "/actions/default/in/grabgrip"
+              "output": "/actions/default/in/teleport"
             }
           }
         },
         {
           "path": "/user/hand/right/input/grip",
           "mode": "button",
-          "parameters": {},
+          "parameters": {
+            "click_activate_threshold": "0.8",
+            "click_deactivate_threshold": "0.7",
+            "force_input": "force"
+          },
           "inputs": {
             "click": {
               "output": "/actions/default/in/grabgrip"
@@ -170,7 +219,7 @@
           }
         },
         {
-          "path": "/user/hand/left/input/trigger",
+          "path": "/user/hand/left/input/grip",
           "mode": "trigger",
           "parameters": {},
           "inputs": {
@@ -180,37 +229,26 @@
           }
         },
         {
-          "path": "/user/hand/right/input/trigger",
+          "path": "/user/hand/right/input/grip",
           "mode": "trigger",
           "parameters": {},
           "inputs": {
             "pull": {
               "output": "/actions/default/in/squeeze"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/left/input/trackpad",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/teleport"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/trackpad",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/teleport"
             }
           }
         }
       ],
-      "skeleton": []
+      "skeleton": [
+        {
+          "output": "/actions/default/in/skeletonlefthand",
+          "path": "/user/hand/left/input/skeleton/left"
+        },
+        {
+          "output": "/actions/default/in/skeletonrighthand",
+          "path": "/user/hand/right/input/skeleton/right"
+        }
+      ]
     },
     "/actions/platformer": {
       "chords": [],
@@ -218,30 +256,13 @@
       "haptics": [],
       "sources": [
         {
-          "path": "/user/hand/left/input/trigger",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/platformer/in/jump"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/trigger",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/platformer/in/jump"
-            }
-          }
-        },
-        {
           "path": "/user/hand/left/input/joystick",
           "mode": "joystick",
           "parameters": {},
           "inputs": {
+            "click": {
+              "output": "/actions/platformer/in/jump"
+            },
             "position": {
               "output": "/actions/platformer/in/move"
             }
@@ -252,6 +273,9 @@
           "mode": "joystick",
           "parameters": {},
           "inputs": {
+            "click": {
+              "output": "/actions/platformer/in/jump"
+            },
             "position": {
               "output": "/actions/platformer/in/move"
             }
@@ -277,7 +301,11 @@
         {
           "path": "/user/hand/left/input/trigger",
           "mode": "trigger",
-          "parameters": {},
+          "parameters": {
+            "click_activate_threshold": "0.55",
+            "click_deactivate_threshold": "0.45",
+            "haptic_amplitude": "0.2"
+          },
           "inputs": {
             "click": {
               "output": "/actions/htc_viu/in/viu_press_33"
@@ -291,40 +319,8 @@
           }
         },
         {
-          "path": "/user/hand/right/input/trigger",
-          "mode": "trigger",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/htc_viu/in/viu_press_33"
-            },
-            "pull": {
-              "output": "/actions/htc_viu/in/viu_axis_1x"
-            },
-            "touch": {
-              "output": "/actions/htc_viu/in/viu_touch_33"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/left/input/trackpad",
-          "mode": "trackpad",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/htc_viu/in/viu_press_32"
-            },
-            "position": {
-              "output": "/actions/htc_viu/in/viu_axis_0xy"
-            },
-            "touch": {
-              "output": "/actions/htc_viu/in/viu_touch_32"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/trackpad",
-          "mode": "trackpad",
+          "path": "/user/hand/left/input/joystick",
+          "mode": "joystick",
           "parameters": {},
           "inputs": {
             "click": {
@@ -341,22 +337,28 @@
         {
           "path": "/user/hand/left/input/grip",
           "mode": "button",
-          "parameters": {
-            "click_activate_threshold": "0.55",
-            "click_deactivate_threshold": "0.45",
-            "haptic_amplitude": "0.2"
-          },
+          "parameters": {},
           "inputs": {
             "click": {
               "output": "/actions/htc_viu/in/viu_press_02"
-            },
-            "touch": {
-              "output": "/actions/htc_viu/in/viu_touch_02"
             }
           }
         },
         {
-          "path": "/user/hand/left/input/application_menu",
+          "path": "/user/hand/left/input/x",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_press_07"
+            },
+            "touch": {
+              "output": "/actions/htc_viu/in/viu_touch_07"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/y",
           "mode": "button",
           "parameters": {},
           "inputs": {
@@ -369,12 +371,22 @@
           }
         },
         {
-          "path": "/user/hand/left/input/joystick",
-          "mode": "joystick",
-          "parameters": {},
+          "path": "/user/hand/right/input/trigger",
+          "mode": "trigger",
+          "parameters": {
+            "click_activate_threshold": "0.55",
+            "click_deactivate_threshold": "0.45",
+            "haptic_amplitude": "0.2"
+          },
           "inputs": {
-            "position": {
-              "output": "/actions/htc_viu/in/viu_axis_2xy"
+            "click": {
+              "output": "/actions/htc_viu/in/viu_press_33"
+            },
+            "pull": {
+              "output": "/actions/htc_viu/in/viu_axis_1x"
+            },
+            "touch": {
+              "output": "/actions/htc_viu/in/viu_touch_33"
             }
           }
         },
@@ -383,13 +395,62 @@
           "mode": "joystick",
           "parameters": {},
           "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_press_32"
+            },
             "position": {
-              "output": "/actions/htc_viu/in/viu_axis_2xy"
+              "output": "/actions/htc_viu/in/viu_axis_0xy"
+            },
+            "touch": {
+              "output": "/actions/htc_viu/in/viu_touch_32"
             }
           }
         },
         {
-          "path": "/user/hand/right/input/application_menu",
+          "path": "/user/hand/left/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_touch_02"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_press_02"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_touch_02"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/a",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/htc_viu/in/viu_press_07"
+            },
+            "touch": {
+              "output": "/actions/htc_viu/in/viu_touch_07"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/b",
           "mode": "button",
           "parameters": {},
           "inputs": {
@@ -400,29 +461,12 @@
               "output": "/actions/htc_viu/in/viu_touch_01"
             }
           }
-        },
-        {
-          "path": "/user/hand/right/input/grip",
-          "mode": "button",
-          "parameters": {
-            "click_activate_threshold": "0.55",
-            "click_deactivate_threshold": "0.45",
-            "haptic_amplitude": "0.2"
-          },
-          "inputs": {
-            "click": {
-              "output": "/actions/htc_viu/in/viu_press_02"
-            },
-            "touch": {
-              "output": "/actions/htc_viu/in/viu_touch_02"
-            }
-          }
         }
       ],
       "skeleton": []
     }
   },
-  "controller_type": "holographic_controller",
+  "controller_type": "oculus_touch",
   "description": "",
-  "name": "Default bindings for Windows Mixed Reality Controllers"
+  "name": "oculus_touch"
 }
