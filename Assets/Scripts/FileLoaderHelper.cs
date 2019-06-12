@@ -25,12 +25,30 @@ public class FileLoaderHelper : MonoBehaviour
         {
             availableFiles.Add(file.FullName);
         }
+
+        var mm_fileInfo = info.GetFiles("*.mmprj");
+        foreach (var file in mm_fileInfo)
+        {
+            availableFiles.Add(file.FullName);
+        }
+
+        // TODO: add mint renderer as extra option?
         
         //Create objects per file
         for (int i = 0; i < availableFiles.Count; i++)
         {
+            var file = availableFiles[i];
+            Texture tex = null;
+
+            if(file.EndsWith(".inv")) {
+                tex = parseXmlFileReadThumb(File.ReadAllText(file));
+            } else if (file.EndsWith(".mmprj")) {
+                // load megamol thumbnail
+            } else {
+                // show default thumbnail?
+            }
+
             // Try read thumbnail from file
-            Texture2D tex = parseXmlFileReadThumb(File.ReadAllText(availableFiles[i]));
             
             // Create obj
             var square = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -40,7 +58,7 @@ public class FileLoaderHelper : MonoBehaviour
             square.GetComponent<Renderer>().material = new Material(Shader.Find("Unlit/Texture"));
             square.GetComponent<Renderer>().material.mainTexture = tex;
             square.transform.RotateAround(square.transform.position, square.transform.forward, 90f);
-            square.AddComponent<Button>().name = availableFiles[i];
+            square.AddComponent<Button>().name = file;
             square.GetComponent<Button>().onClick.AddListener(OnClick);
         }
     }
@@ -48,7 +66,16 @@ public class FileLoaderHelper : MonoBehaviour
     private void OnClick()
     {
         Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-        ExternalApplicationController.Instance.StartInviwoInstance(EventSystem.current.currentSelectedGameObject.name);
+
+        // TODO: instantiate Dataset GameObject here, before the renderer is started?
+
+        if(EventSystem.current.currentSelectedGameObject.name.EndsWith(".inv"))
+            ExternalApplicationController.Instance.StartInviwoInstance(EventSystem.current.currentSelectedGameObject.name);
+
+        if(EventSystem.current.currentSelectedGameObject.name.EndsWith(".mmprj"))
+            ExternalApplicationController.Instance.StartMegamolInstance(EventSystem.current.currentSelectedGameObject.name);
+
+        // TODO: broadcast dataset load via photon?
     }
 
     Texture2D parseXmlFileReadThumb(string xmlData){
