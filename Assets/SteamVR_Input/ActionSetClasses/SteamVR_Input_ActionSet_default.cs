@@ -49,11 +49,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Pose Pose
+        public virtual SteamVR_Action_Vector2 Rotate
         {
             get
             {
-                return SteamVR_Actions.default_Pose;
+                return SteamVR_Actions.default_Rotate;
             }
         }
         
@@ -86,6 +86,30 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.default_HeadsetOnHead;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 Scale
+        {
+            get
+            {
+                return SteamVR_Actions.default_Scale;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean ActivateRotate
+        {
+            get
+            {
+                return SteamVR_Actions.default_ActivateRotate;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean ActivateScale
+        {
+            get
+            {
+                return SteamVR_Actions.default_ActivateScale;
             }
         }
         
