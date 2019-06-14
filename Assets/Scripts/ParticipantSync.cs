@@ -48,6 +48,9 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     void Update()
     {
         //Handle position
+        if(firstData)
+            transform.Find("NameLabel").GetComponent<TextMesh>().text = photonView.Owner.NickName;
+
         if (!photonView.IsMine)
         {
             //Initial positioning without smoothing
@@ -60,12 +63,6 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
-            transform.Find("NameLabel").GetComponent<TextMesh>().text = photonView.Owner.NickName;
-        }
-        else
-        {
-            //For own player, only update name label
-            transform.Find("NameLabel").GetComponent<TextMesh>().text = PhotonNetwork.LocalPlayer.NickName;
         }
         
         //Handle collision warning
