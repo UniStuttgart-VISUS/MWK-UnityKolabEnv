@@ -121,6 +121,7 @@ public class WorkspaceLoader : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        PhotonNetwork.NickName = EnvConstants.Nickname;
         ownWorkspaces = roomList;
         Debug.Log("RoomListUpdate - Rooms: "+ownWorkspaces.Count.ToString());
         foreach (Button b in centerUI.transform.GetComponentsInChildren<Button>())
