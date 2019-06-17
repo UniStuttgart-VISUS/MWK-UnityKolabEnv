@@ -18,6 +18,8 @@ public class EnvConstants : MonoBehaviour
     private static EnvConstants e_Instance = null;
     public Dictionary<string,string> cmdArgs = new Dictionary<string, string>();
 
+    public static List<IRenderingProcess> externalRenderers = new List<IRenderingProcess> { new InviwoRenderingProcess(), new MegaMolRenderingProcess(), new MintRenderingProcess() };
+
     private void Start()
     {
         //Read from serialized JSON if available
