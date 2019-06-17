@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class FileLoaderHelper : MonoBehaviour
 {
     public List<string> availableFiles = new List<string>();
+    public List<string> handledFiles = new List<string>();
     
     // Start is called before the first frame update
     void Start()
@@ -20,36 +21,21 @@ public class FileLoaderHelper : MonoBehaviour
             Debug.LogWarning("Workspaces path not found, skipping enumeration");
             return;
         }
-        var fileInfo = info.GetFiles("*.inv");
+
+        var fileInfo = info.GetFiles();
         foreach (var file in fileInfo)
-        {
             availableFiles.Add(file.FullName);
-        }
 
-        var mm_fileInfo = info.GetFiles("*.mmprj");
-        foreach (var file in mm_fileInfo)
-        {
-            availableFiles.Add(file.FullName);
-        }
+        foreach(var renderer in EnvConstants.externalRenderers)
+            handledFiles.AddRange(renderer.filterOwnWorkspaceFiles(availableFiles));
 
-        // TODO: add mint renderer as extra option?
-        
         //Create objects per file
-        for (int i = 0; i < availableFiles.Count; i++)
+        int i = 0;
+        foreach(var hf in handledFiles)
         {
-            var file = availableFiles[i];
-            Texture tex = null;
+            var file = hf;
+            Texture tex = EnvConstants.externalRenderers.Find(renderer => renderer.isOwnedFiletype(file)).loadWorkspacePreview(file);
 
-            if(file.EndsWith(".inv")) {
-                tex = parseXmlFileReadThumb(File.ReadAllText(file));
-            } else if (file.EndsWith(".mmprj")) {
-                // load megamol thumbnail
-            } else {
-                // show default thumbnail?
-            }
-
-            // Try read thumbnail from file
-            
             // Create obj
             var square = GameObject.CreatePrimitive(PrimitiveType.Plane);
             square.transform.parent = this.transform;
@@ -60,42 +46,25 @@ public class FileLoaderHelper : MonoBehaviour
             square.transform.RotateAround(square.transform.position, square.transform.forward, 90f);
             square.AddComponent<Button>().name = file;
             square.GetComponent<Button>().onClick.AddListener(OnClick);
+            i++;
         }
+        Debug.Log("file setup done: " + handledFiles.Count + " files");
     }
 
     private void OnClick()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        Debug.Log("OnClick select dataset file");
+        string filename = EventSystem.current.currentSelectedGameObject.name;
+        Debug.Log("selected file " + filename);
 
         // TODO: instantiate Dataset GameObject here, before the renderer is started?
 
-        if(EventSystem.current.currentSelectedGameObject.name.EndsWith(".inv"))
-            ExternalApplicationController.Instance.StartInviwoInstance(EventSystem.current.currentSelectedGameObject.name);
-
-        if(EventSystem.current.currentSelectedGameObject.name.EndsWith(".mmprj"))
-            ExternalApplicationController.Instance.StartMegamolInstance(EventSystem.current.currentSelectedGameObject.name);
+        var renderProcess = EnvConstants.externalRenderers.Find(renderer => renderer.isOwnedFiletype(filename)).startRendering(filename);
+        ExternalApplicationController.Instance.addRendererInstance(renderProcess);
 
         // TODO: broadcast dataset load via photon?
     }
 
-    Texture2D parseXmlFileReadThumb(string xmlData){
-        string totVal = "";
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.Load (new StringReader(xmlData));
-        string xmlPathPattern = "//CanvasImage/base64/@content";
-        XmlNode canvasNode  = xmlDoc.SelectSingleNode(xmlPathPattern);
-
-        Texture2D tex = new Texture2D(512, 512);
-        if (canvasNode != null)
-        {
-            //Create texture
-            byte[] b64_bytes = System.Convert.FromBase64String(canvasNode.Value);
-            tex.LoadImage(b64_bytes);
-        }
-
-        return tex;
-    }
-    
     // Update is called once per frame
     void Update()
     {
