@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; // Vector4, Matrix4x4
-using System; // Serializable
+using System;
+using UnityEngine.UIElements;
+
+// Serializable
 
 // This interop namespace offers the Unity-side implementation of data structures and routines
 // to exchange data with an OpenGL application which uses the MWK-mint library to organize its
@@ -32,6 +35,25 @@ namespace interop
 
         public string json() { return JsonUtility.ToJson(this); }
         public void fromJson(string json) { this = JsonUtility.FromJson<ModelPose>(json);  }
+    }
+
+    [Serializable]
+    public struct TransferFunction
+    {
+        public float maskMin;
+        public float maskMax;
+        public int type;
+        public List<TfPoint> points;
+        
+        public string json() { return JsonUtility.ToJson(this); }
+        public void fromJson(string json) { this = JsonUtility.FromJson<TransferFunction>(json);  }
+    }
+
+    [Serializable]
+    public struct TfPoint
+    {
+        public float pos;
+        public vec4 rgba;
     }
 
     [Serializable]

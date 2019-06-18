@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HTC.UnityPlugin.Vive;
+using interop;
 using NetMQ;
 using NetMQ.Sockets;
 using Photon.Pun;
@@ -8,11 +9,12 @@ using UnityEngine;
 using Valve.Newtonsoft.Json;
 
 [RequireComponent(typeof(PhotonView))]
-public class CuttingPlane : MonoBehaviour, IPunObservable
-{
+public class CuttingPlaneNormalSender : MonoBehaviour, IPunObservable, IJsonStringSendable {
+
     public bool isCutting;
     private PublisherSocket _pubSocket;
     public GameObject netManager;
+    public string Name = "CuttingPlaneNormal";
     
     // Start is called before the first frame update
     void Start()
@@ -24,14 +26,14 @@ public class CuttingPlane : MonoBehaviour, IPunObservable
     void Update()
     {
         // Pub socket
-        if (_pubSocket == null && netManager != null)
-        {
-            _pubSocket = netManager.GetComponent<NetMQManager>()._pubSocket;
-        }
-        else if(_pubSocket == null)
-        {
-            return;
-        }
+//        if (_pubSocket == null && netManager != null)
+//        {
+//            _pubSocket = netManager.GetComponent<NetMQManager>()._pubSocket;
+//        }
+//        else if(_pubSocket == null)
+//        {
+//            return;
+//        }
         
         //Input
         if(!ViveInput.Active) Debug.LogWarning("ViveInput inactive");
@@ -50,10 +52,10 @@ public class CuttingPlane : MonoBehaviour, IPunObservable
             }*/
             
             //send to inviwo
-            var jsonSendPos = "{\"value\":"+JsonUtility.ToJson(currentPos)+ " }";
-            var jsonSendNormal = "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
-            _pubSocket.SendMoreFrame("clipPos").SendFrame(jsonSendPos);
-            _pubSocket.SendMoreFrame("clipNormal").SendFrame(jsonSendNormal);
+//            var jsonSendPos = "{\"value\":"+JsonUtility.ToJson(currentPos)+ " }";
+//            var jsonSendNormal = "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
+//            _pubSocket.SendMoreFrame("clipPos").SendFrame(jsonSendPos);
+//            _pubSocket.SendMoreFrame("clipNormal").SendFrame(jsonSendNormal);
             //Debug.Log(jsonSend);
             
         } else if (ViveInput.GetPressUpEx(HandRole.LeftHand, ControllerButton.Grip) && isCutting) {
@@ -69,10 +71,10 @@ public class CuttingPlane : MonoBehaviour, IPunObservable
             Vector3 currentVec = VivePose.GetPoseEx(HandRole.LeftHand).rot * VivePose.GetPoseEx(HandRole.LeftHand).up;
             
             //send to inviwo
-            var jsonSendPos = "{\"value\":"+JsonUtility.ToJson(currentPos)+ " }";
-            var jsonSendNormal = "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
-            _pubSocket.SendMoreFrame("clipPos").SendFrame(jsonSendPos);
-            _pubSocket.SendMoreFrame("clipNormal").SendFrame(jsonSendNormal);
+//            var jsonSendPos = "{\"value\":"+JsonUtility.ToJson(currentPos)+ " }";
+//            var jsonSendNormal = "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
+//            _pubSocket.SendMoreFrame("clipPos").SendFrame(jsonSendPos);
+//            _pubSocket.SendMoreFrame("clipNormal").SendFrame(jsonSendNormal);
             //Debug.Log(jsonSend);
         }
 
@@ -84,6 +86,16 @@ public class CuttingPlane : MonoBehaviour, IPunObservable
             //transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 2);
             //this.transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
         }
+    }
+    
+    public string nameString() {
+        return this.Name;
+    }
+
+    public string jsonString()
+    {
+        Vector4 currentVec = transform.rotation * Vector3.down;
+        return "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
