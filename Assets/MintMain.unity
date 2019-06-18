@@ -2688,6 +2688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableFiles: []
+  handledFiles: []
 --- !u!1 &1486295003
 GameObject:
   m_ObjectHideFlags: 0
@@ -3026,6 +3027,7 @@ GameObject:
   - component: {fileID: 1628907993}
   - component: {fileID: 1628907992}
   - component: {fileID: 1628907996}
+  - component: {fileID: 1628907997}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -3123,6 +3125,18 @@ MonoBehaviour:
   fadeDuration: 0.3
   m_reticleMaterial: {fileID: 2100000, guid: 3320905fb6f6bd54297f26399d87c525, type: 2}
   teleportButton: 1
+--- !u!114 &1628907997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628907991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440ebe8b35d16e34c80be2d0496b0448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1631162374
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,6 +4201,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 404836, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2071970, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_ForceIntoRT
       value: 1
@@ -4206,6 +4224,36 @@ PrefabInstance:
     - target: {fileID: 8189340, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 430650, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 470082, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 418338, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 475928, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 475582, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127107878631331038, guid: cb3370c18187bb444b240cfb08dcc02f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091022806260659997, guid: cb3370c18187bb444b240cfb08dcc02f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
