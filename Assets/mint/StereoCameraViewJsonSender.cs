@@ -72,8 +72,8 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
 
         // TODO opt 1: position relative to VR origin
         // => solved via parent GameObject?
-        Vector3 eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye) ; //- vrOrigin.transform.position;
-        Vector3 eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye); //- vrOrigin.transform.position;
+        Vector3 eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye).Round(2) ; //- vrOrigin.transform.position;
+        Vector3 eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye).Round(2); //- vrOrigin.transform.position;
 
         // TODO opt 2: rotate camera around dataset, if dataset can not be rotated in renderer
         // => additional Rotation to be added to dataset GameObject in Unity beforehand?
