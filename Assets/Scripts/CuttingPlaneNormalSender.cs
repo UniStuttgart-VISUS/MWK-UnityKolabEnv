@@ -11,7 +11,7 @@ using Valve.Newtonsoft.Json;
 [RequireComponent(typeof(PhotonView))]
 public class CuttingPlaneNormalSender : MonoBehaviour, IPunObservable, IJsonStringSendable {
 
-    public bool isCutting;
+    public bool isCutting = false;
     private PublisherSocket _pubSocket;
     public GameObject netManager;
     public string Name = "CuttingPlaneNormal";

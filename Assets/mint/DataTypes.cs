@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; // Vector4, Matrix4x4
 using System;
+using System.Text;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 // Serializable
@@ -47,6 +49,20 @@ namespace interop
         
         public string json() { return JsonUtility.ToJson(this); }
         public void fromJson(string json) { this = JsonUtility.FromJson<TransferFunction>(json);  }
+
+        public static object Deserialize(byte[] data)
+        {
+            var result = new TransferFunction();
+            result.fromJson(Encoding.UTF8.GetString(data));
+            return result;
+        }
+
+        public static byte[] Serialize(object tf)
+        {
+            TransferFunction tfTyped = (TransferFunction) tf;
+            return Encoding.UTF8.GetBytes(tfTyped.json());
+
+        }
     }
 
     [Serializable]
