@@ -30,6 +30,20 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
     private Material m_bboxMaterial = null;
 
     private ModelPose m_bboxCorrectionTransform;
+    private Vector3 m_localBboxCenter;
+    private class Transf {
+        public Vector3 position;
+        public Quaternion rotation;
+        public Vector3 scale;
+    }
+    private Transf m_initialTransform = new Transf();
+
+    public void Start()
+    {
+        m_initialTransform.position = this.gameObject.transform.position;
+        m_initialTransform.rotation = this.gameObject.transform.rotation;
+        m_initialTransform.scale = this.gameObject.transform.localScale;
+    }
 
     public ModelPose bboxCorrectionTransform {
         get { return m_bboxCorrectionTransform; }
@@ -61,6 +75,10 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
     {
         m_isBboxSet = false;
         m_inputJsonString = null;
+        
+        this.gameObject.transform.position   = m_initialTransform.position;
+        this.gameObject.transform.rotation   = m_initialTransform.rotation;
+        this.gameObject.transform.localScale = m_initialTransform.scale;
     }
 
     void Update()
@@ -76,6 +94,10 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
 
             if(scaleDatasetDown)
                 doScaleDatasetDown();
+
+            var worldCenter = this.gameObject.transform.TransformPoint(m_localBboxCenter);
+            var centerToInitialPos = m_initialTransform.position - worldCenter;
+            this.gameObject.transform.position = this.gameObject.transform.position + centerToInitialPos;
         }
 
         if(m_bboxMesh && renderBbox)
@@ -209,5 +231,7 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
         thisBoxCollider.enabled = true;
         thisBoxCollider.size = diff;
         thisBoxCollider.center = colliderOffset;
+
+        m_localBboxCenter = colliderOffset;
     }
 }
