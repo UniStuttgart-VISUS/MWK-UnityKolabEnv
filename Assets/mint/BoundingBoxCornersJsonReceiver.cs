@@ -21,7 +21,8 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
     public bool scaleDatasetDown = false;
     private float m_scaleDownFactor = 1.0f;
 
-    private string m_inJsonString = null;
+    private string m_inputJsonString = null;
+    private string m_currentlyUsedJsonString = "";
 
     private bool m_isBboxSet = false;
     private BoundingBoxCorners m_bbox;
@@ -39,26 +40,36 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
 	}
 
 	public void setJsonString(string json) {
-        m_inJsonString = json;
+        m_inputJsonString = json;
 	}
 	
     BoundingBoxCorners BoundingBoxCornersFromString()
     {
         BoundingBoxCorners bb = new BoundingBoxCorners();
-        bb.fromJson(m_inJsonString);
+        bb.fromJson(m_inputJsonString);
 
         bb.min = convert.toUnity(bb.min);
         bb.max = convert.toUnity(bb.max);
 
-        m_inJsonString = null;
+        m_currentlyUsedJsonString = m_inputJsonString;
+        m_inputJsonString = null;
 
         return bb;
     }
 
+    public void reset()
+    {
+        m_isBboxSet = false;
+        m_inputJsonString = null;
+    }
+
     void Update()
     {
-        if (m_inJsonString != null && !m_isBboxSet)
+        if (m_inputJsonString != null && !m_isBboxSet)
         {
+            if(m_inputJsonString.Equals(m_currentlyUsedJsonString))
+                return;
+
             m_bbox = BoundingBoxCornersFromString();
             setBboxRendering(m_bbox);
             m_isBboxSet = true;
@@ -75,7 +86,7 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
 
     void doScaleDatasetDown()
     {
-        this.transform.localScale = this.transform.localScale * m_scaleDownFactor;
+        this.transform.localScale = Vector3.one * m_scaleDownFactor;
     }
 
     private void setBboxRendering(BoundingBoxCorners bbox)
@@ -172,7 +183,10 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
         var thisCubeMesh = this.GetComponent<MeshFilter>();
         List<Vector3> cubeVertices = new List<Vector3>();
         List<Vector3> newCubeVertices = new List<Vector3>();
-        thisCubeMesh.mesh.GetVertices(cubeVertices);
+        //thisCubeMesh.mesh.GetVertices(cubeVertices);
+        // get fresh cube mesh - this is important if the dataset is to be reused for different renderers
+        var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.GetComponent<MeshFilter>().mesh.GetVertices(cubeVertices);
         foreach(var v in cubeVertices)
         {
             var newVertex = Vector3.Scale(v, diff) + meshOffset;
@@ -183,6 +197,7 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
         thisCubeMesh.mesh.RecalculateBounds();
         thisCubeMesh.mesh.RecalculateNormals();
         thisCubeMesh.mesh.RecalculateTangents();
+        GameObject.Destroy(cube);
 
         // set up box collider for controller interaction and so on
         var thisBoxCollider = this.GetComponent<BoxCollider>();
