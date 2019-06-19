@@ -5,6 +5,7 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class FileLoaderHelper : MonoBehaviour
 {
@@ -53,16 +54,30 @@ public class FileLoaderHelper : MonoBehaviour
 
     private void OnClick()
     {
-        Debug.Log("OnClick select dataset file");
-        string filename = EventSystem.current.currentSelectedGameObject.name;
-        Debug.Log("selected file " + filename);
+        string fullFilename = EventSystem.current.currentSelectedGameObject.name;
+        string relativeFilePath = fullFilename.Replace(EnvConstants.WorkspacesPath, "");
+
+        //this.startRenderingProcess(relativeFilePath);
+
+        PhotonView photonView = PhotonView.Get(this);
+        PhotonNetwork.OpCleanRpcBuffer(photonView); // remove RPCs for datasets loaded before
+        photonView.RPC("startRenderingProcess", RpcTarget.AllBufferedViaServer, relativeFilePath);
+    }
+
+    [PunRPC]
+    public void startRenderingProcess(string relativeWorkspaceFilePath)
+    {
+        string myWorkspaceDir = EnvConstants.WorkspacesPath.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
+        string filename = myWorkspaceDir + relativeWorkspaceFilePath;
 
         // TODO: instantiate Dataset GameObject here, before the renderer is started?
+
+        ExternalApplicationController.Instance.closeAllRendererInstances();
 
         var renderProcess = EnvConstants.externalRenderers.Find(renderer => renderer.isOwnedFiletype(filename)).startRendering(filename);
         ExternalApplicationController.Instance.addRendererInstance(renderProcess);
 
-        // TODO: broadcast dataset load via photon?
+        GameObject.Find("MintDataset").GetComponent<BoundingBoxCornersJsonReceiver>().reset();
     }
 
     // Update is called once per frame
