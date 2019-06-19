@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
@@ -78,9 +79,18 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
             collisionGO.SetActive(false);
             foreach (Player player in PhotonNetwork.PlayerListOthers)
             {
-                Debug.Log(player.CustomProperties.ToString());
-                List<string> refBases =
-                    JsonConvert.DeserializeObject<List<string>>((string)player.CustomProperties["referenceBases"]);
+                //Debug.Log(player.CustomProperties.ToString());
+                List<string> refBases = new List<string>();
+                try
+                {
+                    refBases =
+                        JsonConvert.DeserializeObject<List<string>>((string) player.CustomProperties["referenceBases"]);
+                }
+                catch (Exception e)
+                {
+                    refBases = new List<string>();
+                }
+
                 if (EnvConstants.CollisionSN.Intersect(refBases).Any())
                 {
                     //We are in the same tracking space, calculate if collision can occur
