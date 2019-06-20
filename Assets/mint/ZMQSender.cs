@@ -82,11 +82,10 @@ public class ZMQSender : MonoBehaviour {
                 foreach (var j in m_sendsAndNames)
                 {
                     var send = j.Item1;
-                    string name = send.nameString();
-                    string json = send.jsonString();
-
                     if (!DataSaverMode || send.hasChanged())
                     {
+                        string name = send.nameString();
+                        string json = send.jsonString();
                         this.send(j.Item2, new string[] {name, json});
                     }
                 }

@@ -18,12 +18,18 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     public GameObject swatchPrefab;
     public TransferFunction currentTransferFunction;
     private HashSet<PointerEventData> hovers = new HashSet<PointerEventData>();
-    private TransferFunction lastSentTransferFunction = new TransferFunction();
+    private TransferFunction lastSentTransferFunction = new TransferFunction() {type = 0,maskMax = 1.0f,maskMin = 0.0f, points = new List<TfPoint>()};
     // Start is called before the first frame update
     void Start()
     {
         //Register type for Photon
         PhotonPeer.RegisterType(typeof(TransferFunction), (byte)250, TransferFunction.Serialize, TransferFunction.Deserialize);
+        
+        //Init default transfer function
+        currentTransferFunction = new TransferFunction() {type = 0,maskMax = 1.0f,maskMin = 0.0f, points = new List<TfPoint>()};
+        currentTransferFunction.points.Add(new TfPoint(){pos = 0.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.1f)});
+        currentTransferFunction.points.Add(new TfPoint(){pos = 1.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.8f)});
+        PopulateFromTransferFunction(currentTransferFunction);
     }
 
     // Update is called once per frame
@@ -135,7 +141,7 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
 
     public bool hasChanged()
     {
-        return !lastSentTransferFunction.Equals(currentTransferFunction);
+        return !lastSentTransferFunction.Equals(SerializeToTransferFunction()) || (Time.frameCount%60 == 0);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
