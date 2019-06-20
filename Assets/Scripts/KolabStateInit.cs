@@ -66,6 +66,38 @@ public class KolabStateInit : MonoBehaviour
         }
     }
 
+    public void SwitchRendererMode()
+    {
+        if (EnvConstants.ExternalRendererMode == false)
+        {
+            foreach (GameObject go in externalRenderObjs)
+            {
+                go.SetActive(false);
+                Debug.Log("Deactivating " + go.name);
+            }
+
+            foreach (GameObject go in internalRenderObjs)
+            {
+                go.SetActive(true);
+                Debug.Log("Activating " + go.name);
+            }
+        }
+        else
+        {
+            foreach (GameObject go in internalRenderObjs)
+            {
+                go.SetActive(false);
+                Debug.Log("Deactivating " + go.name);
+            }
+
+            foreach (GameObject go in externalRenderObjs)
+            {
+                go.SetActive(true);
+                Debug.Log("Activating " + go.name);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

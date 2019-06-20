@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HTC.UnityPlugin.Vive;
 using UnityEngine;
 
-public class TestAnimtrigger : MonoBehaviour
+public class AnimTrigger : MonoBehaviour
 {
     private Animator anim;
     // Start is called before the first frame update
