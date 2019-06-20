@@ -26,10 +26,10 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
-        {
-            PhotonNetwork.LeaveRoom();
-        }
+//        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
+//        {
+//            PhotonNetwork.LeaveRoom();
+//        }
     }
     
     public override void OnLeftRoom()

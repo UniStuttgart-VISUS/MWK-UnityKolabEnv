@@ -15,6 +15,7 @@ public class PlayerPosFromVRCamera : MonoBehaviourPun
         if (vrCamera == null)
         {
             vrCamera = Camera.main;
+            Debug.LogError("Using main camera as VR camera!");
         }
         
         if (photonView.IsMine)
