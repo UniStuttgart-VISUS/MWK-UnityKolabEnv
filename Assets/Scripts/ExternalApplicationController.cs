@@ -11,7 +11,7 @@ public interface IRenderingProcess
 
     bool isOwnedFiletype(string filename);
 
-    List<string> filterOwnWorkspaceFiles(List<string> filenames);
+    List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames);
 
     Texture loadWorkspacePreview(string filename);
     Process startRendering(string filename);
@@ -29,9 +29,9 @@ public class InviwoRenderingProcess : IRenderingProcess
         return filename.EndsWith(".inv");
     }
 
-    public List<string> filterOwnWorkspaceFiles(List<string> filenames)
+    public List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames)
     {
-        return filenames.FindAll(isOwnedFiletype);
+        return filenames.FindAll(f => (isOwnedFiletype(f.FullName)));
     }
 
     public Texture loadWorkspacePreview(string filename)
@@ -78,10 +78,11 @@ public class MegaMolRenderingProcess : IRenderingProcess
         return filename.EndsWith(".mmprj");
     }
 
-    public List<string> filterOwnWorkspaceFiles(List<string> filenames)
+    public List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames)
     {
-        return filenames.FindAll(isOwnedFiletype);
+        return filenames.FindAll(f => (isOwnedFiletype(f.FullName)));
     }
+
 
     public Texture loadWorkspacePreview(string filename)
     {
@@ -110,9 +111,9 @@ public class MintRenderingProcess : IRenderingProcess
         return filename.EndsWith("mint-rendering.exe");
     }
 
-    public List<string> filterOwnWorkspaceFiles(List<string> filenames)
+    public List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames)
     {
-        return filenames.FindAll(isOwnedFiletype);
+        return filenames.FindAll(f => (isOwnedFiletype(f.FullName)));
     }
 
     public Texture loadWorkspacePreview(string filename)
