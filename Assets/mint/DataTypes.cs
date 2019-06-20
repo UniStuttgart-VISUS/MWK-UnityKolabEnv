@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; // Vector4, Matrix4x4
 using System;
+using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine.UIElements;
+using Object = System.Object;
 
 // Serializable
 
@@ -40,7 +42,7 @@ namespace interop
     }
 
     [Serializable]
-    public struct TransferFunction
+    public struct TransferFunction: IEquatable<TransferFunction>
     {
         public float maskMin;
         public float maskMax;
@@ -63,13 +65,55 @@ namespace interop
             return Encoding.UTF8.GetBytes(tfTyped.json());
 
         }
+
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is TransferFunction other && Equals(other);
+        }
+
+        public bool Equals(TransferFunction other)
+        {
+            return maskMin == other.maskMin && maskMax == other.maskMax && type == other.type && points.SequenceEqual(other.points);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = maskMin.GetHashCode();
+                hashCode = (hashCode * 397) ^ maskMax.GetHashCode();
+                hashCode = (hashCode * 397) ^ type;
+                hashCode = (hashCode * 397) ^ (points != null ? points.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
     }
 
     [Serializable]
-    public struct TfPoint
+    public struct TfPoint:IEquatable<TfPoint>
     {
         public float pos;
         public vec4 rgba;
+        
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is TfPoint other && Equals(other);
+        }
+
+        public bool Equals(TfPoint other)
+        {
+            return pos == other.pos && rgba == other.rgba;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (pos.GetHashCode() * 397) ^ rgba.GetHashCode();
+            }
+        }
     }
 
     [Serializable]
