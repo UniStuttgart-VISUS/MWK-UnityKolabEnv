@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using HTC.UnityPlugin.Vive;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Voice.PUN;
@@ -25,18 +26,26 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     
     public GameObject collisionGO;
     private Recorder ownRecorder;
-    private Material nameLabelMat;
+    private GameObject nameLabelMat;
+    private Color targetColor = new Color(0.0f,0.0f,0.3f,0.7f);
+    private SpriteRenderer speakerRenderer;
+    private GameObject speaker;
+    TextMesh labelMesh;
 
     
     // Start is called before the first frame update
     void Start()
     {
+        nameLabelMat = transform.Find("NameLabel").gameObject;
+        speaker = transform.Find("Speaker").gameObject;
+        labelMesh = nameLabelMat.GetComponent<TextMesh>();
+        speakerRenderer = speaker.GetComponent<SpriteRenderer>();
+        
         if (photonView.IsMine)
         {
             //Player is local
             ownRecorder = GetComponent<Recorder>();
             //ownRecorder.Init();
-            nameLabelMat = transform.Find("NameLabel").gameObject.GetComponent<Renderer>().material;
         }
         else
         {
@@ -81,7 +90,8 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
             Hashtable worldPosProps = new Hashtable();
             worldPosProps.Add("realPos",InputTracking.GetLocalPosition(XRNode.CenterEye));
             worldPosProps.Add("referenceBases",JsonConvert.SerializeObject(EnvConstants.CollisionSN));
-            worldPosProps.Add("audioLevel", ownRecorder.LevelMeter.CurrentPeakAmp);
+            if(ownRecorder.IsCurrentlyTransmitting) worldPosProps.Add("audioLevel", ownRecorder.LevelMeter.CurrentPeakAmp);
+            else worldPosProps.Add("audioLevel", 0f);
             PhotonNetwork.LocalPlayer.SetCustomProperties(worldPosProps);
             
             //Get other players real position and search for collisions
@@ -123,11 +133,35 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
             }
         }
         
+        //Handle Push-To-Talk
+        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
+        {
+            ownRecorder.TransmitEnabled = true;
+        }
+        else if(ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Grip))
+        {
+            ownRecorder.TransmitEnabled = false;
+        }
+        
         //Show audio activity
         float level = (float)photonView.Owner.CustomProperties["audioLevel"];
-        Debug.Log(level);
-        if(level > 1.0f) nameLabelMat.color = Color.red;
-        else nameLabelMat.color = new Color(0.0f,0.0f,0.3f,0.7f);
+        if (level > 0.3f)
+        {
+            targetColor = new Color(1.0f,0.0f,0.1f,0.7f);
+            speakerRenderer.color = new Color(1f,1f,1f,1f);
+        }
+        else
+        {
+            targetColor = new Color(0.0f,0.0f,0.3f,0.7f);
+            speakerRenderer.color = new Color(1f,1f,1f,0f);
+        }
+
+        labelMesh.color = Color.Lerp(labelMesh.color, targetColor, Time.deltaTime*3);
+        
+        //Orient name label
+        Vector3 targetDirPos = new Vector3(Camera.main.transform.position.x, nameLabelMat.transform.position.y, Camera.main.transform.position.z);
+        nameLabelMat.transform.LookAt(2 * nameLabelMat.transform.position - targetDirPos);
+        speaker.transform.LookAt(2 * speaker.transform.position - targetDirPos);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
