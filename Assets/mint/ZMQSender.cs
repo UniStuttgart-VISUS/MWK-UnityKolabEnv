@@ -24,6 +24,7 @@ public class ZMQSender : MonoBehaviour {
 
     private int throttleFlag = 0; //Used for throttling via modulo
     public int throttleValue = 1; //n-thFrame to be dropped 
+    public bool DataSaverMode = true;
 
     private class SendPackage
     {
@@ -84,7 +85,10 @@ public class ZMQSender : MonoBehaviour {
                     string name = send.nameString();
                     string json = send.jsonString();
 
-                    this.send(j.Item2, new string[] {name, json});
+                    if (!DataSaverMode || send.hasChanged())
+                    {
+                        this.send(j.Item2, new string[] {name, json});
+                    }
                 }
             }
 

@@ -18,6 +18,7 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     public GameObject swatchPrefab;
     public TransferFunction currentTransferFunction;
     private HashSet<PointerEventData> hovers = new HashSet<PointerEventData>();
+    private TransferFunction lastSentTransferFunction = new TransferFunction();
     // Start is called before the first frame update
     void Start()
     {
@@ -127,8 +128,14 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     public string jsonString()
     {
         currentTransferFunction = SerializeToTransferFunction();
+        lastSentTransferFunction = currentTransferFunction;
         string json = currentTransferFunction.json();
         return json;
+    }
+
+    public bool hasChanged()
+    {
+        return !lastSentTransferFunction.Equals(currentTransferFunction);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
