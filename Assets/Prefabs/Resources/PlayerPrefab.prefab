@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 922}
   - component: {fileID: 1188}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 1641}
   - component: {fileID: 1642}
   - component: {fileID: 2061}
+  - component: {fileID: 3610172868015678655}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -382,9 +383,41 @@ MonoBehaviour:
   logLevel: 1
   recorderInUse: {fileID: 0}
   speakerInUse: {fileID: 0}
-  AutoCreateRecorderIfNotFound: 1
-  UsePrimaryRecorder: 1
+  AutoCreateRecorderIfNotFound: 0
+  UsePrimaryRecorder: 0
   SetupDebugSpeaker: 1
+--- !u!114 &3610172868015678655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logLevel: 1
+  voiceDetection: 0
+  voiceDetectionThreshold: 0.01
+  voiceDetectionDelayMs: 500
+  unityMicrophoneDevice: Mikrofon (2- VIVE Pro Mutimedia Audio)
+  photonMicrophoneDeviceId: 0
+  interestGroup: 0
+  debugEchoMode: 0
+  reliableMode: 0
+  encrypt: 0
+  transmitEnabled: 1
+  samplingRate: 24000
+  frameDuration: 20000
+  bitrate: 30000
+  sourceType: 0
+  microphoneType: 0
+  typeConvert: 0
+  audioClip: {fileID: 0}
+  loopAudioClip: 1
+  reactOnSystemChanges: 1
 --- !u!1 &227
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +499,7 @@ TextMesh:
 
 '
   m_OffsetZ: 0
-  m_CharacterSize: 0.03
+  m_CharacterSize: 0.04
   m_LineSpacing: 1
   m_Anchor: 1
   m_Alignment: 0

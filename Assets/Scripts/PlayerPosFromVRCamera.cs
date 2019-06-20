@@ -20,6 +20,7 @@ public class PlayerPosFromVRCamera : MonoBehaviourPun
         if (photonView.IsMine)
         {
             transform.Find("HeadSphere").Find("HMD").localScale = new Vector3(0.0f,0.0f,0.0f);
+            transform.Find("Body").localScale = new Vector3(0.0f,0.0f,0.0f);
         }
     }
 

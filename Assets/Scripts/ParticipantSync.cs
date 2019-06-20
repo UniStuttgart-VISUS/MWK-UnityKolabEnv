@@ -5,6 +5,8 @@ using System.Linq;
 using System.Xml.Schema;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.PUN;
+using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -22,6 +24,8 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
     private bool firstData = true;
     
     public GameObject collisionGO;
+    private Recorder ownRecorder;
+    private Material nameLabelMat;
 
     
     // Start is called before the first frame update
@@ -30,6 +34,9 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine)
         {
             //Player is local
+            ownRecorder = GetComponent<Recorder>();
+            //ownRecorder.Init();
+            nameLabelMat = transform.Find("NameLabel").gameObject.GetComponent<Renderer>().material;
         }
         else
         {
@@ -51,7 +58,7 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
         //Handle position
         if(firstData)
             transform.Find("NameLabel").GetComponent<TextMesh>().text = photonView.Owner.NickName;
-
+               
         if (!photonView.IsMine)
         {
             //Initial positioning without smoothing
@@ -61,6 +68,7 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
                 transform.position = latestPos;
                 transform.rotation = latestRot;
             }
+            
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
@@ -73,6 +81,7 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
             Hashtable worldPosProps = new Hashtable();
             worldPosProps.Add("realPos",InputTracking.GetLocalPosition(XRNode.CenterEye));
             worldPosProps.Add("referenceBases",JsonConvert.SerializeObject(EnvConstants.CollisionSN));
+            worldPosProps.Add("audioLevel", ownRecorder.LevelMeter.CurrentPeakAmp);
             PhotonNetwork.LocalPlayer.SetCustomProperties(worldPosProps);
             
             //Get other players real position and search for collisions
@@ -113,6 +122,12 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
                 }
             }
         }
+        
+        //Show audio activity
+        float level = (float)photonView.Owner.CustomProperties["audioLevel"];
+        Debug.Log(level);
+        if(level > 1.0f) nameLabelMat.color = Color.red;
+        else nameLabelMat.color = new Color(0.0f,0.0f,0.3f,0.7f);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
