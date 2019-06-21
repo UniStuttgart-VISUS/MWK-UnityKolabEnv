@@ -157,9 +157,17 @@ public class ExternalApplicationController : Singleton<ExternalApplicationContro
         this.OnDestroy();
     }
 
+    private void closeProcess(Process p)
+    {
+        if(p.HasExited)
+            return;
+
+        p.Kill();
+    }
+
     private void OnDestroy()
     {
-        m_runningRenderingProcesses.ForEach(p => p.Kill());
+        m_runningRenderingProcesses.ForEach(closeProcess);
         m_runningRenderingProcesses.Clear();
     }
 
