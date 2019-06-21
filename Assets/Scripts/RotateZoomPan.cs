@@ -45,7 +45,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
         if(!ViveInput.Active) Debug.LogWarning("ViveInput inactive");
         
         //Status overlay
-        statusMsg.text = mode;
+        if(statusMsg!= null) statusMsg.text = mode;
 
         //Collider update
         m_Collider = GetComponent<Collider>();
