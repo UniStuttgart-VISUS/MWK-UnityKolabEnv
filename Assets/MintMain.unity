@@ -5107,7 +5107,7 @@ MonoBehaviour:
   initialPosL: {x: 0, y: 0, z: 0}
   useInternalPan: 0
   initialPosR: {x: 0, y: 0, z: 0}
-  internalPan: {fileID: 0}
+  internalPan: {fileID: 89029423}
   statusMsg: {fileID: 0}
 --- !u!114 &1827812191
 MonoBehaviour:
@@ -5125,11 +5125,11 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 5
-  InstantiationId: 5
+  - {fileID: 1827812190}
+  viewIdField: 14
+  InstantiationId: 14
   isRuntimeInstantiated: 0
 --- !u!65 &1827812192
 BoxCollider:
