@@ -108,7 +108,7 @@ public class MintRenderingProcess : IRenderingProcess
 
     public bool isOwnedFiletype(string filename)
     {
-        return filename.EndsWith("mint-rendering.exe");
+        return filename.EndsWith(".exe");
     }
 
     public List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames)
