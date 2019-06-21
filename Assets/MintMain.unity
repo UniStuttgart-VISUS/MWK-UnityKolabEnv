@@ -2037,7 +2037,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: fd12c3e88c4792846b1b2e8a2b91d0a2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fd12c3e88c4792846b1b2e8a2b91d0a2,
         type: 3}
@@ -2586,7 +2586,7 @@ PrefabInstance:
     - target: {fileID: 8155594459464536972, guid: 3e59775890af074448667264369e3973,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8155594459464536972, guid: 3e59775890af074448667264369e3973,
         type: 3}
@@ -3239,8 +3239,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be5bb0c047141e488e9154cbe937d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCutting: 0
   Name: CuttingPlane
+  objectToCut: {fileID: 0}
 --- !u!1001 &1328293266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4208,7 +4208,7 @@ PrefabInstance:
     - target: {fileID: 263066764653957948, guid: f2aea96507065d448b8de846271e6374,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 263066764653957948, guid: f2aea96507065d448b8de846271e6374,
         type: 3}
@@ -5080,14 +5080,16 @@ GameObject:
   - component: {fileID: 1827812192}
   - component: {fileID: 1827812191}
   - component: {fileID: 1827812190}
+  - component: {fileID: 1827812197}
   - component: {fileID: 1827812196}
+  - component: {fileID: 1827812198}
   m_Layer: 0
   m_Name: CuttingPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1827812190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5097,11 +5099,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1827812189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7be5bb0c047141e488e9154cbe937d64, type: 3}
+  m_Script: {fileID: 11500000, guid: a76a75188605a324dbade4d37e2a3748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCutting: 0
-  Name: CuttingPlanePoint
+  isGrabbing: 0
+  mode: 
+  initialPosL: {x: 0, y: 0, z: 0}
+  useInternalPan: 0
+  initialPosR: {x: 0, y: 0, z: 0}
+  internalPan: {fileID: 0}
+  statusMsg: {fileID: 0}
 --- !u!114 &1827812191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5117,15 +5124,15 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 5
   InstantiationId: 5
   isRuntimeInstantiated: 0
---- !u!64 &1827812192
-MeshCollider:
+--- !u!65 &1827812192
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5134,10 +5141,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 10.73, y: 0.5, z: 11.02}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1827812193
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5190,13 +5196,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827812189}
-  m_LocalRotation: {x: 0, y: 0, z: 0.45399043, w: 0.8910066}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalRotation: {x: 0.53528273, y: 0.5766077, z: 0.41994914, w: 0.45237008}
+  m_LocalPosition: {x: -1.275, y: 1.034, z: -4.518}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 54}
+  m_LocalEulerAnglesHint: {x: 0, y: 103.769005, z: 85.743004}
 --- !u!114 &1827812196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5209,8 +5215,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad0bfb01be177c42bdee9934ae88c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCutting: 0
   Name: CuttingPlaneNormal
+  objectToCut: {fileID: 256354265}
+--- !u!114 &1827812197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827812189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be5bb0c047141e488e9154cbe937d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: CuttingPlanePoint
+  objectToCut: {fileID: 256354265}
+--- !u!114 &1827812198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827812189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f23d5efe0139614b9a4b7e4c3b6f2c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: CuttingPlaneState
+  lastSentValue: 0
+  objectToCut: {fileID: 256354265}
 --- !u!4 &1934650766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 419526, guid: 8c93af22a072961489d61255c39d9659,
@@ -5926,6 +5961,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12ee41758a687f54e98120e486ccd16e, type: 3}
+--- !u!1001 &83827666485893594
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 83827667524195141, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_Name
+      value: CutPlaneHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.251
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.121
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.665
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7880108
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6156615
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 83827667524195194, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69, type: 3}
 --- !u!1001 &1394181838474817097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5981,7 +6085,7 @@ PrefabInstance:
     - target: {fileID: 6761215389738300151, guid: 9a62a54298fd08d458aaf1da8617749e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 6761215389738300151, guid: 9a62a54298fd08d458aaf1da8617749e,
         type: 3}
