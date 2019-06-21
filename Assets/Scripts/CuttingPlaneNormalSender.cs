@@ -9,7 +9,7 @@ using UnityEngine;
 using Valve.Newtonsoft.Json;
 
 [RequireComponent(typeof(PhotonView))]
-public class CuttingPlaneNormalSender : MonoBehaviour, IPunObservable, IJsonStringSendable {
+public class CuttingPlaneNormalSender : MonoBehaviourPun, IPunObservable, IJsonStringSendable {
 
     public bool isCutting = false;
     public string Name = "CuttingPlaneNormal";
@@ -35,10 +35,10 @@ public class CuttingPlaneNormalSender : MonoBehaviour, IPunObservable, IJsonStri
             Vector3 currentPos = VivePose.GetPoseEx(HandRole.LeftHand).pos;
             Vector3 currentVec = VivePose.GetPoseEx(HandRole.LeftHand).rot * VivePose.GetPoseEx(HandRole.LeftHand).up;
             //photon take ownership if necessary
-            /*if (!this.photonView.IsMine)
+            if (!this.photonView.IsMine)
             {
                 this.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-            }*/
+            }
             
         } else if (ViveInput.GetPressUpEx(HandRole.LeftHand, ControllerButton.Grip) && isCutting) {
             //end grab
@@ -48,7 +48,6 @@ public class CuttingPlaneNormalSender : MonoBehaviour, IPunObservable, IJsonStri
         }
         else if(isCutting)
         {
-            Debug.Log("Update cut");
             Vector3 currentPos = VivePose.GetPoseEx(HandRole.LeftHand).pos;
             Vector3 currentVec = VivePose.GetPoseEx(HandRole.LeftHand).rot * VivePose.GetPoseEx(HandRole.LeftHand).up;
         }

@@ -16,6 +16,7 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
     public bool CameraPositionRelative = false;
     public GameObject VrCameraPose = null;
     public float predictionValue = 0.0f;
+    public GameObject offsetSource;
 
     private GameObject relativeCameraPositionL = null;
     private GameObject relativeCameraPositionR = null;
@@ -110,8 +111,8 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
                 vrEyePositionR.transform.localRotation = eyeRotR;
 
                 // get global pose of node
-                eyePosL = vrEyePositionL.transform.position;
-                eyePosR = vrEyePositionR.transform.position;
+                eyePosL = vrEyePositionL.transform.position - offsetSource.transform.position;
+                eyePosR = vrEyePositionR.transform.position - offsetSource.transform.position;
                 eyeRotL = vrEyePositionL.transform.rotation;
                 eyeRotR = vrEyePositionR.transform.rotation;
             }

@@ -11,7 +11,7 @@ using HTC.UnityPlugin.Vive;
 using Photon.Pun;
 
 [RequireComponent(typeof(PhotonView))]
-public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPointerEnterHandler, IPunObservable
+public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPointerEnterHandler, IPunObservable
     , IPointerExitHandler
     , IPointerClickHandler {
 
@@ -100,9 +100,7 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     {
         if (hovers.Add(eventData) && hovers.Count == 1)
         {
-            //Debug.Log("Bar Hover");
-            Debug.Log(eventData.position);
-            Debug.Log(eventData.pointerCurrentRaycast.worldPosition);
+            Debug.Log("Bar Hover");
         }
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -116,6 +114,7 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     {
         if (eventData.IsViveButton(ControllerButton.Trigger) || true)
         {
+            OwnershipRequired(true);
             Debug.Log("Bar Click");
             var pContainer = transform.Find("Points");
             GameObject capsule = Instantiate(swatchPrefab, new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, 0.04f), Quaternion.identity);
@@ -124,10 +123,24 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
             capsule.transform.localPosition = new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, 0.04f);
             capsule.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
             capsule.GetComponent<TransferFunctionSwatch>().setColor(Color.yellow);
+            OwnershipRequired(false);
         }
         else if (eventData.button == PointerEventData.InputButton.Left)
         {
             Debug.Log("Bar ClickLeft");
+        }
+    }
+
+    public void OwnershipRequired(bool required)
+    {
+        Debug.Log("Ownership for TFE should be: "+required);
+        if(required && !photonView.IsMine)
+        {
+            this.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+        }
+        else if(!required)
+        {
+            this.GetComponent<PhotonView>().TransferOwnership(0);
         }
     }
     
