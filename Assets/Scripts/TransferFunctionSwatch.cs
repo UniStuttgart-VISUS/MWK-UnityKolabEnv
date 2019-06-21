@@ -72,8 +72,8 @@ public class TransferFunctionSwatch : MonoBehaviour
             //Debug.Log("Swatch UnHover");// turn to normal state
             //transform.localScale = new Vector3(0.1f,0.1f,0.1f);
         }
-        //isDragging = false;
-        if (transform.position.z < -0.12f && removeStarted) {
+
+        if (transform.localPosition.z < -0.22f && removeStarted) {
             //Remove final
             Destroy(gameObject);
         }
@@ -82,7 +82,7 @@ public class TransferFunctionSwatch : MonoBehaviour
             Vector3 tp = transform.localPosition;
             tp = new Vector3(tp.x, tp.y, 0.04f);
             transform.localPosition = tp;
-            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f, 1.0f);
+            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
         }
     }
     
@@ -90,19 +90,21 @@ public class TransferFunctionSwatch : MonoBehaviour
     {
         if (eventData.IsViveButton(ControllerButton.Trigger))
         {
-            Debug.Log("Swatch Click");
-            if (!choosing && !wasMoved)
+            if (!wasMoved)
             {
-                startColorChoosing();
-            }
-            else
-            {
-                stopColorChoosing();
+                if (!choosing)
+                {
+                    startColorChoosing();
+                }
+                else
+                {
+                    stopColorChoosing();
+                }
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Left)
         {
-            //Debug.Log("Swatch ClickLeft");
+            Debug.Log("Swatch ClickLeft");
         }
     }
     
@@ -110,7 +112,6 @@ public class TransferFunctionSwatch : MonoBehaviour
     {
         if (mat == null)
         {
-            //Debug.Log("COLOR:Mat was null");
             mat = transform.Find("eis").Find("Sphere001").gameObject.GetComponent<MeshRenderer>().material;
         }
         mat.color = input;
@@ -119,7 +120,6 @@ public class TransferFunctionSwatch : MonoBehaviour
     
     void startColorChoosing()
     {
-        Debug.Log("Start choosing");
         cpObject = Instantiate(cpPrefab, transform.position + Vector3.up * 1.4f, Quaternion.identity);
         cpObject.transform.localScale = Vector3.one * 0.4f;
         cpObject.transform.LookAt(Camera.main.transform);
@@ -132,7 +132,6 @@ public class TransferFunctionSwatch : MonoBehaviour
 
     void stopColorChoosing()
     {
-        Debug.Log("Stop choosing");
         Destroy(cpObject);
         choosing = false;
     }
@@ -143,21 +142,19 @@ public class TransferFunctionSwatch : MonoBehaviour
         {
             Vector3 dragDist = dragStartPoint -
                                transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-            Debug.Log(dragDist);
             if (Mathf.Abs(dragDist.y) > 0.02f && !removeStarted)
             {
                 wasMoved = true;
                 Vector3 tp = transform.localPosition;
                 tp = new Vector3(tp.x,Mathf.Clamp(dragStartPoint.y-dragDist.y, -3.0f, 0.0f),tp.z);
                 transform.localPosition = tp;
-                //Debug.Log("POS CHANGE "+tp+ " in was "+dragDist);
             } else if (dragDist.z > 0.04f || removeStarted) {
                 wasMoved = true;
                 removeStarted = true;
                 Vector3 tp = transform.localPosition;
                 tp = new Vector3(tp.x,tp.y,Mathf.Clamp(dragStartPoint.z-dragDist.z/5, -0.4f, 0.04f));
                 transform.localPosition = tp;
-                transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f,0f,0f,1.0f - dragDist.z*2);
+                transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0.3f,0.3f,0.3f,1.0f - dragDist.z*2);
             }
         }
     }
@@ -172,7 +169,7 @@ public class TransferFunctionSwatch : MonoBehaviour
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
-        if (transform.position.z < -0.12f && removeStarted)
+        if (transform.localPosition.z < -0.22f && removeStarted)
         {
             //Remove final
             Destroy(gameObject);
@@ -182,7 +179,7 @@ public class TransferFunctionSwatch : MonoBehaviour
             Vector3 tp = transform.localPosition;
             tp = new Vector3(tp.x, tp.y, 0.04f);
             transform.localPosition = tp;
-            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f, 1.0f);
+            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
         }
     }
 }

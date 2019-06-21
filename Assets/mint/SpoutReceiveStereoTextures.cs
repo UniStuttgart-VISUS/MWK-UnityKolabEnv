@@ -13,6 +13,8 @@ public class SpoutReceiveStereoTextures: MonoBehaviour
     public string interopBaseName = "/UnityInterop/";
     public string instanceName = "DefaultName"; // gets 'Left' and 'Right' attached for left and right texture
 
+    public GameObject LoadingIndicatorRef;
+
     private EyeResources[] stereoResources = null;
 
     public Vector2 leftTextureSize = new Vector2(0.0f, 0.0f);
@@ -40,6 +42,14 @@ public class SpoutReceiveStereoTextures: MonoBehaviour
 
         if(left.updateTexture() || right.updateTexture())
         {
+            //Notify all of loading finished
+            GameObject[] gos;
+            gos = GameObject.FindGameObjectsWithTag("FileLoaderAffected"); 
+ 
+            for(var i = 0; i < gos.Length; i++){
+                gos[i].SendMessage("FileLoadingStatus", "finished");
+            }
+            
             var leftTex = left.targetTexture;
             var rightTex = right.targetTexture;
 
@@ -64,6 +74,17 @@ public class SpoutReceiveStereoTextures: MonoBehaviour
 
             var meshRenderer = this.gameObject.GetComponent<MeshRenderer>();
             meshRenderer.materials = new Material[] { this.renderVROverlayMaterial };
+        }
+    }
+
+    public void FileLoadingStatus(string status)
+    {
+        if (status == "triggered")
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        } else if (status == "finished")
+        {
+            GetComponent<MeshRenderer>().enabled = true;
         }
     }
 

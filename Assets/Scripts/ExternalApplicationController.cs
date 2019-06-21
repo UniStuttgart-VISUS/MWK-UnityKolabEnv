@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Xml;
+using interop;
+using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 public interface IRenderingProcess
 {
@@ -14,6 +19,7 @@ public interface IRenderingProcess
     List<FileInfo> filterOwnWorkspaceFiles(List<FileInfo> filenames);
 
     Texture loadWorkspacePreview(string filename);
+    TransferFunction loadTransferFunction(string filename);
     Process startRendering(string filename);
 }
 
@@ -38,7 +44,6 @@ public class InviwoRenderingProcess : IRenderingProcess
     {
         var fileContents = File.ReadAllText(filename);
 
-        string totVal = "";
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load (new StringReader(fileContents));
         string xmlPathPattern = "//CanvasImage/base64/@content";
@@ -53,6 +58,37 @@ public class InviwoRenderingProcess : IRenderingProcess
         }
 
         return tex;
+    }
+
+    public TransferFunction loadTransferFunction(string filename)
+    {
+        var fileContents = File.ReadAllText(filename);
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.Load (new StringReader(fileContents));
+        string xmlPathPattern = ".//TransferFunction";
+        XmlNode tfNode  = xmlDoc.SelectSingleNode(xmlPathPattern);
+        TransferFunction tf = new TransferFunction();
+        tf.points = new List<TfPoint>();
+               
+        if (tfNode != null)
+        {
+            //Create tf
+            tf.type = Int32.Parse(tfNode.SelectSingleNode("type/@content").Value);
+            tf.maskMax = float.Parse(tfNode.SelectSingleNode("maskMax/@content").Value);
+            tf.maskMin = float.Parse(tfNode.SelectSingleNode("maskMin/@content").Value);
+            XmlNodeList points = tfNode.SelectSingleNode("Points").ChildNodes;
+            foreach (XmlNode p in points)
+            {   
+                TfPoint tfp = new TfPoint();
+                tfp.pos = float.Parse(p.SelectSingleNode("pos/@content").Value, CultureInfo.InvariantCulture);
+                tfp.rgba.x = float.Parse(p.SelectSingleNode("rgba/@x").Value, CultureInfo.InvariantCulture);
+                tfp.rgba.y = float.Parse(p.SelectSingleNode("rgba/@y").Value, CultureInfo.InvariantCulture);
+                tfp.rgba.z = float.Parse(p.SelectSingleNode("rgba/@z").Value, CultureInfo.InvariantCulture);
+                tfp.rgba.w = float.Parse(p.SelectSingleNode("rgba/@w").Value, CultureInfo.InvariantCulture);
+                tf.points.Add(tfp);
+            }
+        }
+        return tf;
     }
 
     public Process startRendering(string filename)
@@ -89,6 +125,12 @@ public class MegaMolRenderingProcess : IRenderingProcess
         return null;
     }
 
+    public TransferFunction loadTransferFunction(string filename)
+    {
+        Debug.LogWarning("No loading for Megamol tfs");
+        return new TransferFunction();
+    }
+
     public Process startRendering(string filename)
     {
         ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -119,6 +161,12 @@ public class MintRenderingProcess : IRenderingProcess
     public Texture loadWorkspacePreview(string filename)
     {
         return null;
+    }
+
+    public TransferFunction loadTransferFunction(string filename)
+    {
+        Debug.LogWarning("No loading for Megamol tfs");
+        return new TransferFunction();
     }
 
     public Process startRendering(string filename)
