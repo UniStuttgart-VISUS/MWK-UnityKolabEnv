@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -66,8 +67,17 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
         return this.Name;
 	}
 
-	public string jsonString() {
-        StereoCameraView cc = StereoCameraViewFromXR();
+	public string jsonString()
+    {
+        StereoCameraView cc;
+        try
+        {
+            cc = StereoCameraViewFromXR();
+        }
+        catch (NullReferenceException)
+        {
+            cc = StereoCameraViewFromCamera();
+        }
         string json = cc.json();
         return json;
 	}
@@ -77,6 +87,18 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
         return true;
     }
 
+    StereoCameraView StereoCameraViewFromCamera()
+    {
+        StereoCameraView scv;
+        
+        GameObject vrCamera = GameObject.Find("Camera");
+        
+        setEyeView(out scv.leftEyeView, vrCamera.transform.position, vrCamera.transform.rotation);
+        setEyeView(out scv.rightEyeView, vrCamera.transform.position, vrCamera.transform.rotation);
+        
+        return scv;
+    }
+    
     StereoCameraView StereoCameraViewFromXR()
     {
         StereoCameraView scv;
