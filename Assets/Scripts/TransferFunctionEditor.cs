@@ -140,7 +140,7 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
         }
         else if(!required)
         {
-            this.GetComponent<PhotonView>().TransferOwnership(0);
+            //this.GetComponent<PhotonView>().TransferOwnership(0);
         }
     }
     
@@ -168,14 +168,12 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
         {
             //We own this dataset: send the others our data
             stream.SendNext(currentTransferFunction);
-            Debug.Log("Send TF");
         }
         else
         {
             //Network dataset change, receive data
             TransferFunction recv = (TransferFunction) stream.ReceiveNext();
             PopulateFromTransferFunction(recv);
-            Debug.Log("Received TF");
             Debug.Log(recv.json());
         }
     }

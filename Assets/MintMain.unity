@@ -966,7 +966,7 @@ MonoBehaviour:
   isGrabbing: 0
   mode: 
   initialPosL: {x: 0, y: 0, z: 0}
-  useInternalPan: 1
+  useInternalPan: 0
   initialPosR: {x: 0, y: 0, z: 0}
   internalPan: {fileID: 89029423}
   statusMsg: {fileID: 1031375424}
@@ -5087,7 +5087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1827812190
 MonoBehaviour:
   m_ObjectHideFlags: 0
