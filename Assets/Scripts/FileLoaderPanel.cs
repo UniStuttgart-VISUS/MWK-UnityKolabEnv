@@ -21,6 +21,8 @@ public class FileLoaderPanel : MonoBehaviour
     public Button detailPanelOK;
     public Button detailPanelOKSaved;
     public Text detailPanelIsCurrent;
+    public GameObject TFEditorRef;
+    public GameObject LoadingIndicatorRef;
     
     // Start is called before the first frame update
     void Start()
@@ -85,6 +87,8 @@ public class FileLoaderPanel : MonoBehaviour
         PhotonView photonView = PhotonView.Get(this);
         PhotonNetwork.OpCleanRpcBuffer(photonView); // remove RPCs for datasets loaded before
         photonView.RPC("startRenderingProcess", RpcTarget.AllBufferedViaServer, relativeFilePath);
+        
+        TFEditorRef.GetComponent<TransferFunctionEditor>().startRenderingProcess(relativeFilePath);
     }
 
     private void DetailOKSavedClick()
@@ -117,7 +121,6 @@ public class FileLoaderPanel : MonoBehaviour
     [PunRPC]
     public void startRenderingProcess(string relativeWorkspaceFilePath)
     {
-        Debug.Log(relativeWorkspaceFilePath);
         if (relativeWorkspaceFilePath.EndsWith("fbx"))
         {
             //Switch to internal
@@ -127,6 +130,15 @@ public class FileLoaderPanel : MonoBehaviour
         else
         {
             //Switch to external
+            //Notify all of loading
+            GameObject[] gos;
+            gos = GameObject.FindGameObjectsWithTag("FileLoaderAffected"); 
+ 
+            for(var i = 0; i < gos.Length; i++){
+                gos[i].SendMessage("FileLoadingStatus", "triggered");
+            }
+            
+            //Reconfigure
             EnvConstants.ExternalRendererMode = true;
             GameObject.Find("_KolabStateManager").GetComponent<KolabStateInit>().SwitchRendererMode();
             
@@ -141,6 +153,17 @@ public class FileLoaderPanel : MonoBehaviour
             ExternalApplicationController.Instance.addRendererInstance(renderProcess);
 
             GameObject.Find("MintDataset").GetComponent<BoundingBoxCornersJsonReceiver>().reset();
+        }
+    }
+    
+    public void FileLoadingStatus(string status)
+    {
+        if (status == "triggered")
+        {
+            LoadingIndicatorRef.transform.position = new Vector3(0f,1.5f,0f);
+        } else if(status == "finished")
+        {
+            LoadingIndicatorRef.transform.position = new Vector3(0f,15f,0f);
         }
     }
 

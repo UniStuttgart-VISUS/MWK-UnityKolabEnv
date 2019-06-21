@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Xml.Schema;
 using UnityEngine;
 using Valve.VR;
@@ -29,7 +30,7 @@ public class CameraProjectionJsonSender : MonoBehaviour, IJsonStringSendable {
     {
         m_camera = GetComponent<Camera>();
         //useHmdParams = OpenVR.IsHmdPresent();
-        if (EnvConstants.DesktopMode)
+        if (EnvConstants.DesktopMode && !OpenVR.IsHmdPresent())
         {
             useHmdParams = false;
             m_camera = Camera.main;

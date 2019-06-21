@@ -166,4 +166,17 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
             Debug.Log(recv.json());
         }
     }
+    
+    public void startRenderingProcess(string relativeWorkspaceFilePath)
+    {
+        if (!relativeWorkspaceFilePath.EndsWith("fbx"))
+        {           
+            string myWorkspaceDir = EnvConstants.WorkspacesPath;///.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
+            string filename = myWorkspaceDir + relativeWorkspaceFilePath;
+
+            TransferFunction loadedTf = EnvConstants.externalRenderers.Find(renderer => renderer.isOwnedFiletype(filename)).loadTransferFunction(filename);
+            Debug.Log(loadedTf.json());
+            PopulateFromTransferFunction(loadedTf);            
+        }
+    }
 }

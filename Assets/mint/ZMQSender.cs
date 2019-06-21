@@ -74,7 +74,7 @@ public class ZMQSender : MonoBehaviour {
     }
 
 	// called once per frame, after all Updates are done
-	void LateUpdate () {
+	void FixedUpdate () {
         if (throttleFlag % throttleValue == 0 || throttleValue == 1)
         {
             if (m_sendsAndNames != null)
