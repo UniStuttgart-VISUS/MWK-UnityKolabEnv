@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using HTC.UnityPlugin.Vive;
+using Photon.Voice.Unity;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.PostProcessing;
 
-public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
+public class TransferFunctionSwatch : MonoBehaviour 
+    , IPointerEnterHandler
     , IPointerExitHandler
     , IPointerClickHandler
     , IDragHandler
@@ -24,11 +26,13 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
     private HashSet<PointerEventData> hovers = new HashSet<PointerEventData>();
     private Vector3 dragStartPoint;
     private bool isDragging = false;
+    private bool wasMoved = false;
+    private bool removeStarted = false;
     
     // Start is called before the first frame update
     void Start()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        mat = transform.Find("eis").Find("Sphere001").gameObject.GetComponent<MeshRenderer>().material;
         Debug.Log("COLOR:Start");
     }
 
@@ -41,7 +45,7 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
         }
     }
 
-    void OnMouseDown()
+    void OnMouseUp()
     {
         if (!choosing)
         {
@@ -68,16 +72,26 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
             //Debug.Log("Swatch UnHover");// turn to normal state
             //transform.localScale = new Vector3(0.1f,0.1f,0.1f);
         }
-        isDragging = false;
+        //isDragging = false;
+        if (transform.position.z < -0.12f && removeStarted) {
+            //Remove final
+            Destroy(gameObject);
+        }
+        else
+        {
+            Vector3 tp = transform.localPosition;
+            tp = new Vector3(tp.x, tp.y, 0.04f);
+            transform.localPosition = tp;
+            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f, 1.0f);
+        }
     }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        //Debug.Log(eventData.selectedObject);
-        if (eventData.IsViveButton(ControllerButton.Trigger) || true)
+        if (eventData.IsViveButton(ControllerButton.Trigger))
         {
-            //Debug.Log("Swatch Click");
-            if (!choosing)
+            Debug.Log("Swatch Click");
+            if (!choosing && !wasMoved)
             {
                 startColorChoosing();
             }
@@ -97,7 +111,7 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
         if (mat == null)
         {
             //Debug.Log("COLOR:Mat was null");
-            mat = GetComponent<MeshRenderer>().material;
+            mat = transform.Find("eis").Find("Sphere001").gameObject.GetComponent<MeshRenderer>().material;
         }
         mat.color = input;
         selectedColor = input;
@@ -105,40 +119,52 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
     
     void startColorChoosing()
     {
-        cpObject = (GameObject)Instantiate(cpPrefab, transform.position + Vector3.up * 1.4f, Quaternion.identity);
-        //cpObject.transform.localScale = Vector3.one * 1.1f;
-        //cpObject.transform.LookAt(transform.parent);
+        Debug.Log("Start choosing");
+        cpObject = Instantiate(cpPrefab, transform.position + Vector3.up * 1.4f, Quaternion.identity);
+        cpObject.transform.localScale = Vector3.one * 0.4f;
+        cpObject.transform.LookAt(Camera.main.transform);
         cpTriangle = cpObject.GetComponent<ColorPickerTriangle>();
         cpTriangle.SetNewColor(mat.color);
         cpObject.transform.parent = transform;
+        Debug.Log(cpObject);
         choosing = true;
     }
 
     void stopColorChoosing()
     {
+        Debug.Log("Stop choosing");
         Destroy(cpObject);
         choosing = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDragging )
+        if (isDragging)
         {
             Vector3 dragDist = dragStartPoint -
                                transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-            Debug.Log(dragDist.magnitude);
-            if (dragDist.magnitude > 0.02f)
+            Debug.Log(dragDist);
+            if (Mathf.Abs(dragDist.y) > 0.02f && !removeStarted)
             {
+                wasMoved = true;
                 Vector3 tp = transform.localPosition;
-                tp = new Vector3(tp.x,Mathf.Clamp(tp.y-dragDist.y/10, -3.0f, 3.0f),tp.z);
+                tp = new Vector3(tp.x,Mathf.Clamp(dragStartPoint.y-dragDist.y, -3.0f, 0.0f),tp.z);
                 transform.localPosition = tp;
                 //Debug.Log("POS CHANGE "+tp+ " in was "+dragDist);
+            } else if (dragDist.z > 0.04f || removeStarted) {
+                wasMoved = true;
+                removeStarted = true;
+                Vector3 tp = transform.localPosition;
+                tp = new Vector3(tp.x,tp.y,Mathf.Clamp(dragStartPoint.z-dragDist.z/5, -0.4f, 0.04f));
+                transform.localPosition = tp;
+                transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f,0f,0f,1.0f - dragDist.z*2);
             }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        wasMoved = false;
         isDragging = true;
         dragStartPoint = transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
     }
@@ -146,5 +172,17 @@ public class TransferFunctionSwatch : MonoBehaviour, IPointerEnterHandler
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
+        if (transform.position.z < -0.12f && removeStarted)
+        {
+            //Remove final
+            Destroy(gameObject);
+        }
+        else
+        {
+            Vector3 tp = transform.localPosition;
+            tp = new Vector3(tp.x, tp.y, 0.04f);
+            transform.localPosition = tp;
+            transform.Find("eis").Find("Cone001").GetComponent<Renderer>().material.color = new Color(0f, 0f, 0f, 1.0f);
+        }
     }
 }
