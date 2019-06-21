@@ -19,6 +19,9 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     public TransferFunction currentTransferFunction;
     private HashSet<PointerEventData> hovers = new HashSet<PointerEventData>();
     private TransferFunction lastSentTransferFunction = new TransferFunction() {type = 0,maskMax = 1.0f,maskMin = 0.0f, points = new List<TfPoint>()};
+
+    public GameObject minGameObject;
+    public GameObject maxGameObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +29,7 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
         PhotonPeer.RegisterType(typeof(TransferFunction), (byte)250, TransferFunction.Serialize, TransferFunction.Deserialize);
         
         //Init default transfer function
-        currentTransferFunction = new TransferFunction() {type = 0,maskMax = 1.0f,maskMin = 0.0f, points = new List<TfPoint>()};
+        currentTransferFunction = new TransferFunction() {type = 0, maskMax = 0.6f, maskMin = 0.4f, points = new List<TfPoint>()};
         currentTransferFunction.points.Add(new TfPoint(){pos = 0.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.1f)});
         currentTransferFunction.points.Add(new TfPoint(){pos = 1.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.8f)});
         PopulateFromTransferFunction(currentTransferFunction);
@@ -42,8 +45,8 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
     {
         TransferFunction serTf = new TransferFunction();
         serTf.type = 0;
-        serTf.maskMax = 1.0f;
-        serTf.maskMin = 0.0f;        
+        serTf.maskMax = -maxGameObject.transform.localPosition.y/3.0f;
+        serTf.maskMin = -minGameObject.transform.localPosition.y/3.0f;        
         
         serTf.points = new List<TfPoint>();
 
@@ -75,20 +78,22 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
         //Create new points from tf
         foreach (TfPoint point in tf.points)
         {
-            GameObject capsule = Instantiate(swatchPrefab, new Vector3(0, -point.pos*3.0f, -0.2f), Quaternion.identity);
+            GameObject capsule = Instantiate(swatchPrefab, new Vector3(0, -point.pos*3.0f, 0.04f), Quaternion.identity);
             //GameObject capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             capsule.transform.parent = pContainer.transform;
-            capsule.transform.localPosition = new Vector3(0, -point.pos*3.0f, -0.2f);
+            capsule.transform.localPosition = new Vector3(0, -point.pos*3.0f, 0.04f);
             capsule.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
             capsule.GetComponent<TransferFunctionSwatch>().setColor(new Color(point.rgba.x,point.rgba.y,point.rgba.z, point.rgba.w));
         }
         
         //Set min max
-        var minGO = transform.Find("Min").position;
+        var minGO = minGameObject.transform.localPosition;
         minGO = new Vector3(minGO.x, -tf.maskMin*3.0f ,minGO.z);
+        minGameObject.transform.localPosition = minGO;
         
-        var maxGO = transform.Find("Max").position;
+        var maxGO = maxGameObject.transform.localPosition;
         maxGO = new Vector3(maxGO.x, -tf.maskMax*3.0f ,maxGO.z);
+        maxGameObject.transform.localPosition = maxGO;
     }
     
     public void OnPointerEnter(PointerEventData eventData)
@@ -113,10 +118,10 @@ public class TransferFunctionEditor : MonoBehaviour, IJsonStringSendable, IPoint
         {
             Debug.Log("Bar Click");
             var pContainer = transform.Find("Points");
-            GameObject capsule = Instantiate(swatchPrefab, new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, -0.1f), Quaternion.identity);
+            GameObject capsule = Instantiate(swatchPrefab, new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, 0.04f), Quaternion.identity);
             //GameObject capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             capsule.transform.parent = pContainer.transform;
-            capsule.transform.localPosition = new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, -0.2f);
+            capsule.transform.localPosition = new Vector3(0, transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition).y, 0.04f);
             capsule.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
             capsule.GetComponent<TransferFunctionSwatch>().setColor(Color.yellow);
         }
