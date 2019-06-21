@@ -120,6 +120,7 @@ public class TransferFunctionSwatch : MonoBehaviour
     
     void startColorChoosing()
     {
+        SendMessageUpwards("OwnershipRequired", true, SendMessageOptions.DontRequireReceiver);
         cpObject = Instantiate(cpPrefab, transform.position + Vector3.up * 1.4f, Quaternion.identity);
         cpObject.transform.localScale = Vector3.one * 0.4f;
         cpObject.transform.LookAt(Camera.main.transform);
@@ -134,6 +135,7 @@ public class TransferFunctionSwatch : MonoBehaviour
     {
         Destroy(cpObject);
         choosing = false;
+        SendMessageUpwards("OwnershipRequired", false, SendMessageOptions.DontRequireReceiver);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -164,11 +166,13 @@ public class TransferFunctionSwatch : MonoBehaviour
         wasMoved = false;
         isDragging = true;
         dragStartPoint = transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+        SendMessageUpwards("OwnershipRequired", true, SendMessageOptions.DontRequireReceiver);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
+        SendMessageUpwards("OwnershipRequired", false, SendMessageOptions.DontRequireReceiver);
         if (transform.localPosition.z < -0.22f && removeStarted)
         {
             //Remove final

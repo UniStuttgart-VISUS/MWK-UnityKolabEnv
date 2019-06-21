@@ -53,7 +53,7 @@ public class ColorPickerTriangle : MonoBehaviour, IPointerEnterHandler
         SetNewColor(TheColor);
         
         Color[] colors = new Color[AMesh.colors.Length];
-        for (int i = 0; i < AMesh.colors.Length; i++)
+        for (int i = AMesh.colors.Length-1; i > 0; i--)
         {
             float a = 1.0f / AMesh.colors.Length * i; 
             colors[i] = new Color(1.0f,0.0f,0.0f, a);
@@ -82,12 +82,16 @@ public class ColorPickerTriangle : MonoBehaviour, IPointerEnterHandler
         ChangeTriangleColor(CircleColor);
         ChangeAlphaColor(CircleColor);
         PointerMain.transform.localEulerAngles = Vector3.back * (h * 360f);
-        PointerAlpha.transform.localEulerAngles = Vector3.back * NewColor.a;
+        float angleValue = (float)MapValue(-0.0f, 1.0f, -54.0f, 232.0f, NewColor.a);
+        if (angleValue <= 0) angleValue = 360 + angleValue;
+        
+        PointerAlpha.transform.localEulerAngles = Vector3.back * angleValue;
         CurBary.y = 1f - v;
         CurBary.x = v * s;
         CurBary.z = 1f - CurBary.y - CurBary.x;
         CurLocalPos = RPoints[0] * CurBary.x + RPoints[1] * CurBary.y + RPoints[2] * CurBary.z;
         PointerColor.transform.localPosition = CurLocalPos;
+        AlphaCircleColor.a = NewColor.a;
     }
 
     private void CheckCirclePosition()
@@ -105,13 +109,38 @@ public class ColorPickerTriangle : MonoBehaviour, IPointerEnterHandler
     
     private void CheckAlphaCirclePosition()
     {
-        float a = Vector3.Angle(Vector3.left, CurLocalPos);
+        float a = Vector3.Angle(Vector3.left, CurLocalPos);      
+        float value = 0.0f;
+        
+        //Full circle
         if (CurLocalPos.y < 0)
+        {
             a = 360f - a;
+        }
+        
+        //Limits
+        if (a > 232f && a < 308 && a < 232+38)
+        {
+            a = 232f;
+        } else if (a > 232f && a < 308 && a > 232 + 38)
+        {
+            a = 308f;
+        }
+        
+        //Map value range
+        if (a / 284 > 1.0f) value = -(78-(a%284));
+        else value = a%284;
+        Debug.Log(value);
+        value = (float)MapValue(-54f, 232f, 0.0f, 1.0f, value);
 
         PointerAlpha.transform.localEulerAngles = Vector3.back * a;
-        AlphaCircleColor = new Color(0f,0f,0f, a/360);
+        AlphaCircleColor = new Color(0f,0f,0f, value);
         SetColor();
+    }
+    
+    public double MapValue(double a0, double a1, double b0, double b1, double a)
+    {
+        return b0 + (b1 - b0) * ((a-a0)/(a1-a0));
     }
 
     private void CheckTrianglePosition()
@@ -147,7 +176,7 @@ public class ColorPickerTriangle : MonoBehaviour, IPointerEnterHandler
     private void ChangeAlphaColor(Color c)
     {
         Color[] colors = new Color[AMesh.colors.Length];
-        for (int i = 0; i < AMesh.colors.Length; i++)
+        for (int i = AMesh.colors.Length-1; i >= 0; i--)
         {
             float a = 1.0f / AMesh.colors.Length * i; 
             colors[i] = new Color(c.r,c.g,c.b, a);

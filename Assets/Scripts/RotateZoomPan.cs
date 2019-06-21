@@ -9,6 +9,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
     public bool isGrabbing;
     public string mode = "";
     public Vector3 initialPosL;
+
+    public bool useInternalPan = true;
     public Vector3 initialPosR;
      
     private Vector3 latestPos;
@@ -23,6 +25,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
 
     private Collider m_Collider;
     private Transform origin;
+
+    public GameObject internalPan;
 
     public Text statusMsg;
     
@@ -98,7 +102,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             else if(mode == "pan")
             {
                 latestPan = initialPosL - VivePose.GetPoseEx(HandRole.LeftHand, origin).pos;
-                transform.position = initialPos - latestPan;
+                if (!useInternalPan) transform.position = initialPos - latestPan;
+                else internalPan.transform.localPosition = initialPos - latestPan;
                 latestPan = transform.position;
             }
         }
@@ -120,6 +125,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             this.transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
             this.transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(latestZoom, latestZoom, latestZoom), Time.deltaTime * 2);
             this.transform.position = Vector3.Lerp(transform.position, latestPan, Time.deltaTime * 2);
+            this.internalPan.transform.localPosition = Vector3.Lerp(transform.position, latestPan, Time.deltaTime * 2);
         }
     }
 
@@ -131,7 +137,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
         mode = "pan";
         initialPosR = VivePose.GetPoseEx(HandRole.RightHand, origin).pos;
         initialPosL = VivePose.GetPoseEx(HandRole.LeftHand, origin).pos;
-        initialPos = transform.position;
+        if (!useInternalPan) initialPos = transform.position;
+        else initialPos = internalPan.transform.localPosition;
         
         //Take PUN ownership if necessary
         if (!this.photonView.IsMine)
@@ -181,7 +188,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             //We own this dataset: send the others our data
             stream.SendNext(transform.rotation);
             stream.SendNext(transform.localScale.x);
-            stream.SendNext(transform.position);
+            if(!useInternalPan) stream.SendNext(transform.position);
+            else stream.SendNext(internalPan.transform.localPosition);
         }
         else
         {

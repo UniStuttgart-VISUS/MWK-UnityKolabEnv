@@ -73,10 +73,12 @@ public class TransferFunctionMask : MonoBehaviour, IPointerEnterHandler
         wasMoved = false;
         isDragging = true;
         dragStartPoint = transform.parent.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+        SendMessageUpwards("OwnershipRequired", true, SendMessageOptions.DontRequireReceiver);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
+        SendMessageUpwards("OwnershipRequired", false, SendMessageOptions.DontRequireReceiver);
     }
 }

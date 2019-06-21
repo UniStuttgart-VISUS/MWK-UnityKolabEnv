@@ -211,7 +211,7 @@ public class BoundingBoxCornersJsonReceiver : MonoBehaviour, IJsonStringReceivab
         cube.GetComponent<MeshFilter>().mesh.GetVertices(cubeVertices);
         foreach(var v in cubeVertices)
         {
-            var newVertex = Vector3.Scale(v, diff) + meshOffset;
+            var newVertex = Vector3.Scale(v, diff*1.1f) + meshOffset;
             newCubeVertices.Add(newVertex);
         }
         thisCubeMesh.mesh.SetVertices(newCubeVertices);

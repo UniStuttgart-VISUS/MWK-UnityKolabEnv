@@ -7,15 +7,24 @@ using Photon.Realtime;
 [RequireComponent(typeof(PhotonView))]
 public class PlayerPosFromVRCamera : MonoBehaviourPun
 {
-    public Camera vrCamera;
+    public GameObject vrCamera;
     public Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
         if (vrCamera == null)
         {
-            vrCamera = Camera.main;
-            Debug.LogError("Using main camera as VR camera!");
+            GameObject[] cams = GameObject.FindGameObjectsWithTag("MainCamera");
+            if (EnvConstants.DesktopMode)
+            {
+                vrCamera = GameObject.Find("Camera");
+            }
+            else
+            {
+                vrCamera = GameObject.Find("CamLeft");
+            }
+
+            Debug.LogWarning("Using found main camera as VR camera!");
         }
         
         if (photonView.IsMine)
@@ -29,6 +38,9 @@ public class PlayerPosFromVRCamera : MonoBehaviourPun
     void Update()
     {
         transform.position = vrCamera.transform.position +  offset;
+        transform.position = new Vector3(vrCamera.transform.position.x +  offset.x,
+                                            1.5f,
+                                            vrCamera.transform.position.z +  offset.z);
         transform.Find("HeadSphere").rotation = vrCamera.transform.rotation;
     }
 }
