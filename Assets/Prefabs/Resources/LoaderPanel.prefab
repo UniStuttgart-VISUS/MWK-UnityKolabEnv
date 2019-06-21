@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 0.01
   m_Viewport: {fileID: 3010214276576296049}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 676165318774974773}
@@ -1104,6 +1104,7 @@ GameObject:
   - component: {fileID: 3847563379164366114}
   - component: {fileID: 2700241002201519368}
   - component: {fileID: 1118279008014759378}
+  - component: {fileID: 8090796258668348164}
   m_Layer: 5
   m_Name: OpenImButton
   m_TagString: Untagged
@@ -1213,6 +1214,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!65 &8090796258668348164
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6463093719246585008}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 337.80533, y: 120.80505, z: 1.0000002}
+  m_Center: {x: 159.15646, y: 53.669025, z: -0.000000047354458}
 --- !u!1 &6481584129706194297
 GameObject:
   m_ObjectHideFlags: 0
