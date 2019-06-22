@@ -142,8 +142,11 @@ public class FileLoaderPanel : MonoBehaviour
             EnvConstants.ExternalRendererMode = true;
             GameObject.Find("_KolabStateManager").GetComponent<KolabStateInit>().SwitchRendererMode();
             
-            string myWorkspaceDir = EnvConstants.WorkspacesPath;///.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
+            string myWorkspaceDir = EnvConstants.WorkspacesPath + "\\\\";///.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
             string filename = myWorkspaceDir + relativeWorkspaceFilePath;
+
+            Debug.Log("RPC for file " + relativeWorkspaceFilePath);
+            Debug.Log("loading file " + filename);
 
             // TODO: instantiate Dataset GameObject here, before the renderer is started?
 
