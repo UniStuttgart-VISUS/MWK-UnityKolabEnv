@@ -3771,7 +3771,7 @@ MonoBehaviour:
   isGrabbing: 0
   mode: 
   initialPosL: {x: 0, y: 0, z: 0}
-  useInternalPan: 1
+  useInternalPan: 0
   initialPosR: {x: 0, y: 0, z: 0}
   initialRotR: {x: 0, y: 0, z: 0, w: 0}
   internalPan: {fileID: 0}

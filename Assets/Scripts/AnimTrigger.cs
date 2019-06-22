@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HTC.UnityPlugin.Vive;
+using Photon.Pun;
 using UnityEngine;
 
-public class AnimTrigger : MonoBehaviour
+public class AnimTrigger : MonoBehaviourPun
 {
     private Animator anim;
     // Start is called before the first frame update
@@ -17,14 +18,21 @@ public class AnimTrigger : MonoBehaviour
     {
         if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.DPadUp))
         {
-            Debug.Log("Spinning");
-            anim.Play("ExplodeAnimation");
+            //anim.Play("ExplodeAnimation");
+            this.photonView.RPC("PlayRemote", RpcTarget.AllBuffered, "ExplodeAnimation");
         }
         
         if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.DPadDown))
         {
-            Debug.Log("Spinning");
-            anim.Play("Unexplode");
+            //anim.Play("Unexplode");
+            this.photonView.RPC("PlayRemote", RpcTarget.AllBuffered, "Unexplode");
         }
+    }
+
+    
+    [PunRPC]
+    void PlayRemote(string name)
+    {
+        anim.Play(name);
     }
 }
