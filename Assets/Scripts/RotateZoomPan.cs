@@ -39,6 +39,11 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
         m_Collider = GetComponent<Collider>();
         origin = GameObject.Find("_VROrigin").transform;
         mode = "init";
+
+        if (internalPan == null)
+        {
+            internalPan = new GameObject();
+        }
     }
 
     // Update is called once per frame
