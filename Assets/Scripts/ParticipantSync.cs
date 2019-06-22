@@ -131,16 +131,16 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
                     }
                 }
             }
-        }
-        
-        //Handle Push-To-Talk
-        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
-        {
-            ownRecorder.TransmitEnabled = true;
-        }
-        else if(ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Grip))
-        {
-            ownRecorder.TransmitEnabled = false;
+            
+            //Handle Push-To-Talk
+            if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
+            {
+                ownRecorder.TransmitEnabled = true;
+            }
+            else if(ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Grip))
+            {
+                ownRecorder.TransmitEnabled = false;
+            }
         }
         
         //Show audio activity
