@@ -12,6 +12,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
 
     public bool useInternalPan = true;
     public Vector3 initialPosR;
+    public Quaternion initialRotR;
      
     private Vector3 latestPos;
     private Quaternion latestRot;
@@ -27,6 +28,8 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
     private Transform origin;
 
     public GameObject internalPan;
+    public bool m_eulerAngles = false;
+    public float m_rotationScaling = 0.8f;
 
     public Text statusMsg;
     
@@ -90,12 +93,27 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             } 
             else if (mode == "rotate")
             {
-                Vector3 currentPos = VivePose.GetPoseEx(HandRole.RightHand, origin).pos;
-                Vector3 eulerRot = new Vector3();
-                eulerRot.z = -((initialPosR.z - currentPos.z) * 100) % 360;
-                eulerRot.y = ((initialPosR.x - currentPos.x) * 100) % 360;
-                eulerRot.x = -((initialPosR.y - currentPos.y) * 100) % 360;
-                Quaternion additionalRotation = Quaternion.Euler(eulerRot);
+                var currentPose = VivePose.GetPoseEx(HandRole.RightHand, origin);
+                Vector3 currentPos = currentPose.pos;
+                Quaternion additionalRotation = Quaternion.identity;
+                if(m_eulerAngles)
+                {
+                    Vector3 eulerRot = new Vector3();
+                    eulerRot.z = -((initialPosR.z - currentPos.z) * 100) % 360;
+                    eulerRot.y = ((initialPosR.x - currentPos.x) * 100) % 360;
+                    eulerRot.x = -((initialPosR.y - currentPos.y) * 100) % 360;
+                    additionalRotation = Quaternion.Euler(eulerRot);
+                }
+                else{
+                    Quaternion currentRot = currentPose.rot;
+                    additionalRotation = currentRot * Quaternion.Inverse(initialRotR);//Quaternion.Euler(eulerRot);
+                }
+                // This damping of rotation is broken for one axis, for some reason
+                //Vector3 axis;
+                //float angle;
+                //additionalRotation.ToAngleAxis(out angle, out axis);
+                //angle = angle * m_rotationScaling;
+                //additionalRotation = Quaternion.AngleAxis(angle, axis);
                 transform.rotation = additionalRotation * initialRot;
                 latestRot = transform.rotation;
             } 
@@ -155,6 +173,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
         mode = "rotate";
         initialPosR = VivePose.GetPoseEx(HandRole.RightHand, origin).pos;
         initialPosL = VivePose.GetPoseEx(HandRole.LeftHand, origin).pos;
+        initialRotR = VivePose.GetPoseEx(HandRole.RightHand, origin).rot;
         initialRot = transform.rotation;
         
         //Take PUN ownership if necessary
