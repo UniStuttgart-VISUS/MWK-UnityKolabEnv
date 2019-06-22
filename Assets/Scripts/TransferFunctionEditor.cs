@@ -100,7 +100,7 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
     {
         if (hovers.Add(eventData) && hovers.Count == 1)
         {
-            Debug.Log("Bar Hover");
+            //Debug.Log("Bar Hover");
         }
     }
     public void OnPointerExit(PointerEventData eventData)
