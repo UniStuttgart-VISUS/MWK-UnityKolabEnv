@@ -181,10 +181,12 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
     public void startRenderingProcess(string relativeWorkspaceFilePath)
     {
         if (!relativeWorkspaceFilePath.EndsWith("fbx"))
-        {           
-            string myWorkspaceDir = EnvConstants.WorkspacesPath;///.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
-            string filename = myWorkspaceDir + relativeWorkspaceFilePath;
+        {
+            OwnershipRequired(true);
+            string myWorkspaceDir = EnvConstants.WorkspacesPath.TrimEnd(new char[] { '\\' }); // remove trailing backslash from workspace path
+            string filename = myWorkspaceDir + "\\" + relativeWorkspaceFilePath;
 
+            Debug.Log("Loading TF from "+filename);
             TransferFunction loadedTf = EnvConstants.externalRenderers.Find(renderer => renderer.isOwnedFiletype(filename)).loadTransferFunction(filename);
             Debug.Log(loadedTf.json());
             PopulateFromTransferFunction(loadedTf);            

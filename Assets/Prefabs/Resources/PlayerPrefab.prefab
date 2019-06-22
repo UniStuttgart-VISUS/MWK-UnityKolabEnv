@@ -467,7 +467,7 @@ TextMesh:
 
 '
   m_OffsetZ: 0
-  m_CharacterSize: 0.04
+  m_CharacterSize: 0.02
   m_LineSpacing: 1
   m_Anchor: 1
   m_Alignment: 0

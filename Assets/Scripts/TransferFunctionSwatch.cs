@@ -33,7 +33,6 @@ public class TransferFunctionSwatch : MonoBehaviour
     void Start()
     {
         mat = transform.Find("eis").Find("Sphere001").gameObject.GetComponent<MeshRenderer>().material;
-        Debug.Log("COLOR:Start");
     }
 
     // Update is called once per frame
