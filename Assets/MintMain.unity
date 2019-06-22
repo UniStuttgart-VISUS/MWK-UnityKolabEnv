@@ -476,7 +476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &113781421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,6 +824,7 @@ MonoBehaviour:
   VrCameraPose: {fileID: 1187483855}
   predictionValue: 0.03
   offsetSource: {fileID: 89029423}
+  usePrediction: 0
 --- !u!114 &256354267
 MonoBehaviour:
   m_ObjectHideFlags: 0
