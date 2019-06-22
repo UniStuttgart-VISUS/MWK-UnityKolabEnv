@@ -7,6 +7,7 @@ using NetMQ.Sockets;
 using Photon.Pun;
 using UnityEngine;
 using Valve.Newtonsoft.Json;
+using interop;
 
 public class CuttingPlanePointSender : MonoBehaviour, IJsonStringSendable {
 
@@ -34,6 +35,7 @@ public class CuttingPlanePointSender : MonoBehaviour, IJsonStringSendable {
     public string jsonString()
     {
         Vector3 currentVec = -objectToCut.transform.InverseTransformPoint(transform.position);
+        currentVec.y = -currentVec.y;
         lastSentValue = currentVec;
         return "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
     }
