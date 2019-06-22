@@ -34,7 +34,6 @@ public class CuttingPlaneStateSender : MonoBehaviour, IJsonStringSendable {
     {
         bool currentState = objectToCut.GetComponent<Collider>().bounds.Contains(this.transform.position);
         lastSentValue = currentState;
-        Debug.Log(lastSentValue);
         return "{\"value\":\""+currentState.ToString().ToLower()+ "\" }";
     }
 
