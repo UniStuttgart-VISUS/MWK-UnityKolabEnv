@@ -18,6 +18,7 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
     public GameObject VrCameraPose = null;
     public float predictionValue = 0.0f;
     public GameObject offsetSource;
+    public bool usePrediction = false;
 
     private GameObject relativeCameraPositionL = null;
     private GameObject relativeCameraPositionR = null;
@@ -105,16 +106,27 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
 
         // TODO opt 1: position relative to VR origin
         // => solved via parent GameObject?
-        //Vector3 eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye) ; //- vrOrigin.transform.position;
-        //Vector3 eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye); //- vrOrigin.transform.position;
-        OpenVR.System.GetDeviceToAbsoluteTrackingPose(ETrackingUniverseOrigin.TrackingUniverseStanding, predictionValue, _poses);
-        SteamVR_Utils.RigidTransform leftT = new SteamVR_Utils.RigidTransform(OpenVR.System.GetEyeToHeadTransform(EVREye.Eye_Left));
-        SteamVR_Utils.RigidTransform rightT = new SteamVR_Utils.RigidTransform(OpenVR.System.GetEyeToHeadTransform(EVREye.Eye_Right));
-        SteamVR_Utils.RigidTransform headT = new SteamVR_Utils.RigidTransform(_poses[0].mDeviceToAbsoluteTracking);
-        SteamVR_Utils.RigidTransform leftPos = leftT * headT;
-        SteamVR_Utils.RigidTransform rightPos = rightT * headT;
-        Vector3 eyePosL = leftPos.pos;
-        Vector3 eyePosR = rightPos.pos;
+        Vector3 eyePosL;
+        Vector3 eyePosR;
+        if (usePrediction)
+        {
+            OpenVR.System.GetDeviceToAbsoluteTrackingPose(ETrackingUniverseOrigin.TrackingUniverseStanding,
+                predictionValue, _poses);
+            SteamVR_Utils.RigidTransform leftT =
+                new SteamVR_Utils.RigidTransform(OpenVR.System.GetEyeToHeadTransform(EVREye.Eye_Left));
+            SteamVR_Utils.RigidTransform rightT =
+                new SteamVR_Utils.RigidTransform(OpenVR.System.GetEyeToHeadTransform(EVREye.Eye_Right));
+            SteamVR_Utils.RigidTransform headT = new SteamVR_Utils.RigidTransform(_poses[0].mDeviceToAbsoluteTracking);
+            SteamVR_Utils.RigidTransform leftPos = leftT * headT;
+            SteamVR_Utils.RigidTransform rightPos = rightT * headT;
+           eyePosL = leftPos.pos;
+           eyePosR = rightPos.pos;
+        }
+        else
+        {
+            eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye); //- vrOrigin.transform.position;
+            eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye); //- vrOrigin.transform.position;
+        }
 
         // TODO opt 2: rotate camera around dataset, if dataset can not be rotated in renderer
         // => additional Rotation to be added to dataset GameObject in Unity beforehand?
