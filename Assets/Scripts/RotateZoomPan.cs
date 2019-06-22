@@ -87,7 +87,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             if (mode == "zoom")
             {
                 float zoomRaw = (VivePose.GetPoseEx(HandRole.LeftHand, origin).pos - VivePose.GetPoseEx(HandRole.RightHand, origin).pos).magnitude - (initialPosL - initialPosR).magnitude;
-                float scaleVal = initialZoom + zoomRaw;
+                float scaleVal = Mathf.Clamp(initialZoom + zoomRaw,0.1f,3.0f);
                 transform.localScale = new Vector3(scaleVal, scaleVal, scaleVal);
                 latestZoom = scaleVal;
             } 
@@ -143,7 +143,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             this.transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 2);
             this.transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(latestZoom, latestZoom, latestZoom), Time.deltaTime * 2);
             this.transform.position = Vector3.Lerp(transform.position, latestPan, Time.deltaTime * 2);
-            this.internalPan.transform.localPosition = Vector3.Lerp(transform.position, latestPan, Time.deltaTime * 2);
+            if(useInternalPan) this.internalPan.transform.localPosition = Vector3.Lerp(transform.position, latestPan, Time.deltaTime * 2);
         }
     }
 
