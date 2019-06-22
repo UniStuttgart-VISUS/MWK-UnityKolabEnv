@@ -21,7 +21,7 @@ public class PlayerPosFromVRCamera : MonoBehaviourPun
             }
             else
             {
-                vrCamera = GameObject.Find("CamLeft");
+                vrCamera = GameObject.Find("CamLeft (eye)");
             }
 
             Debug.LogWarning("Using found main camera as VR camera!");
