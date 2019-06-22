@@ -969,7 +969,10 @@ MonoBehaviour:
   initialPosL: {x: 0, y: 0, z: 0}
   useInternalPan: 0
   initialPosR: {x: 0, y: 0, z: 0}
+  initialRotR: {x: 0, y: 0, z: 0, w: 0}
   internalPan: {fileID: 89029423}
+  m_eulerAngles: 0
+  m_rotationScaling: 0.8
   statusMsg: {fileID: 1031375424}
 --- !u!1 &263757388
 GameObject:
@@ -3211,7 +3214,10 @@ MonoBehaviour:
   initialPosL: {x: 0, y: 0, z: 0}
   useInternalPan: 1
   initialPosR: {x: 0, y: 0, z: 0}
+  initialRotR: {x: 0, y: 0, z: 0, w: 0}
   internalPan: {fileID: 0}
+  m_eulerAngles: 0
+  m_rotationScaling: 0.8
   statusMsg: {fileID: 0}
 --- !u!114 &1235639980
 MonoBehaviour:
@@ -3767,7 +3773,10 @@ MonoBehaviour:
   initialPosL: {x: 0, y: 0, z: 0}
   useInternalPan: 1
   initialPosR: {x: 0, y: 0, z: 0}
+  initialRotR: {x: 0, y: 0, z: 0, w: 0}
   internalPan: {fileID: 0}
+  m_eulerAngles: 0
+  m_rotationScaling: 0.8
   statusMsg: {fileID: 1031375424}
 --- !u!114 &1585724793
 MonoBehaviour:
@@ -3788,8 +3797,8 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 0}
-  viewIdField: 1
-  InstantiationId: 1
+  viewIdField: 19
+  InstantiationId: 19
   isRuntimeInstantiated: 0
 --- !u!65 &1585724794
 BoxCollider:
@@ -5108,7 +5117,10 @@ MonoBehaviour:
   initialPosL: {x: 0, y: 0, z: 0}
   useInternalPan: 0
   initialPosR: {x: 0, y: 0, z: 0}
+  initialRotR: {x: 0, y: 0, z: 0, w: 0}
   internalPan: {fileID: 89029423}
+  m_eulerAngles: 0
+  m_rotationScaling: 0.8
   statusMsg: {fileID: 0}
 --- !u!114 &1827812191
 MonoBehaviour:
