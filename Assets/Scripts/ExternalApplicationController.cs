@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Xml;
 using interop;
 using UnityEngine.UIElements;
-using UnityEngine.WSA;
 using Debug = UnityEngine.Debug;
 
 public interface IRenderingProcess
