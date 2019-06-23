@@ -67,8 +67,9 @@ public class InviwoRenderingProcess : IRenderingProcess
         var fileContents = File.ReadAllText(filename);
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load (new StringReader(fileContents));
-        string xmlPathPattern = ".//TransferFunction";
+        string xmlPathPattern = ".//Processor[@type='org.inviwo.VolumeRaycaster']//TransferFunction";
         XmlNode tfNode  = xmlDoc.SelectSingleNode(xmlPathPattern);
+        Debug.Log(tfNode.ToString());
         TransferFunction tf = new TransferFunction();
         tf.points = new List<TfPoint>();
                
@@ -77,7 +78,9 @@ public class InviwoRenderingProcess : IRenderingProcess
             try
             {
                 //Create tf
-                tf.type = Int32.Parse(tfNode.SelectSingleNode("type/@content").Value);
+                if (tfNode.SelectSingleNode("type/@content") != null)
+                    tf.type = Int32.Parse(tfNode.SelectSingleNode("type/@content").Value);
+                else tf.type = 0;
                 tf.maskMax = float.Parse(tfNode.SelectSingleNode("maskMax/@content").Value);
                 tf.maskMin = float.Parse(tfNode.SelectSingleNode("maskMin/@content").Value);
                 XmlNodeList points = tfNode.SelectSingleNode("Points").ChildNodes;
@@ -92,9 +95,9 @@ public class InviwoRenderingProcess : IRenderingProcess
                     tf.points.Add(tfp);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Debug.LogWarning("TF parsing failed! Dump: "+tfNode.InnerText);
+                Debug.LogWarning("TF parsing failed! Dump: "+e.Message+tfNode.InnerXml);
             }
         }
         return tf;

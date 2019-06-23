@@ -30,11 +30,6 @@ public class TransferFunctionMask : MonoBehaviour, IPointerEnterHandler
     {
 
     }
-
-    void OnMouseUp()
-    {
-        
-    }
     
     public void OnPointerEnter(PointerEventData eventData)
     {

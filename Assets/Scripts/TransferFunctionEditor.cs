@@ -29,10 +29,10 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
         PhotonPeer.RegisterType(typeof(TransferFunction), (byte)250, TransferFunction.Serialize, TransferFunction.Deserialize);
         
         //Init default transfer function
-        currentTransferFunction = new TransferFunction() {type = 0, maskMax = 0.6f, maskMin = 0.4f, points = new List<TfPoint>()};
-        currentTransferFunction.points.Add(new TfPoint(){pos = 0.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.1f)});
-        currentTransferFunction.points.Add(new TfPoint(){pos = 1.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.8f)});
-        PopulateFromTransferFunction(currentTransferFunction);
+        TransferFunction initialTransferFunction = new TransferFunction() {type = 0, maskMax = 0.6f, maskMin = 0.4f, points = new List<TfPoint>()};
+        initialTransferFunction .points.Add(new TfPoint(){pos = 0.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.1f)});
+        initialTransferFunction .points.Add(new TfPoint(){pos = 1.0f,rgba = new Vector4(0.1f,0.1f,0.1f,0.8f)});
+        if(currentTransferFunction.Equals(default(TransferFunction))) PopulateFromTransferFunction(initialTransferFunction);
     }
 
     // Update is called once per frame
@@ -69,6 +69,7 @@ public class TransferFunctionEditor : MonoBehaviourPun, IJsonStringSendable, IPo
     
     void PopulateFromTransferFunction(TransferFunction tf)
     {
+        Debug.Log("Populate...");
         var pContainer = transform.Find("Points");
         //Clear old
         foreach (Transform child in pContainer.transform)
