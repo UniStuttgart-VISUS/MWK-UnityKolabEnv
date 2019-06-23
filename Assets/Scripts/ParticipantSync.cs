@@ -10,6 +10,7 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
 using Valve.Newtonsoft.Json;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -144,7 +145,16 @@ public class ParticipantSync : MonoBehaviourPun, IPunObservable
         }
         
         //Show audio activity
-        float level = (float)photonView.Owner.CustomProperties["audioLevel"];
+        float level = 0.0f;
+        try
+        {
+            level = (float) photonView.Owner.CustomProperties["audioLevel"];
+        }
+        catch
+        {
+            
+        }
+        
         if (level > 0.3f)
         {
             targetColor = new Color(1.0f,0.0f,0.1f,0.7f);
