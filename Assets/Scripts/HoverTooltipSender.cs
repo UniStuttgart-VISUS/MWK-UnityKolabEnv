@@ -26,7 +26,7 @@ public class HoverTooltipSender : MonoBehaviour, IPointerEnterHandler, IPointerE
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Send tooltip message: " + message);
-        EnvConstants.instance.showTooltip(message);
+        EnvConstants.instance.showTooltip(message, ToolTipLevel.HELP);
     }
 
     public void OnPointerExit(PointerEventData eventData)

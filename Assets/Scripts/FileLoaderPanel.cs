@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -119,7 +120,7 @@ public class FileLoaderPanel : MonoBehaviour
     }
 
     [PunRPC]
-    public void startRenderingProcess(string relativeWorkspaceFilePath)
+    public void startRenderingProcess(string relativeWorkspaceFilePath, PhotonMessageInfo info)
     {
         if (relativeWorkspaceFilePath.EndsWith("fbx"))
         {
@@ -156,6 +157,12 @@ public class FileLoaderPanel : MonoBehaviour
             ExternalApplicationController.Instance.addRendererInstance(renderProcess);
 
             GameObject.Find("MintDataset").GetComponent<BoundingBoxCornersJsonReceiver>().reset();
+        }
+        
+        //UI Notification
+        if (!info.Sender.IsLocal)
+        {
+            EnvConstants.instance.showTooltip(info.Sender.NickName+" opened file \""+relativeWorkspaceFilePath.Split("\\"[0]).LastOrDefault()+"\"", ToolTipLevel.INFO);
         }
     }
     

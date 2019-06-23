@@ -148,9 +148,9 @@ public class EnvConstants : MonoBehaviour
         }
     }
 
-    public void showTooltip(string message)
+    public void showTooltip(string message, ToolTipLevel level = ToolTipLevel.HELP)
     {
-        toolTipHandler.GetComponent<ToolTipManager>().ShowMessage(message);
+        toolTipHandler.GetComponent<ToolTipManager>().ShowMessage(message, level);
     }
 
     public void clearTooltip()

@@ -92,7 +92,7 @@ public class RotateZoomPan : MonoBehaviourPun, IPunObservable
             if (mode == "zoom")
             {
                 float zoomRaw = (VivePose.GetPoseEx(HandRole.LeftHand, origin).pos - VivePose.GetPoseEx(HandRole.RightHand, origin).pos).magnitude - (initialPosL - initialPosR).magnitude;
-                float scaleVal = Mathf.Clamp(initialZoom + zoomRaw,0.1f,3.0f);
+                float scaleVal = Mathf.Clamp(initialZoom + zoomRaw,0.05f,6.0f);
                 transform.localScale = new Vector3(scaleVal, scaleVal, scaleVal);
                 latestZoom = scaleVal;
             } 

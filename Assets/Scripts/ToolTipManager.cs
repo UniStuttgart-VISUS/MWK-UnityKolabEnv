@@ -9,9 +9,12 @@ public class ToolTipManager : MonoBehaviour
 {
     CanvasGroup cGroup;
     Text uiText;
+    private Transform typePanels;
     float currentAlpha = 1.0f;
     string currentMessage = "Test Message";
     bool notificationsEnabled = true;
+    private ToolTipLevel currentLevel = ToolTipLevel.HELP;
+    
     float messageTimeout = 3.0f;
     DateTime lastShow;
 
@@ -20,12 +23,13 @@ public class ToolTipManager : MonoBehaviour
     {
         cGroup = transform.Find("TTCanvas").GetComponent<CanvasGroup>();
         uiText = transform.Find("TTCanvas").Find("messagePanel").Find("Text").GetComponent<Text>();
+        typePanels = transform.Find("TTCanvas").Find("typePanels");
 
         //Register self as tooltip handler
         EnvConstants.instance.toolTipHandler = transform.gameObject;
 
         //Initial unshow
-        //ClearMessage(true);
+        ClearMessage(true);
     }
 
     // Update is called once per frame
@@ -33,23 +37,26 @@ public class ToolTipManager : MonoBehaviour
     {
         if (ViveInput.GetPressDownEx(HandRole.LeftHand, ControllerButton.Grip))
         {
-            notificationsEnabled = !notificationsEnabled;
-            if(!notificationsEnabled)
-            {
-                currentAlpha = 0.0f;
-            }
+            //Switch help off
+            if (currentLevel == ToolTipLevel.HELP) currentLevel = ToolTipLevel.INFO;
+            else currentLevel = ToolTipLevel.HELP;
         }
         ClearMessageFromTimeout();
-        cGroup.alpha = Mathf.Lerp(cGroup.alpha, currentAlpha, Time.deltaTime * 2);        
+        float fadeMultiplier;
+        if (cGroup.alpha > currentAlpha) fadeMultiplier = 2.0f;
+        else fadeMultiplier = 8.0f;
+        cGroup.alpha = Mathf.Lerp(cGroup.alpha, currentAlpha, Time.deltaTime * fadeMultiplier);        
     }
 
-    public void ShowMessage(string message)
+    public void ShowMessage(string message, ToolTipLevel level)
     {
-        if (notificationsEnabled)
+        if (notificationsEnabled && level >= currentLevel)
         {
             Debug.Log("Show tooltip message: " + message);
             currentMessage = message;
+            currentLevel = level;
             uiText.text = currentMessage;
+            SetTypeIcon(level);
             currentAlpha = 1.0f;
             lastShow = DateTime.Now;
         }
@@ -72,4 +79,28 @@ public class ToolTipManager : MonoBehaviour
             currentAlpha = 0.0f;
         }
     }
+
+    private void SetTypeIcon(ToolTipLevel level)
+    {
+        foreach (Transform typePanel in typePanels)
+        {
+            GameObject go = typePanel.gameObject;
+            if (go.name.EndsWith(level.ToString()))
+            {
+                go.SetActive(true);
+            }
+            else
+            {
+                go.SetActive(false);
+            }
+        }
+    }
+}
+
+public enum ToolTipLevel
+{
+    HELP = 1,
+    INFO = 2,
+    WARN = 4,
+    ERROR = 8
 }
