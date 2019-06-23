@@ -19,6 +19,7 @@ public class EnvConstants : MonoBehaviour
     public Dictionary<string,string> cmdArgs = new Dictionary<string, string>();
 
     public static List<IRenderingProcess> externalRenderers = new List<IRenderingProcess> { new InviwoRenderingProcess(), new MegaMolRenderingProcess(), new MintRenderingProcess() };
+    public GameObject toolTipHandler;
 
     private void Start()
     {
@@ -147,8 +148,19 @@ public class EnvConstants : MonoBehaviour
         }
     }
 
+    public void showTooltip(string message)
+    {
+        toolTipHandler.GetComponent<ToolTipManager>().ShowMessage(message);
+    }
+
+    public void clearTooltip()
+    {
+        toolTipHandler.GetComponent<ToolTipManager>().ClearMessage();
+    }
+
+
     //Here comes our actual env values (both prop and field)
-    
+
     public static bool UseInviwoPositioning
     {
         get { return instance._useInviwoPositioning; }
