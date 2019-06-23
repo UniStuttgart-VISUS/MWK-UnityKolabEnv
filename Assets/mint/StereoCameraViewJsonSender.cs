@@ -19,6 +19,8 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
     public float predictionValue = 0.0f;
     public GameObject offsetSource;
     public bool usePrediction = false;
+    public bool useSmoothing = false;
+    public float rotSmooth = 1.0f;
 
     private GameObject relativeCameraPositionL = null;
     private GameObject relativeCameraPositionR = null;
@@ -124,8 +126,16 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
         }
         else
         {
-            eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye); //- vrOrigin.transform.position;
-            eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye); //- vrOrigin.transform.position;
+            if (useSmoothing)
+            {
+                eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye).Round(3); //- vrOrigin.transform.position;
+                eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye).Round(3); //- vrOrigin.transform.position;
+            }
+            else
+            {
+                eyePosL = InputTracking.GetLocalPosition(XRNode.LeftEye); //- vrOrigin.transform.position;
+                eyePosR = InputTracking.GetLocalPosition(XRNode.RightEye); //- vrOrigin.transform.position;
+            }
         }
 
         // TODO opt 2: rotate camera around dataset, if dataset can not be rotated in renderer
@@ -140,9 +150,17 @@ public class StereoCameraViewJsonSender : MonoBehaviour, IJsonStringSendable {
                 // InputTracking only gives us 'local coordinates' relative to parent object
                 // get global position and orientation of left/right eye XR nodes
                 vrEyePositionL.transform.localPosition = eyePosL;
-                vrEyePositionL.transform.localRotation = eyeRotL;
                 vrEyePositionR.transform.localPosition = eyePosR;
-                vrEyePositionR.transform.localRotation = eyeRotR;
+                if (useSmoothing)
+                {
+                    vrEyePositionL.transform.localRotation = Quaternion.Lerp(vrEyePositionL.transform.localRotation,eyeRotL, rotSmooth);
+                    vrEyePositionR.transform.localRotation = Quaternion.Lerp(vrEyePositionR.transform.localRotation,eyeRotR, rotSmooth);
+                }
+                else
+                {
+                    vrEyePositionL.transform.localRotation = eyeRotL;
+                    vrEyePositionR.transform.localRotation = eyeRotR;
+                }
 
                 // get global pose of node
                 eyePosL = vrEyePositionL.transform.position - offsetSource.transform.position;

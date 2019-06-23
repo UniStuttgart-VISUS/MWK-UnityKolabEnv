@@ -5,9 +5,11 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using interop;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 using Debug = UnityEngine.Debug;
 
 public interface IRenderingProcess
@@ -72,20 +74,27 @@ public class InviwoRenderingProcess : IRenderingProcess
                
         if (tfNode != null)
         {
-            //Create tf
-            tf.type = Int32.Parse(tfNode.SelectSingleNode("type/@content").Value);
-            tf.maskMax = float.Parse(tfNode.SelectSingleNode("maskMax/@content").Value);
-            tf.maskMin = float.Parse(tfNode.SelectSingleNode("maskMin/@content").Value);
-            XmlNodeList points = tfNode.SelectSingleNode("Points").ChildNodes;
-            foreach (XmlNode p in points)
-            {   
-                TfPoint tfp = new TfPoint();
-                tfp.pos = float.Parse(p.SelectSingleNode("pos/@content").Value, CultureInfo.InvariantCulture);
-                tfp.rgba.x = float.Parse(p.SelectSingleNode("rgba/@x").Value, CultureInfo.InvariantCulture);
-                tfp.rgba.y = float.Parse(p.SelectSingleNode("rgba/@y").Value, CultureInfo.InvariantCulture);
-                tfp.rgba.z = float.Parse(p.SelectSingleNode("rgba/@z").Value, CultureInfo.InvariantCulture);
-                tfp.rgba.w = float.Parse(p.SelectSingleNode("rgba/@w").Value, CultureInfo.InvariantCulture);
-                tf.points.Add(tfp);
+            try
+            {
+                //Create tf
+                tf.type = Int32.Parse(tfNode.SelectSingleNode("type/@content").Value);
+                tf.maskMax = float.Parse(tfNode.SelectSingleNode("maskMax/@content").Value);
+                tf.maskMin = float.Parse(tfNode.SelectSingleNode("maskMin/@content").Value);
+                XmlNodeList points = tfNode.SelectSingleNode("Points").ChildNodes;
+                foreach (XmlNode p in points)
+                {
+                    TfPoint tfp = new TfPoint();
+                    tfp.pos = float.Parse(p.SelectSingleNode("pos/@content").Value, CultureInfo.InvariantCulture);
+                    tfp.rgba.x = float.Parse(p.SelectSingleNode("rgba/@x").Value, CultureInfo.InvariantCulture);
+                    tfp.rgba.y = float.Parse(p.SelectSingleNode("rgba/@y").Value, CultureInfo.InvariantCulture);
+                    tfp.rgba.z = float.Parse(p.SelectSingleNode("rgba/@z").Value, CultureInfo.InvariantCulture);
+                    tfp.rgba.w = float.Parse(p.SelectSingleNode("rgba/@w").Value, CultureInfo.InvariantCulture);
+                    tf.points.Add(tfp);
+                }
+            }
+            catch (Exception)
+            {
+                Debug.LogWarning("TF parsing failed! Dump: "+tfNode.InnerText);
             }
         }
         return tf;
@@ -128,7 +137,9 @@ public class MegaMolRenderingProcess : IRenderingProcess
     public TransferFunction loadTransferFunction(string filename)
     {
         Debug.LogWarning("No loading for Megamol tfs");
-        return new TransferFunction();
+        TransferFunction tf = new TransferFunction();
+        tf.points = new List<TfPoint>();
+        return tf;
     }
 
     public Process startRendering(string filename)

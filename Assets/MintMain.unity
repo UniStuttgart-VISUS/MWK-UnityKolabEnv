@@ -727,6 +727,8 @@ MonoBehaviour:
   predictionValue: 0.03
   offsetSource: {fileID: 89029423}
   usePrediction: 0
+  useSmoothing: 1
+  rotSmooth: 0.98
 --- !u!114 &256354267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2921,7 +2923,7 @@ MonoBehaviour:
   Name: CameraProjection
   useHmdParams: 1
   adaptiveResolution: 0
-  resolutionDivisor: 1
+  resolutionDivisor: 2
 --- !u!20 &1187483860 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2071970, guid: cb3370c18187bb444b240cfb08dcc02f,
