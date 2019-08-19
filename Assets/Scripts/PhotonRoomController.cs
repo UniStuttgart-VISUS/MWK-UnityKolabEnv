@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using HTC.UnityPlugin.Vive;
+using Photon.Realtime;
 
 public class PhotonRoomController : MonoBehaviourPunCallbacks
 {
@@ -26,15 +27,25 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
-        {
-            PhotonNetwork.LeaveRoom();
-        }
+//        if (ViveInput.GetPressDownEx(HandRole.RightHand, ControllerButton.Grip))
+//        {
+//            PhotonNetwork.LeaveRoom();
+//        }
     }
     
     public override void OnLeftRoom()
     {
         //We have left the Room, return back to the GameLobby
         UnityEngine.SceneManagement.SceneManager.LoadScene("Workspaces");
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        EnvConstants.instance.showTooltip(newPlayer.NickName+" entered room", ToolTipLevel.INFO);
+    }
+    
+    public override void OnPlayerLeftRoom(Player gonePlayer)
+    {
+        EnvConstants.instance.showTooltip(gonePlayer.NickName+" left room",ToolTipLevel.INFO);
     }
 }

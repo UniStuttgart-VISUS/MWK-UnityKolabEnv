@@ -1,0 +1,191 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using NetMQ;
+using NetMQ.Sockets;
+using System; // TimeSpan
+using System.Linq; // functional ops
+
+using System.Collections.Concurrent;
+using System.ComponentModel;
+
+namespace interop
+{
+
+public class ZMQReceiver : MonoBehaviour {
+
+    public string m_address = "tcp://localhost:12346"; // user may set address string where to connect via ZMQ
+    public bool m_logging = false;
+
+    private void log(string msg)
+    {
+        if(m_logging)
+            Debug.Log("ZMQReceiver: " + msg);
+    }
+
+    private SubscriberSocket m_socket = null; // ZMQ Socket
+
+    private class ReceivePacket
+    {
+        public string objectName;
+        public string subscriptionName;
+        public Action<string> messageCallback;
+        
+        public ReceivePacket(string objName, string subscription, Action<string> callback)
+        {
+            objectName = objName;
+            subscriptionName = subscription;
+            messageCallback = callback;
+        }
+    }
+    private List<ReceivePacket> m_receivePackets = new List<ReceivePacket>(); // list of subscribed receivers
+    private ConcurrentQueue<ReceivePacket> m_pendingReceivePackets = new ConcurrentQueue<ReceivePacket>(); // for dynamically added receivers
+    private ConcurrentDictionary<string, string> m_receivedValues = new ConcurrentDictionary<string, string>(); // address name -> received value
+
+    private static BackgroundWorker m_workerThread = new BackgroundWorker();
+
+	void Start () {
+        // get all IJsonStringReceivable scripts which are attached to objects in the scene upon startup (finds static receivers)
+        List<(IJsonStringReceivable,string)> m_recvsAndNames = GameObject.FindObjectsOfType<GameObject>() // gelt all GameObjects in scene
+            .Where(o => o.GetComponents<IJsonStringReceivable>().Length > 0) // take only objects which have IJsonStringReceivable component
+            .Select(o => // for each object, make tuple (IJsonStringReceivable[] convertibles, string objectName)
+                (o.GetComponents<IJsonStringReceivable>(), // take IJsonStringReceivable[] from all IJsonStringReceivable in the components
+                Enumerable.Repeat(o.name, o.GetComponents<IJsonStringReceivable>().Length).ToList()) ) // list with name of object as entries
+            .Select(o => o.Item1.Zip(o.Item2, (conv, name) => (conv, name)).ToList()) // merge the two seperate Convertible and name arrays to get one array of (IJsonStringReceivable, fatherObjectName)[]
+            .Aggregate(new List<(IJsonStringReceivable,string)>(), (current, item) =>  current.Concat(item).ToList()); // merge the multiple arrays into one (IJsonStringReceivable,string)[]
+        // => in the end, we collected into an array all IJsonStringReceivable scripts in the scene with the names of the objects they are attached to
+
+        foreach(var j in m_recvsAndNames)
+        {
+            string convName = j.Item1.nameString();
+            var objectName = j.Item2;
+            var obj = j.Item1;
+
+            this.addReceiver(objectName, obj);
+            Debug.Log("ZMQReceiver found Receivable '"+ convName +"' in Object '" + objectName + "'");
+        }
+        Debug.Log("ZMQReceiver has " + m_recvsAndNames.Count + " receivables");
+
+        start();
+    }
+
+    private void receiveMessagesAsync(object sender, DoWorkEventArgs e)
+    {
+        Debug.Log("ZMQReceiver starting async worker");
+
+        // need to create ZMQ socket in thread that is going to use it
+        if(m_socket == null)
+        {
+            AsyncIO.ForceDotNet.Force();
+            m_socket = new SubscriberSocket();
+            m_socket.Connect(m_address);
+            Debug.Log("ZMQReceiver socket init ok");
+        }
+
+        const int messagePartsCount = 2;
+        while(!m_workerThread.CancellationPending)
+        {
+            while(m_pendingReceivePackets.Count > 0)
+            {
+                ReceivePacket recv = null;
+                if(m_pendingReceivePackets.TryDequeue(out recv))
+                {
+                    if (recv == null)
+                        continue;
+
+                    if(recv.messageCallback == null)
+                    {
+                        Debug.LogError("ZMQReceiver: Object '" + recv.objectName + "' registered null Action<> callback. Ignoring this subscription.");
+                        continue;
+                    }
+
+                    //recv.objectName;
+                    m_socket.Subscribe(recv.subscriptionName);
+                    m_receivePackets.Add(recv);
+                }
+            }
+
+            NetMQMessage multipartMessage = new NetMQMessage(messagePartsCount);
+            var hasMessage = m_socket.TryReceiveMultipartMessage(TimeSpan.FromMilliseconds(100), ref multipartMessage, messagePartsCount);
+
+            if (multipartMessage.IsEmpty)
+            {
+                log("ZMQReceiver: failed to receive message");
+                continue;
+            }
+
+            string address = multipartMessage[0].ConvertToString();
+            string message = multipartMessage[1].ConvertToString();
+
+            m_receivedValues.AddOrUpdate(address, message, (key, oldValue) => message);
+            log("ZMQReceiver: " + address + " / " + message);
+        }
+
+        m_socket.Dispose();
+        NetMQConfig.Cleanup(false);
+        e.Cancel = true;
+        m_socket = null;
+        Debug.Log("ZMQReceiver: async thread finished");
+    }
+
+    public string getValue(string name)
+    {
+        string value = null;
+
+        if(m_receivedValues.TryGetValue(name, out value))
+            return value;
+
+        return null;
+    }
+
+    void start()
+    {
+        if(!m_workerThread.IsBusy)
+        {
+            m_workerThread.DoWork += receiveMessagesAsync;
+            m_workerThread.WorkerSupportsCancellation = true;
+            m_workerThread.RunWorkerAsync();
+        }
+    }
+
+    void stop()
+    {
+        if(m_workerThread.IsBusy)
+        {
+            m_workerThread.CancelAsync();
+        }
+    }
+
+	//void PreUpdate () { // since Unity 2019.1.1
+	void Update () {
+        foreach(var rp in m_receivePackets)
+        {
+            string value = null;
+
+            if(m_receivedValues.TryGetValue(rp.subscriptionName, out value))
+            {
+                rp.messageCallback(value);
+            }
+        }
+	}
+
+    public void addReceiver(string objName, string subscription, Action<string> callback)
+    {
+        m_pendingReceivePackets.Enqueue(new ReceivePacket(objName, subscription, callback));
+    }
+
+    public void addReceiver(string objName, IJsonStringReceivable recv)
+    {
+        this.addReceiver(objName, recv.nameString(), new Action<string>(recv.setJsonString));
+    }
+
+    private void OnDisable()
+    {
+        stop();
+        System.Threading.Thread.Sleep(1000);
+        Debug.Log("ZMQReceiver: stopped");
+    }
+}
+
+} // namespace

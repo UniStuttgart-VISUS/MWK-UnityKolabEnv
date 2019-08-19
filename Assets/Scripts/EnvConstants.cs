@@ -18,6 +18,9 @@ public class EnvConstants : MonoBehaviour
     private static EnvConstants e_Instance = null;
     public Dictionary<string,string> cmdArgs = new Dictionary<string, string>();
 
+    public static List<IRenderingProcess> externalRenderers = new List<IRenderingProcess> { new InviwoRenderingProcess(), new MegaMolRenderingProcess(), new MintRenderingProcess() };
+    public GameObject toolTipHandler;
+
     private void Start()
     {
         //Read from serialized JSON if available
@@ -145,8 +148,19 @@ public class EnvConstants : MonoBehaviour
         }
     }
 
+    public void showTooltip(string message, ToolTipLevel level = ToolTipLevel.HELP)
+    {
+        toolTipHandler.GetComponent<ToolTipManager>().ShowMessage(message, level);
+    }
+
+    public void clearTooltip()
+    {
+        toolTipHandler.GetComponent<ToolTipManager>().ClearMessage();
+    }
+
+
     //Here comes our actual env values (both prop and field)
-    
+
     public static bool UseInviwoPositioning
     {
         get { return instance._useInviwoPositioning; }
@@ -264,7 +278,7 @@ public class EnvConstants : MonoBehaviour
     [SerializeField]
     private bool _autoJoinFirstRoomOnLoad = false;
     [SerializeField]
-    private bool _externalRendererMode = false;
+    private bool _externalRendererMode = true;
     [SerializeField]
     private bool _desktopMode = true;
     [SerializeField]
