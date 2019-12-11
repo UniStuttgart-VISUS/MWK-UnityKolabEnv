@@ -12,7 +12,8 @@ using interop;
 public class CuttingPlanePointSender : MonoBehaviour, IJsonStringSendable {
 
     public string Name = "CuttingPlanePoint";
-    private Vector3 lastSentValue = new Vector4();
+    private Vector3 lastSentValue = new Vector3(0.0f, 0.0f, 0.0f);
+    private Vector3 currentValue = new Vector3(0.0f, 0.0f, 1.0f);
     private CuttingPlaneStateSender stateSender;
     public GameObject objectToCut;
     
@@ -25,7 +26,9 @@ public class CuttingPlanePointSender : MonoBehaviour, IJsonStringSendable {
     // Update is called once per frame
     void Update()
     {
-       
+        Vector3 currentVec = objectToCut.transform.InverseTransformPoint(transform.position);
+        currentVec = convert.toOpenGL(currentVec);
+        currentValue = currentVec;
     }
     
     public string nameString() {
@@ -34,14 +37,12 @@ public class CuttingPlanePointSender : MonoBehaviour, IJsonStringSendable {
 
     public string jsonString()
     {
-        Vector3 currentVec = -objectToCut.transform.InverseTransformPoint(transform.position);
-        currentVec.y = -currentVec.y;
-        lastSentValue = currentVec;
-        return "{\"value\":"+JsonUtility.ToJson(currentVec)+ " }";
+        lastSentValue = currentValue;
+        return "{\"value\":"+JsonUtility.ToJson(currentValue)+ " }";
     }
 
     public bool hasChanged()
     {
-        return stateSender.lastSentValue;
+        return lastSentValue != currentValue;
     }
 }
