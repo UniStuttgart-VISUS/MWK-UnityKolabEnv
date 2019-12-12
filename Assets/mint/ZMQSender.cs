@@ -51,7 +51,7 @@ public class ZMQSender : MonoBehaviour {
             AsyncIO.ForceDotNet.Force();
             m_socket = new PublisherSocket();
             m_socket.Options.SendHighWatermark = 1000;
-            m_socket.Bind(m_address);
+            m_socket.Connect(m_address);
         }
         
         // get all IJsonStringSendable scripts which are attached to objects in the scene
@@ -127,10 +127,11 @@ public class ZMQSender : MonoBehaviour {
         sendMessage(senderName, new string[] { address, message });
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if(m_socket != null)
         {
+            m_socket.Disconnect(m_address);
             m_socket.Dispose();
             NetMQConfig.Cleanup(false);
             m_socket = null;
