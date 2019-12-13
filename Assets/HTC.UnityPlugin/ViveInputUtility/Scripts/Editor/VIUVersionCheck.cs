@@ -1,5 +1,5 @@
 ﻿//========= Copyright 2016-2019, HTC Corporation. All rights reserved. ===========
-
+#pragma warning disable 0649
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -209,7 +209,7 @@ namespace HTC.UnityPlugin.Vive
                         return;
                     }
 
-                    webReq = new UnityWebRequest(lastestVersionUrl);
+                    webReq = GetUnityWebRequestAndSend(lastestVersionUrl);
                 }
 
                 if (!webReq.isDone)
@@ -324,6 +324,15 @@ namespace HTC.UnityPlugin.Vive
         private static string UtcDateTimeToStr(DateTime utcDateTime)
         {
             return utcDateTime.Ticks.ToString();
+        }
+
+        private static UnityWebRequest GetUnityWebRequestAndSend(string url)
+        {
+            var webReq = new UnityWebRequest(url);
+#if UNITY_5_4_OR_NEWER
+            webReq.SendWebRequest();
+#endif
+            return webReq;
         }
 
         private static string GetWebText(UnityWebRequest wr)
