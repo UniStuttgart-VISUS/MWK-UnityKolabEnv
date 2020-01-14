@@ -98,15 +98,16 @@ public class EnvConstants : MonoBehaviour
         {
             if (e_Instance == null)
             {
-                // FindObjectOfType() returns the first AManager object in the scene.
-                e_Instance = GameObject.Find("_GLOBALS").GetComponent(typeof(EnvConstants)) as EnvConstants;
-            }
- 
-            if (e_Instance == null)
-            {
-                var obj = new GameObject("EmergencyGlobalsManager");
-                Debug.LogWarning("Created default globals store, please add a EnvConstant Script to some GameObject");
-                e_Instance = obj.AddComponent<EnvConstants>();
+                try {
+                    // EnvConstants component should be available in Autostart prefab that gets automatically spawned in all scenes
+                    e_Instance = UnityEngine.Object.FindObjectOfType<EnvConstants>();
+
+                    if(e_Instance == null)
+                        Debug.LogError("No EnvConstants component found. Check Autostart object?");
+                }
+                catch(Exception e){
+                    Debug.Log("" + e);
+                }
             }
  
             return e_Instance;
