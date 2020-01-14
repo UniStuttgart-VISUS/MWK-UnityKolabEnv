@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 using NetMQ;
 using NetMQ.Sockets;
@@ -51,7 +52,7 @@ public class ZMQSender : MonoBehaviour {
             AsyncIO.ForceDotNet.Force();
             m_socket = new PublisherSocket();
             m_socket.Options.SendHighWatermark = 1000;
-            m_socket.Connect(m_address);
+            m_socket.Bind(m_address);
         }
         
         // get all IJsonStringSendable scripts which are attached to objects in the scene
@@ -131,9 +132,8 @@ public class ZMQSender : MonoBehaviour {
     {
         if(m_socket != null)
         {
-            m_socket.Disconnect(m_address);
+            m_socket.Unbind(m_address);
             m_socket.Dispose();
-            NetMQConfig.Cleanup(false);
             m_socket = null;
             m_sendsAndNames = null;
         }
