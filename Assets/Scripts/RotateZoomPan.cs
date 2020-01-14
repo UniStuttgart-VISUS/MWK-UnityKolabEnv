@@ -4,6 +4,7 @@ using Photon.Pun;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(Collider))]
 public class RotateZoomPan : MonoBehaviourPun, IPunObservable
 {
     public bool isGrabbing;
