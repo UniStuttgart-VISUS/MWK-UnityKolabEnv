@@ -13,14 +13,13 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (PhotonNetwork.CurrentRoom == null)
+        if (!PhotonNetwork.InRoom)
         {
-            Debug.Log("Not in the room, returning back to Lobby");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Workspaces");
-            return;
+            Debug.Log("Not in a room, Photon networking in offline mode");
+            PhotonNetwork.OfflineMode = true;
         }
 
-        //We're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+        // Spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
         PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, Quaternion.identity, 0);
     }
 
