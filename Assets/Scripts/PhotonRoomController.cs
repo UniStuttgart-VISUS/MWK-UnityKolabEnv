@@ -17,6 +17,7 @@ public class PhotonRoomController : MonoBehaviourPunCallbacks
         {
             Debug.Log("Not in a room, Photon networking in offline mode");
             PhotonNetwork.OfflineMode = true;
+            PhotonNetwork.JoinRoom("OfflineRoom");
         }
 
         // Spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
