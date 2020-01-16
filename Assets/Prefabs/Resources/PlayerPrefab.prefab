@@ -657,6 +657,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 684}
     m_Modifications:
+    - target: {fileID: 226, guid: da62868f1b7b5174f97683450999cc8a, type: 3}
+      propertyPath: m_Name
+      value: GhostPlayer
+      objectReference: {fileID: 0}
     - target: {fileID: 684, guid: da62868f1b7b5174f97683450999cc8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -700,10 +704,6 @@ PrefabInstance:
     - target: {fileID: 684, guid: da62868f1b7b5174f97683450999cc8a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 226, guid: da62868f1b7b5174f97683450999cc8a, type: 3}
-      propertyPath: m_Name
-      value: GhostPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 1188, guid: da62868f1b7b5174f97683450999cc8a, type: 3}
       propertyPath: m_Enabled
