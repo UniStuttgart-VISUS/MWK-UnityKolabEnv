@@ -766,7 +766,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 67936067}
+      objectReference: {fileID: 1467934755}
     - target: {fileID: 1866818980749997099, guid: 03438a8bb7fc14a4c9bde73b291ae4cd,
         type: 3}
       propertyPath: m_PixelPerfect
@@ -2801,6 +2801,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b67d63fbf8a26e4cae6a7a5feaa2b69, type: 3}
+--- !u!114 &880184414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 841845875338882994, guid: 03438a8bb7fc14a4c9bde73b291ae4cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 168452960}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c00b82a4185864ebf6dab13a5f5f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &888566478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2953,6 +2965,11 @@ PrefabInstance:
       propertyPath: menu
       value: 
       objectReference: {fileID: 905946365}
+    - target: {fileID: -2501761120468476445, guid: 01a2b928a34f1a84d830adab67e159ce,
+        type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 880184414}
     - target: {fileID: 7008636290267214954, guid: 01a2b928a34f1a84d830adab67e159ce,
         type: 3}
       propertyPath: overlayMenu
@@ -5043,6 +5060,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2912512070670325706, guid: 16423f02d50693c45a6fdbc805c4423b,
+        type: 3}
+      propertyPath: OverlayMenu
+      value: 
+      objectReference: {fileID: 905946365}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16423f02d50693c45a6fdbc805c4423b, type: 3}
 --- !u!114 &1616491183 stripped
