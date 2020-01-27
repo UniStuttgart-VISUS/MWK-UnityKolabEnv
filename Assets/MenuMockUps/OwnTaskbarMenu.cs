@@ -20,7 +20,7 @@ public class OwnTaskbarMenu : MonoBehaviour
 
     }
 
-    public void add(OwnTaskbarMenuItem item)
+    public void add(string item)
     {
         //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         //cube.AddComponent(new TaskbarMenuItem());
@@ -29,17 +29,20 @@ public class OwnTaskbarMenu : MonoBehaviour
         int index = -1;
         for (int i = 0; i < items.Length; i++)
         {
-            if (items[i].name.Equals(item.name))
+            if (items[i].name.Equals(item))
             {
                 index = i;
+                Debug.Log("TaskbarMenu: index = " + index);
                 break;
             }
         }
 
-        if (index > -1 && !item.isActiveAndEnabled) // the given item exists
+        if (index > -1 && !items[index].gameObject) // the given item exists
         {
+            Debug.Log("TaskbarMenu: " + item + "is not active");
             items[index].gameObject.transform.position = new Vector3(0, lowestY + itemCounter * 50, 0);
             items[index].gameObject.SetActive(true);
+            Debug.Log("TaskbarMenu: activated " + item);
         }
 
         itemCounter++;

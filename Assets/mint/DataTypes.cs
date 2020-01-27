@@ -185,7 +185,7 @@ namespace interop
     {
         public bool b;
         public string name;
-        public int length;
+        //public int length;
 
         public string json()
         {

@@ -22,6 +22,9 @@ public class Parameter : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Menu.add(item);
+        if (eventData.IsViveButton(ControllerButton.Trigger))
+        {
+            Menu.add(item.gameObject.name);
+        }
     }
 }
