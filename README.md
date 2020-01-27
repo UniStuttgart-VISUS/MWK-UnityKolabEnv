@@ -54,7 +54,8 @@ See [Code Repositories](#code-repositories) for corresponding source code.
 
 # Code Repositories
 
-Several repositories are used during development of the system. To give credit to the people involved and keep track of the developments made in those projects, the repositories are listed below.
+Several repositories arised during development of the system. To give credit to the people involved and keep track of the developments made in those projects, the repositories are listed below.
+Be aware that some of the respositories use Git LFS and Git Submodules. Thus, clone the repos with LFS installed and recursively clone submodules.
 
 * Unity Kolab Environment / BaseSpoutInterop - the Unity Engine VR environment, collaborative labratory scene and integration of interop-communication protocols. Probably only usable on Windows.
     * Main: [UniStuttgart-VISUS/MWK-UnityKolabEnv](https://github.com/UniStuttgart-VISUS/MWK-UnityKolabEnv)
@@ -69,6 +70,7 @@ Several repositories are used during development of the system. To give credit t
     * Concept: [geringsj/MWK-mint](https://github.com/geringsj/MWK-mint)
         * Spout2 with necessary fixes: use-after-free-fix branch at [geringsj/Spout2](https://github.com/geringsj/Spout2)
         * ZeroMQ with necessary fixes: cmake_fix branch at [geringsj/cppzmq](https://github.com/geringsj/cppzmq), master at [geringsj/libzmq](https://github.com/geringsj/libzmq)
+        * Json from [nlohmann/json](https://github.com/nlohmann/json) is used
 * Repositories/Branches of Scientific Visualisation Software implementing the communication protocol for UnityKolabEnv
     * inviwo - [https://inviwo.org/](https://inviwo.org/)
         * Main: mint branch and spout/zmq modules at [geringsj/inviwo](https://github.com/geringsj/inviwo)
