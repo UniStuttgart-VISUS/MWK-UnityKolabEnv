@@ -35,7 +35,7 @@ public class Vec4Receiver2 : MonoBehaviour
 
     public string Name = "ReceiveTest";
     public GameObject Cube; 
-    private string m_inputJsonString = null;
+    private string m_inputJsonString = "";
     private string m_currentlyUsedJsonString = null;
     private bool changed = false;
     bool b;
@@ -54,25 +54,34 @@ public class Vec4Receiver2 : MonoBehaviour
 
     public bool hasChanged()
     {
-        if (changed)
-        {
-            changed = false;
-            return true;
-        }
-        return false;
+        //if (changed)
+        //{
+        //    changed = false;
+        //    return true;
+        //}
+        return true;
     }
 
     public string jsonString()
     {
-        VisBool old = VisBoolFromString();
-        old.b = b;
-        return old.json();
+        //VisBool old = VisBoolFromString();
+        //old.b = b;
+
+        Parameter<int> param = new Parameter<int>();
+        param.value = 45;
+        param.name = "test";
+        param.name = "projekt::SphereRenderer";
+
+        return param.json();
     }
 
     VisBool VisBoolFromString()
     {
-        Debug.Log("BoolReceiver: VisBoolFromString");
+        Debug.Log("BoolReceiver: VisBoolFromString" + m_inputJsonString);
+
+
         VisBool bb = new VisBool();
+        Debug.Log("BoolReceiver: VisBool" + bb);
         bb.fromJson(m_inputJsonString);
 
         //bb.b = convert.toUnity(bb.b);
