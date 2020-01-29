@@ -190,13 +190,13 @@ namespace interop
         public string json()
         {
             string json = JsonUtility.ToJson(this);
-            Debug.Log("Json String for VisBool 2: " + json);
+            //Debug.Log("Json String for VisBool 2: " + json);
             return json;
         }
         public void fromJson(string json)
         {
             this = JsonUtility.FromJson<VisBool>(json);
-            Debug.Log("Json String for VisBool: " + json);
+            //Debug.Log("Json String for VisBool: " + json);
         }
     }
 

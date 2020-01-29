@@ -30,19 +30,20 @@ public class Vec4Receiver2 : MonoBehaviour
 }
 
 
-    public class BoolReceiver : MonoBehaviour, IJsonStringReceivable, IJsonStringSendable
+    public class BoolReceiver : MonoBehaviour, IJsonStringReceivable
 {
 
     public string Name = "ReceiveTest";
-    public GameObject Cube; 
-    private string m_inputJsonString = "";
+    public BoolInteraction Cube; 
+    private string m_inputJsonString = null;
     private string m_currentlyUsedJsonString = null;
     private bool changed = false;
     bool b;
 
+    private bool active = true;
+
     public string nameString()
     {
-        Debug.Log("BoolReceiver: nameString " + this.Name);
         return this.Name;
     }
 
@@ -50,17 +51,14 @@ public class Vec4Receiver2 : MonoBehaviour
     {
         Debug.Log("BoolReceiver: set json " + json);
         m_inputJsonString = json;
+
+        b = VisBoolFromString().b;
+        //Debug.Log("Json String for VisBool: " + b);
+        Cube.changed = false;
+        Cube.value = b;
     }
 
-    public bool hasChanged()
-    {
-        //if (changed)
-        //{
-        //    changed = false;
-        //    return true;
-        //}
-        return true;
-    }
+    
 
     public string jsonString()
     {
@@ -81,6 +79,8 @@ public class Vec4Receiver2 : MonoBehaviour
 
 
         VisBool bb = new VisBool();
+        bb.b = false;
+        bb.name = "init";
         Debug.Log("BoolReceiver: VisBool" + bb);
         bb.fromJson(m_inputJsonString);
 
@@ -106,14 +106,7 @@ public class Vec4Receiver2 : MonoBehaviour
             b = VisBoolFromString().b;
             Debug.Log("Json String for VisBool: " + b);
             changed = true;
-            if (b)
-            {
-                Cube.gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-            }
-            else
-            {
-                Cube.gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-            }
+            //Cube.value = b;
         }
     }
 
