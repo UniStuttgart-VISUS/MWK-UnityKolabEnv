@@ -460,3 +460,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database 
 healthchecksdb
 Assets/Plugins/ConsoleE/
+
+*.meta

@@ -180,4 +180,46 @@ namespace interop
         public void fromJson(string json) { this = JsonUtility.FromJson<CameraProjection>(json);  }
     };
 
+    [Serializable]
+    public struct VisBool
+    {
+        public bool b;
+        public string name;
+        //public int length;
+
+        public string json()
+        {
+            string json = JsonUtility.ToJson(this);
+            Debug.Log("Json String for VisBool 2: " + json);
+            return json;
+        }
+        public void fromJson(string json)
+        {
+            this = JsonUtility.FromJson<VisBool>(json);
+            Debug.Log("Json String for VisBool: " + json);
+        }
+    }
+
+    
+
+    [Serializable]
+    public struct Parameter<T>
+    {
+        public string name;
+        public T value;
+        public string modulFullName;
+
+        public string json()
+        {
+            string json = JsonUtility.ToJson(this);
+            Debug.Log("Json String for VisBool 2: " + json);
+            return json;
+        }
+        public void fromJson(string json)
+        {
+            this = JsonUtility.FromJson<Parameter<T>>(json);
+            Debug.Log("Json String for VisBool: " + json);
+        }
+    }
+
 }
