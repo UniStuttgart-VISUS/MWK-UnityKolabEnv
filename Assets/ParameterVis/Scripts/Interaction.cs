@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interaction : MonoBehaviour, InterfaceInteraction<List<string>>
+public class Interaction : MonoBehaviour//, InterfaceInteraction<List<string>>
 {
     private List<string> enumValues;
     public VisParamMenu menu;
@@ -28,7 +28,7 @@ public class Interaction : MonoBehaviour, InterfaceInteraction<List<string>>
         throw new System.NotImplementedException();
     }
 
-    void InterfaceInteraction<List<string>>.StartInteraction()
+    void StartInteraction()
     {
         throw new System.NotImplementedException();
     }
@@ -39,7 +39,7 @@ public class Interaction : MonoBehaviour, InterfaceInteraction<List<string>>
         throw new System.NotImplementedException();
     }
 
-    void InterfaceInteraction<List<string>>.StopInteraction()
+    void StopInteraction()
     {
         throw new System.NotImplementedException();
     }

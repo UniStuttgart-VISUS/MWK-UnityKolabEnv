@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using HTC.UnityPlugin.Vive;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public interface InterfaceInteraction<T>
+public interface InterfaceInteraction<T>: IPointerClickHandler
 {
-    T GetValue();
+    T GetSelectedValue();
 
-    void SetValue(T newValue);
+    void SetSelectedValue(T newValue);
+
+    bool HasChanged();
 
     void StartInteraction();
 

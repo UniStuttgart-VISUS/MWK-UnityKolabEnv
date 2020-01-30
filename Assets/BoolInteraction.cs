@@ -4,25 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BoolInteraction : MonoBehaviour, IPointerClickHandler
+public class BoolInteraction : AbstractInteraction<bool>
 {
-
-    public bool value = true;
-
-    public bool changed = false;
-
-    public BoolSender sender;
-
-    public void OnPointerClick(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.IsViveButton(ControllerButton.Trigger))
         {
-            value = !value;
-            changed = true;
-            sender.value = value;
+            selectedValue.value = !selectedValue.value;
+            senderManager.send(selectedValue);
 
-            Debug.Log("[BoolInteraction] value = " + value);
-            if (value)
+            Debug.Log("[BoolInteraction] value = " + selectedValue);
+            if (selectedValue.value)
             {
                 gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 

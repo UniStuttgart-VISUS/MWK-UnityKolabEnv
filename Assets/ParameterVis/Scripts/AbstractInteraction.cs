@@ -1,34 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using interop;
 
-public abstract class AbstractInteraction<T>: MonoBehaviour  
+public abstract class AbstractInteraction<T>: MonoBehaviour 
 {
-    private T value;
+    protected Parameter<T> selectedValue;
 
-    T GetValue()
+    // send the selected value to this VisParamMenu after a change
+    public VisParamSenderManager senderManager;
+
+    public Parameter<T> GetSelectedValue()
     {
-        return value;
+        return selectedValue;
     }
 
-    void SetValue(T newValue)
+    public void SetSelectedValue(Parameter<T> newValue)
     {
-        value = newValue;
+        selectedValue = newValue;
     }
 
-
-    void StartInteraction()
+    private void StartInteraction()
     {
         gameObject.SetActive(true);
     }
 
-    void StartInteraction(T initValue)
+    public void StartInteraction(Parameter<T> initValue)
     {
-        value = initValue;
+        selectedValue = initValue;
         StartInteraction();
     }
 
-    void StopInteraction()
+    public void StopInteraction()
     {
         gameObject.SetActive(false);
     }

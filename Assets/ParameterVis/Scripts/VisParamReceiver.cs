@@ -3,36 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using interop;
 
-public class VisParamReceiver : MonoBehaviour, IJsonStringReceivable
+public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 {
 
-    public string name = "VisParamReceiver";
+    public string receiverName = "VisParamReceiver";
+    private VisParamMenu menu;
     private List<string> m_inputJsonStringList;
     private string m_inputJsonString;
 
+    public VisParamReceiver(string name, VisParamMenu menu)
+    {
+        receiverName = name;
+        this.menu = menu;
+    }
+
     public string nameString()
     {
-        return name;
+        return receiverName;
     }
 
     public void setJsonString(string json)
     {
-        m_inputJsonStringList.Add(json);
+        //m_inputJsonString = json;
+        //if (!m_inputJsonStringList.Contains(m_inputJsonString))
+        //{
+        //    m_inputJsonStringList.Add(m_inputJsonString);
+        //}
+        menu.AddParameter(ParameterFromString(json));
+        
     }
 
-    Parameter<int> ParameterFromString()
+    public List<Parameter<T>> GetReceivedParameters()
+    {
+        List<Parameter<T>> newList = new List<Parameter<T>>(m_inputJsonStringList.Count);
+
+        foreach (string str in m_inputJsonStringList)
+        {
+            newList.Add(ParameterFromString(str));
+        }
+        return newList;
+    }
+
+    Parameter<T> ParameterFromString(string json)
     {
         Debug.Log("BoolReceiver: VisBoolFromString");
-        Parameter<int> bb = new Parameter<int>();
-        bb.fromJson(m_inputJsonString);
+        Parameter<T> param = new Parameter<T>();
+        param.fromJson(json);
+        
+        //m_inputJsonString = null;
 
-        //bb.b = convert.toUnity(bb.b);
-        //bb.name = convert.toUnity(bb.max);
-        //bb.length = convert.toUnity(bb.max);
-
-        //m_currentlyUsedJsonString = m_inputJsonString;
-        m_inputJsonString = null;
-
-        return bb;
+        return param;
     }
 }

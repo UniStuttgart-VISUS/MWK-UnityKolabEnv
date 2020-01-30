@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisParamSender : MonoBehaviour, IJsonStringSendable
+public class VisParamSender<T> : MonoBehaviour, IJsonStringSendable
 {
-    public string name = "ParameterSender";
+    public string senderName = "ParameterSender";
 
-    private Parameter<int> param;
+    private Parameter<T> param;
     private bool changed = false;
+
+    public VisParamSender(string name, bool initBool)
+    {
+        this.senderName = name;
+        this.changed = initBool;
+    }
 
     public bool hasChanged()
     {
@@ -23,18 +29,19 @@ public class VisParamSender : MonoBehaviour, IJsonStringSendable
 
     public string nameString()
     {
-        return name;
+        return senderName;
     }
 
-    public void setParameter(int value)
-    {
-        param.value = value;
-        changed = true;
-    }
+    //public void setParameter(T value)
+    //{
+    //    param.value = value;
+    //    changed = true;
+    //}
 
-    public VisParamSender(Parameter<int> param)
+    public void send(Parameter<T> param)
     {
         this.param = param;
+        changed = true;
     }
 
     
