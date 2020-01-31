@@ -205,8 +205,8 @@ namespace interop
     [Serializable]
     public struct Parameter<T>
     {
+        public T param;
         public string name;
-        public T value;
         public string modulFullName;
 
         public string json()
@@ -227,7 +227,7 @@ namespace interop
     {
         public string name;
         public object value;
-        public string modulFullName;
+        //public string modulFullName;
 
         public string json()
         {

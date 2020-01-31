@@ -2219,6 +2219,7 @@ GameObject:
   - component: {fileID: 375074497}
   - component: {fileID: 375074496}
   - component: {fileID: 375074495}
+  - component: {fileID: 375074499}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2298,6 +2299,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &375074499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375074494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f40a19777141857499a4a7b50bc7ab08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  varSender: {fileID: 1111371556}
 --- !u!1 &403379547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2809,12 +2823,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 620291290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6443a5524dd02dd48bf2f8eca2b8fdce, type: 3}
+  m_Script: {fileID: 11500000, guid: 9efcd46970888364f94a35dafee60b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parameterList: []
-  senderManager: {fileID: 0}
-  varSender: {fileID: 0}
+  varSender: {fileID: 1111371556}
 --- !u!65 &620291292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2881,7 +2894,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620291290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.59, y: 1.5, z: 0}
+  m_LocalPosition: {x: 5.385, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3606,7 +3619,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111371553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d0669505c902c469d3551090930d64, type: 3}
+  m_Script: {fileID: 11500000, guid: ecdaf426833191b43a7daf45a95fc0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   senderName: SendTest
@@ -3788,7 +3801,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111371553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee66ef09a9054048ac65dc12590d555, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c17180473b80b449a3560786f60bdd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   receiverName: ReceiveTest

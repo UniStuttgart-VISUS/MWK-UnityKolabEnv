@@ -24,7 +24,7 @@ public class VisParamSenderManager : MonoBehaviour, IJsonStringSendable
 
     public void Send(Parameter<bool> param)
     {
-        boolSender.send(param);
+        //boolSender.send(param);
     }
 
     // Update is called once per frame

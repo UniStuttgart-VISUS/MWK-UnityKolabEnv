@@ -24,6 +24,15 @@ public class VisVarSender : MonoBehaviour, IJsonStringSendable
     public string jsonString()
     {
         changed = false;
+        
+        if (param.value is bool)
+        {
+            Parameter<bool> parameter = new Parameter<bool>();
+            parameter.name = param.name;
+            //parameter.modulFullName = param.modulFullName;
+            parameter.param = (bool)param.value;
+            return parameter.json();
+        }
         return param.json();
     }
 

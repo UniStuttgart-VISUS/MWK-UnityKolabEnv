@@ -7,7 +7,7 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 {
 
     public string receiverName = "VisParamReceiver";
-    private VisParamMenu menu;
+    public VisParamMenu menu;
     private List<string> m_inputJsonStringList;
     private string m_inputJsonString;
 
@@ -15,6 +15,11 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
     {
         receiverName = name;
         this.menu = menu;
+    }
+
+    public VisParamReceiver(string name)
+    {
+        receiverName = name;
     }
 
     public string nameString()
@@ -29,7 +34,7 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
         //{
         //    m_inputJsonStringList.Add(m_inputJsonString);
         //}
-        //menu.AddParameter(ParameterFromString(json));
+        menu.AddParameter(ParameterFromString(json));
         
     }
 

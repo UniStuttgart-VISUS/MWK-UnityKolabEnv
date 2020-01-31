@@ -38,7 +38,7 @@ public class VisParamSender<T> : MonoBehaviour, IJsonStringSendable
     //    changed = true;
     //}
 
-    public void send(Parameter<T> param)
+    public void Send(Parameter<T> param)
     {
         this.param = param;
         changed = true;

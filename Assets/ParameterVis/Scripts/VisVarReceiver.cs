@@ -46,12 +46,15 @@ public class VisVarReceiver : MonoBehaviour, IJsonStringReceivable
     VarParameter ParameterFromString(string json)
     {
         Debug.Log("[VisVarInteraction]: VisBoolFromString");
-        VarParameter param = new VarParameter();
+        Parameter<bool> param = new Parameter<bool>();
         param.fromJson(json);
-        Debug.Log("[VisVarInteraction]: FromString " + param.value);
+        Debug.Log("[VisVarInteraction]: FromString " + param.param);
 
         //m_inputJsonString = null;
 
-        return param;
+        VarParameter varParam = new VarParameter();
+        varParam.name = param.name;
+        varParam.value = param.param;
+        return varParam;
     }
 }

@@ -8,16 +8,25 @@ using interop;
 public class VisParamCubeMenu : VisParamMenu, IPointerClickHandler
 {
 
-    public AbstVarInteraction<bool> boolinteraction;
+    public UnityBoolInteraction boolinteraction;
+    public BoolSender boolSender;
+
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("[VisInteraction]: Menu clickt");
         if (eventData.IsViveButton(ControllerButton.Trigger))
         {
-            foreach (VarParameter paramObject in parameterList)
+            foreach (object paramObject in parameterList)
             {
-                if ( paramObject.value is bool) {
-                    boolinteraction.StartInteraction(parameterList[0], varSender);
+
+                if ( paramObject is Parameter<bool>) {
+                    Debug.Log("[VisInteraction]: bool param started");
+                    Parameter<bool> p = (Parameter<bool>)parameterList[0];
+                    Debug.Log("[VisInteraction]: bool param: " + p.name + ", " + (p.param ? "true" : "false"));
+                    Debug.Log("[VisInteraction]: bool sender: " + boolSender.senderName);
+                    boolinteraction.StartInteraction(p, boolSender);
                 }
             }
             
@@ -27,7 +36,6 @@ public class VisParamCubeMenu : VisParamMenu, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

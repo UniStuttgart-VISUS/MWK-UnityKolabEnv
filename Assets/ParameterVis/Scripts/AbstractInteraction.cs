@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using interop;
 
-public abstract class AbstractInteraction<T>: MonoBehaviour 
+public class AbstractInteraction<T>: MonoBehaviour 
 {
+
     protected Parameter<T> selectedValue;
+    protected T value;
 
     // send the selected value to this VisParamMenu after a change
-    public VisParamSenderManager senderManager;
-    public VisVarSender varSender;
+    public VisParamSender<T> senderManager;
+    //public VisVarSender varSender;
 
     public Parameter<T> GetSelectedValue()
     {
@@ -21,6 +23,11 @@ public abstract class AbstractInteraction<T>: MonoBehaviour
         selectedValue = newValue;
     }
 
+    public void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     //public void send()
     //{
     //    senderManager.send(selectedValue);
@@ -29,18 +36,26 @@ public abstract class AbstractInteraction<T>: MonoBehaviour
     private void StartInteraction()
     {
         gameObject.SetActive(true);
+        Debug.Log("[VisInteraction]: bool param visible");
     }
 
-    public void StartInteraction(Parameter<T> initValue, VisParamSenderManager senderManager, VisVarSender varSender)
+    public void StartInteraction(Parameter<T> initValue, VisParamSender<T> sender)
     {
+        Debug.Log("[VisInteraction]: start interaction");
         selectedValue = initValue;
-        this.varSender = varSender;
-        this.senderManager = senderManager;
+        this.senderManager = sender;
+        this.value = initValue.param;
         StartInteraction();
+        Debug.Log("[VisInteraction]: bool param successful started");
     }
 
     public void StopInteraction()
     {
         gameObject.SetActive(false);
     }
+}
+
+public class UnityBoolInteraction: AbstractInteraction<bool>
+{
+
 }
