@@ -54,8 +54,8 @@ public class Vec4Receiver2 : MonoBehaviour
 
         b = VisBoolFromString().b;
         //Debug.Log("Json String for VisBool: " + b);
-        Cube.hasChanged = false;
-        Cube.SelectedValue = b;
+        //Cube.hasChanged = false;
+        //Cube.SelectedValue = b;
     }
 
     

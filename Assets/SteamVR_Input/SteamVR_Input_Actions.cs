@@ -35,6 +35,10 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_default_HeadsetOnHead;
         
+        private static SteamVR_Action_Boolean p_default_SnapTurnLeft;
+        
+        private static SteamVR_Action_Boolean p_default_SnapTurnRight;
+        
         private static SteamVR_Action_Vibration p_default_Haptic;
         
         private static SteamVR_Action_Vector2 p_platformer_Move;
@@ -75,6 +79,8 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_htc_viu_viu_press_34;
         
+        private static SteamVR_Action_Boolean p_htc_viu_viu_press_35;
+        
         private static SteamVR_Action_Boolean p_htc_viu_viu_touch_00;
         
         private static SteamVR_Action_Boolean p_htc_viu_viu_touch_01;
@@ -98,6 +104,8 @@ namespace Valve.VR
         private static SteamVR_Action_Boolean p_htc_viu_viu_touch_33;
         
         private static SteamVR_Action_Boolean p_htc_viu_viu_touch_34;
+        
+        private static SteamVR_Action_Boolean p_htc_viu_viu_touch_35;
         
         private static SteamVR_Action_Single p_htc_viu_viu_axis_0x;
         
@@ -200,6 +208,22 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.p_default_HeadsetOnHead.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_SnapTurnLeft
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_SnapTurnLeft.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_SnapTurnRight
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_SnapTurnRight.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
@@ -363,6 +387,14 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Boolean htc_viu_viu_press_35
+        {
+            get
+            {
+                return SteamVR_Actions.p_htc_viu_viu_press_35.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
         public static SteamVR_Action_Boolean htc_viu_viu_touch_00
         {
             get
@@ -456,6 +488,14 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.p_htc_viu_viu_touch_34.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean htc_viu_viu_touch_35
+        {
+            get
+            {
+                return SteamVR_Actions.p_htc_viu_viu_touch_35.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
@@ -599,6 +639,8 @@ namespace Valve.VR
                     SteamVR_Actions.default_SkeletonRightHand,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
+                    SteamVR_Actions.default_SnapTurnLeft,
+                    SteamVR_Actions.default_SnapTurnRight,
                     SteamVR_Actions.default_Haptic,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
@@ -619,6 +661,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_press_32,
                     SteamVR_Actions.htc_viu_viu_press_33,
                     SteamVR_Actions.htc_viu_viu_press_34,
+                    SteamVR_Actions.htc_viu_viu_press_35,
                     SteamVR_Actions.htc_viu_viu_touch_00,
                     SteamVR_Actions.htc_viu_viu_touch_01,
                     SteamVR_Actions.htc_viu_viu_touch_02,
@@ -631,6 +674,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_touch_32,
                     SteamVR_Actions.htc_viu_viu_touch_33,
                     SteamVR_Actions.htc_viu_viu_touch_34,
+                    SteamVR_Actions.htc_viu_viu_touch_35,
                     SteamVR_Actions.htc_viu_viu_axis_0x,
                     SteamVR_Actions.htc_viu_viu_axis_0y,
                     SteamVR_Actions.htc_viu_viu_axis_1x,
@@ -657,6 +701,8 @@ namespace Valve.VR
                     SteamVR_Actions.default_SkeletonRightHand,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
+                    SteamVR_Actions.default_SnapTurnLeft,
+                    SteamVR_Actions.default_SnapTurnRight,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Steering,
@@ -676,6 +722,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_press_32,
                     SteamVR_Actions.htc_viu_viu_press_33,
                     SteamVR_Actions.htc_viu_viu_press_34,
+                    SteamVR_Actions.htc_viu_viu_press_35,
                     SteamVR_Actions.htc_viu_viu_touch_00,
                     SteamVR_Actions.htc_viu_viu_touch_01,
                     SteamVR_Actions.htc_viu_viu_touch_02,
@@ -688,6 +735,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_touch_32,
                     SteamVR_Actions.htc_viu_viu_touch_33,
                     SteamVR_Actions.htc_viu_viu_touch_34,
+                    SteamVR_Actions.htc_viu_viu_touch_35,
                     SteamVR_Actions.htc_viu_viu_axis_0x,
                     SteamVR_Actions.htc_viu_viu_axis_0y,
                     SteamVR_Actions.htc_viu_viu_axis_1x,
@@ -718,6 +766,8 @@ namespace Valve.VR
                     SteamVR_Actions.default_GrabPinch,
                     SteamVR_Actions.default_GrabGrip,
                     SteamVR_Actions.default_HeadsetOnHead,
+                    SteamVR_Actions.default_SnapTurnLeft,
+                    SteamVR_Actions.default_SnapTurnRight,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
@@ -733,6 +783,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_press_32,
                     SteamVR_Actions.htc_viu_viu_press_33,
                     SteamVR_Actions.htc_viu_viu_press_34,
+                    SteamVR_Actions.htc_viu_viu_press_35,
                     SteamVR_Actions.htc_viu_viu_touch_00,
                     SteamVR_Actions.htc_viu_viu_touch_01,
                     SteamVR_Actions.htc_viu_viu_touch_02,
@@ -744,7 +795,8 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_touch_31,
                     SteamVR_Actions.htc_viu_viu_touch_32,
                     SteamVR_Actions.htc_viu_viu_touch_33,
-                    SteamVR_Actions.htc_viu_viu_touch_34};
+                    SteamVR_Actions.htc_viu_viu_touch_34,
+                    SteamVR_Actions.htc_viu_viu_touch_35};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.buggy_Throttle,
@@ -777,6 +829,8 @@ namespace Valve.VR
                     SteamVR_Actions.default_GrabGrip,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
+                    SteamVR_Actions.default_SnapTurnLeft,
+                    SteamVR_Actions.default_SnapTurnRight,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Steering,
@@ -795,6 +849,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_press_32,
                     SteamVR_Actions.htc_viu_viu_press_33,
                     SteamVR_Actions.htc_viu_viu_press_34,
+                    SteamVR_Actions.htc_viu_viu_press_35,
                     SteamVR_Actions.htc_viu_viu_touch_00,
                     SteamVR_Actions.htc_viu_viu_touch_01,
                     SteamVR_Actions.htc_viu_viu_touch_02,
@@ -807,6 +862,7 @@ namespace Valve.VR
                     SteamVR_Actions.htc_viu_viu_touch_32,
                     SteamVR_Actions.htc_viu_viu_touch_33,
                     SteamVR_Actions.htc_viu_viu_touch_34,
+                    SteamVR_Actions.htc_viu_viu_touch_35,
                     SteamVR_Actions.htc_viu_viu_axis_0x,
                     SteamVR_Actions.htc_viu_viu_axis_0y,
                     SteamVR_Actions.htc_viu_viu_axis_1x,
@@ -835,6 +891,8 @@ namespace Valve.VR
             SteamVR_Actions.p_default_SkeletonRightHand = ((SteamVR_Action_Skeleton)(SteamVR_Action.Create<SteamVR_Action_Skeleton>("/actions/default/in/SkeletonRightHand")));
             SteamVR_Actions.p_default_Squeeze = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/default/in/Squeeze")));
             SteamVR_Actions.p_default_HeadsetOnHead = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/HeadsetOnHead")));
+            SteamVR_Actions.p_default_SnapTurnLeft = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/SnapTurnLeft")));
+            SteamVR_Actions.p_default_SnapTurnRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/SnapTurnRight")));
             SteamVR_Actions.p_default_Haptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/default/out/Haptic")));
             SteamVR_Actions.p_platformer_Move = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/platformer/in/Move")));
             SteamVR_Actions.p_platformer_Jump = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/platformer/in/Jump")));
@@ -855,6 +913,7 @@ namespace Valve.VR
             SteamVR_Actions.p_htc_viu_viu_press_32 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_press_32")));
             SteamVR_Actions.p_htc_viu_viu_press_33 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_press_33")));
             SteamVR_Actions.p_htc_viu_viu_press_34 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_press_34")));
+            SteamVR_Actions.p_htc_viu_viu_press_35 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_press_35")));
             SteamVR_Actions.p_htc_viu_viu_touch_00 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_00")));
             SteamVR_Actions.p_htc_viu_viu_touch_01 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_01")));
             SteamVR_Actions.p_htc_viu_viu_touch_02 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_02")));
@@ -867,6 +926,7 @@ namespace Valve.VR
             SteamVR_Actions.p_htc_viu_viu_touch_32 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_32")));
             SteamVR_Actions.p_htc_viu_viu_touch_33 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_33")));
             SteamVR_Actions.p_htc_viu_viu_touch_34 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_34")));
+            SteamVR_Actions.p_htc_viu_viu_touch_35 = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/htc_viu/in/viu_touch_35")));
             SteamVR_Actions.p_htc_viu_viu_axis_0x = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/htc_viu/in/viu_axis_0x")));
             SteamVR_Actions.p_htc_viu_viu_axis_0y = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/htc_viu/in/viu_axis_0y")));
             SteamVR_Actions.p_htc_viu_viu_axis_1x = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/htc_viu/in/viu_axis_1x")));

@@ -5,28 +5,27 @@ using interop;
 
 public class VisParamMenu : MonoBehaviour
 {
-    public AbstractInteraction<List<string>> enumInteraction;
-    public AbstractInteraction<int> intInteraction;
-    public AbstractInteraction<float> floatInteraction;
-    public AbstractInteraction<bool> boolInteraction;
-    public AbstractInteraction<Vector3> vectorInteraction;
-
-    private List<object> parameterList;
+    public List<VarParameter> parameterList;
+    public VisParamSenderManager senderManager;
+    public VisVarSender varSender;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //public void AddParameter(object p)
+    //{
+    //    parameterList.Add(p);
+    //}
 
-    public void AddParameter(object p)
+    public void AddParameter(VarParameter p)
     {
-        parameterList.Add(p);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("[VisVarInteraction]: add parameter");
+        if (!parameterList.Contains(p))
+        {
+            Debug.Log("[VisVarInteraction]: new parameter");
+            parameterList.Add(p);
+        } else
+        {
+            Debug.Log("[VisVarInteraction]: parameter already in list");
+            int index = parameterList.IndexOf(p);
+            parameterList[index] = p;
+        }
     }
 }

@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.basespoutinterop.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Unity Projects\\BaseSpoutInterop\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "D:\\Forschungsprojekt\\BaseSpoutInterop2\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "BaseSpoutInterop [Testing]"

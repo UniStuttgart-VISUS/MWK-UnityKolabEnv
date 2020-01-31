@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using interop;
 
-public class VisParamSenderManager : MonoBehaviour
+public class VisParamSenderManager : MonoBehaviour, IJsonStringSendable
 {
     // the names of all VisParamSender should be declared here and public
     public string boolSenderName = "boolSenderName";
@@ -22,7 +22,7 @@ public class VisParamSenderManager : MonoBehaviour
      */
 
 
-    public void send(Parameter<bool> param)
+    public void Send(Parameter<bool> param)
     {
         boolSender.send(param);
     }
@@ -31,5 +31,20 @@ public class VisParamSenderManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public string nameString()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public string jsonString()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool hasChanged()
+    {
+        throw new System.NotImplementedException();
     }
 }

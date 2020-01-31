@@ -222,4 +222,24 @@ namespace interop
         }
     }
 
+    [Serializable]
+    public struct VarParameter
+    {
+        public string name;
+        public object value;
+        public string modulFullName;
+
+        public string json()
+        {
+            string json = JsonUtility.ToJson(this);
+            Debug.Log("Json String for VisBool 2: " + json);
+            return json;
+        }
+        public void fromJson(string json)
+        {
+            this = JsonUtility.FromJson<VarParameter>(json);
+            Debug.Log("Json String for VisBool: " + json);
+        }
+    }
+
 }

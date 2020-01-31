@@ -113,6 +113,14 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Boolean viu_press_35
+        {
+            get
+            {
+                return SteamVR_Actions.htc_viu_viu_press_35;
+            }
+        }
+        
         public virtual SteamVR_Action_Boolean viu_touch_00
         {
             get
@@ -206,6 +214,14 @@ namespace Valve.VR
             get
             {
                 return SteamVR_Actions.htc_viu_viu_touch_34;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean viu_touch_35
+        {
+            get
+            {
+                return SteamVR_Actions.htc_viu_viu_touch_35;
             }
         }
         
