@@ -47,5 +47,4 @@ public class BoolSender : VisParamSender<bool>
     //    Debug.Log("[BoolInteraction] value " + value + " sendable");
     //    return b.json();
     //}
-
 }

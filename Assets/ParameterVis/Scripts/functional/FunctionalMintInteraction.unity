@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boolinteraction: {fileID: 1080379465}
-  boolSender: {fileID: 2045392365}
+  boolSender: {fileID: 0}
 --- !u!65 &351307821
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4928,8 +4928,12 @@ GameObject:
   - component: {fileID: 2045392368}
   - component: {fileID: 2045392367}
   - component: {fileID: 2045392366}
-  - component: {fileID: 2045392365}
   - component: {fileID: 2045392364}
+  - component: {fileID: 2045392380}
+  - component: {fileID: 2045392379}
+  - component: {fileID: 2045392378}
+  - component: {fileID: 2045392377}
+  - component: {fileID: 2045392365}
   m_Layer: 0
   m_Name: MintDataset
   m_TagString: FileLoaderAffected
@@ -4946,11 +4950,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2045392363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c809c05aae146264ebbf13eff07637ae, type: 3}
+  m_Script: {fileID: 11500000, guid: dd5de30f8eab98c4bb8a72fd19cabc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  receiverName: ReceiveTest
-  menu: {fileID: 351307820}
+  senderName: BoolSender
 --- !u!114 &2045392365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4960,10 +4963,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2045392363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147c1f9d9abee314ab0ce196b390c78a, type: 3}
+  m_Script: {fileID: 11500000, guid: e44e039ebe0d79c49836eae65ae613d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  senderName: SendTest
+  receiverName: Vec3Receiver
+  menu: {fileID: 0}
 --- !u!222 &2045392366
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5160,6 +5164,62 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2045392377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045392363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c176b3c5195798b46bdb041a705bfa69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receiverName: IntReceiver
+  menu: {fileID: 0}
+--- !u!114 &2045392378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045392363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c44c01e5e379e94e832041dc8a77461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receiverName: FloatReceiver
+  menu: {fileID: 0}
+--- !u!114 &2045392379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045392363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d253cbca2757c514baef799beec31523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receiverName: EnumReceiver
+  menu: {fileID: 0}
+--- !u!114 &2045392380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045392363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d573cc370f8e440922affb10574875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receiverName: BoolReceiver
+  menu: {fileID: 0}
 --- !u!1 &2080057294
 GameObject:
   m_ObjectHideFlags: 0
