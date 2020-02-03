@@ -13,7 +13,7 @@ public class VisParamMenu : MonoBehaviour
     public void AddParameter(object p)
     {
         //Debug.Log("[VisInteraction]: add parameter");
-        if (!parameterList.Contains(p))
+        if (parameterList.Count < 30)
         {
             Debug.Log("[VisInteraction]: new parameter");
             parameterList.Add(p);

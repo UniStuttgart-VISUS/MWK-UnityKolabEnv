@@ -17,15 +17,15 @@ public class PopUpMenuIcon : MonoBehaviour, IPointerClickHandler
     // Update is called once per frame
     void Update()
     {
-        if (Menu.isActiveAndEnabled)
-        {
-            gameObject.SetActive(false);
-        }
+        //if (Menu.isActiveAndEnabled)
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Menu.Appear();
+        //Menu.Appear();
     }
 
     public void Appear()
