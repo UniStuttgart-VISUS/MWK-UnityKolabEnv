@@ -37,6 +37,7 @@ See [Code Repositories](#code-repositories) for corresponding source code.
 * Run loader, set initial config values (paths to EXEs, Workspace Name - has to be matching for all participants)
 * Save config in Loader (JSON file is being saved to ```\AppData\LocalLow\UlmUniversity\BaseSpoutInteropSettings.json```)
 * Run Unity **Workspaces** scene for collaborative session via network
+* The **MintMain** scene contains the implementation of the environment
 
 # System Features
 
