@@ -77,9 +77,10 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
         backElementIndx = upSides - 1;
         backValueIndx = upSides - 1;
         frontElementIndx = 0;
-        base.selectedValue.param = new List<string>(1);
-        Debug.Log("[HexagonEnumScript]: frontElementIndx = " + frontElementIndx);
-        base.selectedValue.param[0] = getFrontText().text;
+        base.selectedValue.param = new List<string>(new string[] { ""});
+        Debug.Log("[HexagonEnumScript]: frontElementIndx = " + frontElementIndx + ", texts: " + texts.Length);
+        string tmp = getFrontText().text;
+        base.selectedValue.param[0] = tmp;
 
         // set the texts of the sides which are up
         for (int index = 0; index < upSides; index++)
