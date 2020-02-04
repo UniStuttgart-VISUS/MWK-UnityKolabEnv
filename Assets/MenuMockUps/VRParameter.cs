@@ -29,6 +29,6 @@ public class VRParameter : MonoBehaviour, IPointerClickHandler
     {
         overlayMenu.Disappear();
         Icon.Appear();
-        checkbox.Appear();
+        //checkbox.Appear();
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using interop;
 
+
+
 public class VisParamMenu : MonoBehaviour
 {
     //public List<VarParameter> parameterList2;
@@ -24,6 +26,11 @@ public class VisParamMenu : MonoBehaviour
             int index = parameterList.IndexOf(p);
             parameterList[index] = p;
         }
+    }
+
+    public void UpdateParameter()
+    {
+
     }
 
     //public void AddParameter(VarParameter p)

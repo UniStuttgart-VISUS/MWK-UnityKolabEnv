@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vector3D : UnityVector3Interaction
+public class Vector3D : MonoBehaviour
 {
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     public Vector3 GetPosition()
     {

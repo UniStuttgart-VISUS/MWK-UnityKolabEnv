@@ -8,17 +8,20 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 
     public string receiverName = "VisParamReceiver";
     public VisParamMenu menu;
-    private List<string> m_inputJsonStringList;
+    //private List<string> m_inputJsonStringList;
+    private List<string> parameterList;
     private string m_inputJsonString;
 
     public VisParamReceiver(string name, VisParamMenu menu)
     {
+        parameterList = new List<string>();
         receiverName = name;
         this.menu = menu;
     }
 
     public VisParamReceiver(string name)
     {
+        parameterList = new List<string>();
         receiverName = name;
     }
 
@@ -29,25 +32,24 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 
     public void setJsonString(string json)
     {
-        //m_inputJsonString = json;
-        //if (!m_inputJsonStringList.Contains(m_inputJsonString))
-        //{
-        //    m_inputJsonStringList.Add(m_inputJsonString);
-        //}
-        menu.AddParameter(ParameterFromString(json));
+        Parameter<T> p = ParameterFromString(json);
+
+        string paramID = p.name + p.modulFullName;
+
+        menu.AddParameter(p);
         
     }
 
-    public List<Parameter<T>> GetReceivedParameters()
-    {
-        List<Parameter<T>> newList = new List<Parameter<T>>(m_inputJsonStringList.Count);
+    //public List<Parameter<T>> GetReceivedParameters()
+    //{
+    //    List<Parameter<T>> newList = new List<Parameter<T>>(m_inputJsonStringList.Count);
 
-        foreach (string str in m_inputJsonStringList)
-        {
-            newList.Add(ParameterFromString(str));
-        }
-        return newList;
-    }
+    //    foreach (string str in m_inputJsonStringList)
+    //    {
+    //        newList.Add(ParameterFromString(str));
+    //    }
+    //    return newList;
+    //}
 
     Parameter<T> ParameterFromString(string json)
     {

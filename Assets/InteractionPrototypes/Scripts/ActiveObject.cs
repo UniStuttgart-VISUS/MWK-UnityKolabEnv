@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using HTC.UnityPlugin.Vive;
 
-public class ActiveObject : UnityBoolInteraction, IPointerClickHandler
+public class ActiveObject : MonoBehaviour, IPointerClickHandler
 {
     private bool isActive;
 

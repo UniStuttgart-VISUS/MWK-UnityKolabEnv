@@ -39,7 +39,7 @@ public class AbstractInteraction<T>: MonoBehaviour
         Debug.Log("[VisInteraction]: bool param visible");
     }
 
-    public void StartInteraction(Parameter<T> initValue, VisParamSender<T> sender)
+    virtual public void StartInteraction(Parameter<T> initValue, VisParamSender<T> sender)
     {
         Debug.Log("[VisInteraction]: start interaction");
         selectedValue = initValue;
