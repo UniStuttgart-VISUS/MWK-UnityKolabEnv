@@ -49,7 +49,7 @@ public class AbstractInteraction<T>: MonoBehaviour
         Debug.Log("[VisInteraction]: bool param successful started");
     }
 
-    public void StopInteraction()
+    virtual public void StopInteraction()
     {
         gameObject.SetActive(false);
     }

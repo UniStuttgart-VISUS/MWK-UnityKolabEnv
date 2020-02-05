@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VectorSelection : MonoBehaviour
+public class VectorSelection : UnityVector3Interaction
 {
     public HandRole rightHand;
     public HandRole leftHand;
@@ -13,14 +13,8 @@ public class VectorSelection : MonoBehaviour
     public Transform cameraRig;
     private Vector3 currentDirection;
     private Quaternion currentRotation;
-    
-    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -53,6 +47,14 @@ public class VectorSelection : MonoBehaviour
         else
         {
             arrow.SetPositionAndRotation(middle, currentRotation);
+
+            // send value to megamol
+            if (currentDirection != selectedValue.param)
+            {
+                selectedValue.param = currentDirection;
+                senderManager.Send(selectedValue);
+            }
+
             return currentDirection;
         }
 

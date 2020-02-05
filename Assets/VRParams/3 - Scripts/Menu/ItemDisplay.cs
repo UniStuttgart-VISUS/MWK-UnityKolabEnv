@@ -59,7 +59,7 @@ public class ItemDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void SetSenders(BoolSender boolSender, IntSender intSender, FloatSender floatSender, EnumSender enumSender, Vec3Sender vec3Sender)
     {
@@ -149,18 +149,23 @@ public class ItemDisplay : MonoBehaviour
                 {
                     case Types.BOOL:
                         boolinteraction.StartInteraction(boolParam, boolSender);
+                        descriptionBox.InitDescription(boolParam.name, boolParam.param.ToString());
                         break;
                     case Types.INT:
                         intInteraction.StartInteraction(intParam, intSender);
+                        descriptionBox.InitDescription(intParam.name, intParam.param.ToString());
                         break;
                     case Types.FLOAT:
                         floatInteraction.StartInteraction(floatParam, floatSender);
+                        descriptionBox.InitDescription(floatParam.name, floatParam.param.ToString());
                         break;
                     case Types.ENUM:
                         enumInteraction.StartInteraction(enumParam, enumSender);
+                        descriptionBox.InitDescription(enumParam.name, string.Join(", ", enumParam.param.ToArray()));
                         break;
                     case Types.VEC3:
                         vec3Interaction.StartInteraction(vec3Param, vec3Sender);
+                        descriptionBox.InitDescription(vec3Param.name, vec3Param.param.ToString());
                         break;
                 }
             }

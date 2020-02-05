@@ -28,7 +28,8 @@ public class VisVarReceiver : MonoBehaviour, IJsonStringReceivable
         //{
         //    m_inputJsonStringList.Add(m_inputJsonString);
         //}
-        menu.AddParameter(ParameterFromString(json));
+
+        //menu.AddParameter(ParameterFromString(json));
 
     }
 

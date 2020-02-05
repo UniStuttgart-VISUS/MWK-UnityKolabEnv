@@ -36,7 +36,7 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 
         string paramID = p.name + p.modulFullName;
 
-        menu.AddParameter(p);
+        menu.AddParameter(paramID, p);
         
     }
 
@@ -53,7 +53,7 @@ public class VisParamReceiver<T>: MonoBehaviour, IJsonStringReceivable
 
     Parameter<T> ParameterFromString(string json)
     {
-        Debug.Log("BoolReceiver: VisBoolFromString");
+        //Debug.Log("BoolReceiver: VisBoolFromString");
         Parameter<T> param = new Parameter<T>();
         param.fromJson(json);
         

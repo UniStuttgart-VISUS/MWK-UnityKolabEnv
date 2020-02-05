@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using HTC.UnityPlugin.Vive;
+using interop;
 
-public class IntegerChanger : MonoBehaviour
+public class IntegerChanger : UnityIntInteraction
 {
     public Text integerValueText;
     public Text stepSizeText;
@@ -28,13 +29,20 @@ public class IntegerChanger : MonoBehaviour
     private float step;
     private int selectedInt;
 
+    GameObject emptyObject1;
+    GameObject emptyObject2;
+
+
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         // create a new gameobjects, so that the scale and rotation of the displays
         // are maintained!
-        var emptyObject1 = new GameObject();
-        var emptyObject2 = new GameObject();
+        emptyObject1 = new GameObject();
+        emptyObject2 = new GameObject();
+        emptyObject1.SetActive(false);
+        emptyObject2.SetActive(false);
+
         integerValueDisplay.SetParent(emptyObject1.transform);
         stepSizeDisplay.SetParent(emptyObject2.transform);
         Vector3 yVecOffset = new Vector3(0, yOffset, 0);
@@ -49,7 +57,23 @@ public class IntegerChanger : MonoBehaviour
         UpdateStepText();
         UpdateIntText();
 
+        base.Start();
+    }
 
+    override public void StartInteraction(Parameter<int> param, VisParamSender<int> sender)
+    {
+        emptyObject1.SetActive(true);
+        emptyObject2.SetActive(true);
+
+        base.StartInteraction(param, sender);
+    }
+
+    public override void StopInteraction()
+    {
+        emptyObject1.SetActive(false);
+        emptyObject2.SetActive(false);
+
+        base.StopInteraction();
     }
 
     // Update is called once per frame
@@ -108,6 +132,11 @@ public class IntegerChanger : MonoBehaviour
                 selectedFloat -= step;
             }
             selectedInt = (int)selectedFloat;
+            if (selectedInt != selectedValue.param)
+            {
+                selectedValue.param = selectedInt;
+                senderManager.Send(selectedValue);
+            }
             UpdateIntText();
         }
     }

@@ -215,7 +215,7 @@ Transform:
   - {fileID: 3019880524377340162}
   - {fileID: 3019880524395393991}
   m_Father: {fileID: 3019880524042756454}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3019880523968704283
 GameObject:
@@ -249,7 +249,7 @@ Transform:
   m_Children:
   - {fileID: 3413851958207226062}
   m_Father: {fileID: 3019880524042756454}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3019880523968704287
 MeshFilter:
@@ -340,8 +340,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3019880523486451449}
-  - {fileID: 3019880523968704282}
   - {fileID: 3019880523832270082}
+  - {fileID: 3019880523968704282}
   - {fileID: 3019880524052090499}
   m_Father: {fileID: 3019880524993702239}
   m_RootOrder: 0
@@ -1968,15 +1968,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 470825252945247872, guid: 6a6f5e76c81a41d4f9fdbdf250043e14,
-        type: 3}
-      propertyPath: m_Text
-      value: Rotation 0
-      objectReference: {fileID: 0}
     - target: {fileID: 470825252999102257, guid: 6a6f5e76c81a41d4f9fdbdf250043e14,
         type: 3}
       propertyPath: m_Camera
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 470825252945247872, guid: 6a6f5e76c81a41d4f9fdbdf250043e14,
+        type: 3}
+      propertyPath: m_Text
+      value: Rotation 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a6f5e76c81a41d4f9fdbdf250043e14, type: 3}

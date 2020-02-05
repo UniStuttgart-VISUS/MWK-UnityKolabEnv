@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using HTC.UnityPlugin.Vive;
+using interop;
 
-public class ActiveObject : MonoBehaviour, IPointerClickHandler
+public class ActiveObject : UnityBoolInteraction, IPointerClickHandler
 {
     private bool isActive;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void StartInteraction(Parameter<bool> initValue, VisParamSender<bool> sender)
     {
-        isActive = false;
-    }
+        base.StartInteraction(initValue, sender);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        isActive = selectedValue.param;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -27,12 +23,15 @@ public class ActiveObject : MonoBehaviour, IPointerClickHandler
             if (isActive)
             {
                 transform.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+
             } else
             {
                 transform.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
             }
 
             isActive = !isActive;
+            selectedValue.param = isActive;
+            senderManager.Send(selectedValue);
         }
     }
 }

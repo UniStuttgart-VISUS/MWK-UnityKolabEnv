@@ -20,6 +20,7 @@ public class DynamicViewMenu : VisParamMenu
     private Button maximizeButton;
 
     public ListDisplay listDisplay;
+    public DescriptionBox description;
 
     // Communication
 
@@ -43,11 +44,11 @@ public class DynamicViewMenu : VisParamMenu
     // Start is called before the first frame update
     void Start()
     {
+
         // might have to restart if new parameter get added!!
         listDisplay.InitDisplay(parameterList);
         listDisplay.SetInteractions(boolinteraction, intInteraction, floatInteraction, enumInteraction, vec3Interaction);
         listDisplay.SetSenders(boolSender, intSender, floatSender, enumSender, vec3Sender);
-        prevSize = parameterList.Count;
 
         originalPos = transform.localPosition;
         targetPos = new Vector3(0, 0, 0.7f);
@@ -63,17 +64,41 @@ public class DynamicViewMenu : VisParamMenu
 
         maximizeButton.onClick.AddListener(() => moveToFrontView());
         minimizeButton.onClick.AddListener(() => moveToSideView());
+
+        prevSize = parameterList.Count;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(parameterList.Count + " prevSize = " + prevSize);
-        if (parameterList.Count > prevSize)
-            listDisplay.InitDisplay(parameterList);
 
+        if (parameterList.Count > prevSize)
+        {
+            listDisplay.InitDisplay(parameterList);
+        }
         prevSize = parameterList.Count;
+
+        if (boolinteraction.gameObject.active)
+        {
+            description.InitDescription(boolinteraction.GetSelectedValue().name, boolinteraction.GetSelectedValue().param.ToString());
+        }
+        else if (intInteraction.gameObject.active)
+        {
+            description.InitDescription(intInteraction.GetSelectedValue().name, intInteraction.GetSelectedValue().param.ToString());
+        }
+        else if (floatInteraction.gameObject.active)
+        {
+            description.InitDescription(floatInteraction.GetSelectedValue().name, floatInteraction.GetSelectedValue().param.ToString());
+        }
+        else if (enumInteraction.gameObject.active)
+        {
+            description.InitDescription(enumInteraction.GetSelectedValue().name, string.Join(", ", enumInteraction.GetSelectedValue().param.ToArray()));//enumInteraction.GetSelectedValue().param[0]);
+        }
+        else if (vec3Interaction.gameObject.active)
+        {
+            description.InitDescription(vec3Interaction.GetSelectedValue().name, vec3Interaction.GetSelectedValue().param.ToString());
+        }
     }
 
     private void moveToFrontView()

@@ -12,69 +12,69 @@ public class ConfigSelectorInit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Configuration newConfig = new Configuration();
-        EnumParameter speedTempos = new EnumParameter();
-        var strArray = new[] { "slow", "fast", "very fast" };
-        var strList = new List<string>(strArray);
-        speedTempos.currentValue = "slow";
-        speedTempos.enumList = strList;
-        speedTempos.name = "Speeds";
+        //Configuration newConfig = new Configuration();
+        //EnumParameter speedTempos = new EnumParameter();
+        //var strArray = new[] { "slow", "fast", "very fast" };
+        //var strList = new List<string>(strArray);
+        //speedTempos.currentValue = "slow";
+        //speedTempos.enumList = strList;
+        //speedTempos.name = "Speeds";
 
-        FloatParameter brightness = new FloatParameter();
-        brightness.name = "brightness";
-        brightness.currentValue = 0.4f;
+        //FloatParameter brightness = new FloatParameter();
+        //brightness.name = "brightness";
+        //brightness.currentValue = 0.4f;
 
-        newConfig.Add(speedTempos);
-        newConfig.Add(brightness);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(brightness);
 
-        BooleanParameter boolConf = new BooleanParameter();
-        boolConf.name = "visibility";
-        boolConf.currentValue = true;
+        //BooleanParameter boolConf = new BooleanParameter();
+        //boolConf.name = "visibility";
+        //boolConf.currentValue = true;
 
-        newConfig.Add(boolConf);
+        //newConfig.Add(boolConf);
 
-        IntegerParameter intConf = new IntegerParameter();
-        intConf.name = "amount of points";
-        intConf.currentValue = 25;
+        //IntegerParameter intConf = new IntegerParameter();
+        //intConf.name = "amount of points";
+        //intConf.currentValue = 25;
 
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
-        newConfig.Add(intConf);
-        newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
+        //newConfig.Add(intConf);
+        //newConfig.Add(speedTempos);
 
-        displayPrefab.InitDisplay(newConfig);
+       // displayPrefab.InitDisplay(newConfig);
     }
 
     // Update is called once per frame

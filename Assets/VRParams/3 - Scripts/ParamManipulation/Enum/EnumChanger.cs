@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using HTC.UnityPlugin.Vive;
+using interop;
 
-public class EnumChanger : MonoBehaviour
+public class EnumChanger : UnityEnumInteraction
 {
     public Text selectedText;
     public Text nextText;
@@ -23,20 +24,46 @@ public class EnumChanger : MonoBehaviour
 
     public HandRole right;
 
-    private string[] enumList = new string[] { "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben" };
+    private List<string> enumList;
+    private GameObject emptyObject1;
+
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         // create a new gameobjects, so that the scale and rotation of the displays
         // are maintained!
-        var emptyObject1 = new GameObject();
+        emptyObject1 = new GameObject();
+
+        emptyObject1.SetActive(false);
+
         transform.SetParent(emptyObject1.transform);
         Vector3 yVecOffset = new Vector3(0, yOffset, 0);
         transform.position = rightHand.position + yVecOffset;
         emptyObject1.transform.SetParent(rightHand);
-        
 
+
+
+        base.Start();
+    }
+
+    override public void StartInteraction(Parameter<List<string>> param, VisParamSender<List<string>> sender)
+    {
+        base.StartInteraction(param, sender);
+        enumList = selectedValue.param;
+        // remove selected value
+        Debug.Log("[EnumChanger] slected value: " + selectedValue.param[0] + ", Count: " + selectedValue.param.Count);
+        enumList.RemoveAt(0);
+
+        emptyObject1.SetActive(true);
+        
+    }
+
+    public override void StopInteraction()
+    {
+        emptyObject1.SetActive(false);
+
+        base.StopInteraction();
     }
 
     // Update is called once per frame
@@ -59,7 +86,7 @@ public class EnumChanger : MonoBehaviour
             float rotation = -1*GetRHRotation();
             float angle = (rotation + 1) * 180;
 
-            if (angle > 210 && selection < enumList.Length - 1)
+            if (angle > 210 && selection < enumList.Count - 1)
             {
                 selection += step;
             } else if (angle < 150 && selection > 0)
@@ -67,20 +94,27 @@ public class EnumChanger : MonoBehaviour
                 selection -= step;
             }
 
+            
 
-            UpdateText((int)selection);
+            UpdateText((int)selection, enumList);
+
+            if (senderManager != null)
+            {
+                selectedValue.param[0] = enumList[(int)selection];
+                senderManager.Send(selectedValue);
+            }
 
         }
     }
 
-    public void UpdateText(int selection)
+    public void UpdateText(int selection, List<string> enumList)
     {
         selectedText.text = enumList[selection];
         if (selection == 0)
         {
             nextText.text = enumList[selection+1];
             previousText.text = "";
-        } else if (selection == enumList.Length-1)
+        } else if (selection == enumList.Count-1)
         {
             previousText.text = enumList[selection - 1];
             nextText.text = "";

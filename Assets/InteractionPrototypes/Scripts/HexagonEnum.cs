@@ -23,7 +23,7 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
     private int frontElementIndx;
     private int backValueIndx;
     private Text[] texts; 
-    private bool curLock;
+    private bool isRotating = false;
     private int i;
 
     override public void StartInteraction(Parameter<List<string>> initValue, VisParamSender<List<string>> sender)
@@ -33,19 +33,23 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
         this.senderManager = sender;
         this.value = initValue.param;
 
-        values = initValue.param;
+        values = new List<string>(initValue.param.ToArray());
         values.RemoveAt(0);
         gameObject.SetActive(true);
         setUpValuesList();
-
+        
         while (!values[frontElementIndx].Equals(selectedValue.param[0]))
         {
+            
             rotate();
+            Debug.Log("[Integerinteraction]: selectedValue = " + selectedValue.param[0] + ", frontElement = " + values[frontElementIndx] + ", " + !values[frontElementIndx].Equals(selectedValue.param[0]));
         }
 
-        
+
         Debug.Log("[VisEnumInteraction]: Enum param successful started");
     }
+
+
 
     // Start is called before the first frame update
     new void Start()
@@ -75,63 +79,44 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
         texts = GetComponentsInChildren<Text>();
 
         backElementIndx = upSides - 1;
-        backValueIndx = upSides - 1;
+        backValueIndx = (upSides - 1) % values.Count;
         frontElementIndx = 0;
-        base.selectedValue.param = new List<string>(new string[] { ""});
         Debug.Log("[HexagonEnumScript]: frontElementIndx = " + frontElementIndx + ", texts: " + texts.Length);
-        string tmp = getFrontText().text;
-        base.selectedValue.param[0] = tmp;
 
         // set the texts of the sides which are up
+        int valuesIdx = 0;
+
         for (int index = 0; index < upSides; index++)
         {
-            texts[index].text = values[index];
+            texts[index].text = values[valuesIdx];
+
+            valuesIdx++;
+            if (valuesIdx >= values.Count)
+            {
+                valuesIdx = 0;
+            }
         }
 
         // set the texts of the sides which are down
+        valuesIdx = 1;
         for (int index = 1; index <= downsides; index++)
         {
-            texts[texts.Length - index].text = values[values.Count - index];
+            texts[texts.Length - index].text = values[values.Count - valuesIdx];
+
+            valuesIdx++;
+            if (valuesIdx >= values.Count)
+            {
+                valuesIdx = 0;
+            }
         }
-        curLock = false;
+        isRotating = false;
         rotation = 0;
         i = -1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        float currentRot = this.transform.rotation.eulerAngles.x;
-        if (i >= rotation)
-        {
-            curLock = true;
-            this.transform.Rotate(new Vector3(i*0.045f, 0, 0));
-            //Debug.Log("i = " + i + ", " + rotation);
-            i--;
-        }
-
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.IsViveButton(ControllerButton.Trigger))
-        {
-            rotate();
-
-        }
-    }
-
     private void rotate()
     {
-        float currentRot = this.transform.rotation.eulerAngles.x;
-        //this.transform.Rotate(new Vector3(currentRot - (currentRot % 45), 0, 0));
-        currentRot = (currentRot % -45);
-        Debug.Log("Currenr Rotation: " + currentRot);
-        if (currentRot == 0.0)
-        {
-            ;
-        }
-
+        
         /*
          *change text of the back element too increase the number of displayable values to infinity
          */
@@ -147,15 +132,19 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
             frontElementIndx = 0;
         }
 
-        backValueIndx++;
-        if (backValueIndx >= values.Count) // prefent index out of bounds
-        {
-            backValueIndx = 0;
-        }
+        backValueIndx = (backValueIndx + 1) % values.Count;
+
         texts[backElementIndx].text = values[backValueIndx];
 
-        base.selectedValue.param[0] = texts[frontElementIndx].text;
-        base.senderManager.Send(base.selectedValue);
+        selectedValue.param[0] = texts[frontElementIndx].text;
+        Debug.Log("[hexagonEnum]: front Text: " + selectedValue.param[0] + ", " + selectedValue.param.Count);
+        Debug.Log("[hexagonEnum]: displayed Value: " + string.Join(", ", GetSelectedValue().param.ToArray()));
+        Debug.Log("[hexagonEnum]: Values: " + string.Join(", ", values.ToArray()));
+
+        if (senderManager != null)
+        {
+            senderManager.Send(base.selectedValue);
+        }
 
         rotation = -45;
         i = -1;
@@ -166,16 +155,47 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
         return texts[frontElementIndx];
     }
 
-    IEnumerator ExampleCoroutine(int i)
+    public bool SetValue(string value)
     {
-        //Print the time of when the function is first called.
-        //Debug.Log("Started Coroutine at timestamp : " + Time.time);
+        if (values.Contains(value))
+        {
+            while (!getFrontText().text.Equals(value))
+            {
+                rotate();
+            }
+            return true;
+        }
+        return false;
+    }
 
-        //yield on a new YieldInstruction that waits for 5 seconds.
-        
-        yield return new WaitForSeconds(1000);
+    // Update is called once per frame
+    void Update()
+    {
+        if (i >= rotation)
+        {
+            isRotating = true;
+            this.transform.Rotate(new Vector3(i * 0.045f, 0, 0));
+            //Debug.Log("i = " + i + ", " + rotation);
+            i--;
+        }
+        else
+        {
+            isRotating = false;
+        }
 
-        //After we have waited 5 seconds print the time again.
-        //Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.IsViveButton(ControllerButton.Trigger))
+        {
+
+            if (!isRotating)
+            {
+                rotate();
+            }
+
+
+        }
     }
 }

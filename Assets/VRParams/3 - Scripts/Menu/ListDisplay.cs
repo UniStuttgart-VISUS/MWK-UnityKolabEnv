@@ -24,6 +24,8 @@ public class ListDisplay : MonoBehaviour
     public UnityVector3Interaction vec3Interaction;
     public Vec3Sender vec3Sender;
 
+    ToggleGroup group;
+
     public void SetSenders(BoolSender boolSender, IntSender intSender, FloatSender floatSender, EnumSender enumSender, Vec3Sender vec3Sender)
     {
         this.boolSender = boolSender;
@@ -45,7 +47,7 @@ public class ListDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        group = targetTransform.GetComponent<ToggleGroup>();
     }
 
     // Update is called once per frame
@@ -69,11 +71,17 @@ public class ListDisplay : MonoBehaviour
 
     public void InitDisplay(List<object> parameterList)
     {
-        //foreach (Transform child in targetTransform)
-        //{
-        //    child.parent = null;
-        //    Destroy(child.gameObject);
-        //}
+        Debug.Log("[ListDisplay]: targetCount before: " + targetTransform.childCount);
+        while (targetTransform.childCount != 0)
+        {
+            foreach (Transform child in targetTransform)
+            {
+                child.parent = null;
+                Destroy(child.gameObject);
+            }
+        }
+        Debug.Log("[ListDisplay]: targetCount after: " + targetTransform.childCount);
+
         ToggleGroup group = targetTransform.GetComponent<ToggleGroup>();
         foreach (object param in parameterList)
         {
@@ -84,5 +92,15 @@ public class ListDisplay : MonoBehaviour
             display.toggle.group = group;
             display.SetObjParameter(param);
         }
+    }
+
+    public void addParameterButton(object parameter)
+    {
+        ItemDisplay display = (ItemDisplay)Instantiate(itemDisplay);
+        display.SetSenders(boolSender, intSender, floatSender, enumSender, vec3Sender);
+        display.SetInteractions(boolinteraction, intInteraction, floatInteraction, enumInteraction, vec3Interaction);
+        display.transform.SetParent(targetTransform, false);
+        display.toggle.group = group;
+        display.SetObjParameter(parameter);
     }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using HTC.UnityPlugin.Vive;
+using interop;
 
-public class FloatChanger : MonoBehaviour
+public class FloatChanger : UnityFloatInteraction
 {
     public Text floatValueText;
     public Text stepSizeText;
@@ -18,12 +19,18 @@ public class FloatChanger : MonoBehaviour
 
     private float selectedFloat;
     private float step;
+    private GameObject emptyObject1;
+    private GameObject emptyObject2;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        var emptyObject1 = new GameObject();
-        var emptyObject2 = new GameObject();
+        emptyObject1 = new GameObject();
+        emptyObject2 = new GameObject();
+
+        emptyObject1.SetActive(false);
+        emptyObject2.SetActive(false);
+
         floatValueDisplay.SetParent(emptyObject1.transform);
         stepSizeDisplay.SetParent(emptyObject2.transform);
         Vector3 yVecOffset = new Vector3(0, yOffset, 0);
@@ -38,7 +45,23 @@ public class FloatChanger : MonoBehaviour
         UpdateStepText();
         UpdateFloatText();
 
+        base.Start();
+    }
 
+    override public void StartInteraction(Parameter<float> param, VisParamSender<float> sender)
+    {
+        emptyObject1.SetActive(true);
+        emptyObject2.SetActive(true);
+
+        base.StartInteraction(param, sender);
+    }
+
+    public override void StopInteraction()
+    {
+        emptyObject1.SetActive(false);
+        emptyObject2.SetActive(false);
+
+        base.StopInteraction();
     }
 
     // Update is called once per frame
@@ -91,7 +114,12 @@ public class FloatChanger : MonoBehaviour
             } else if (angle >= 210) {
                 selectedFloat -= step;
             }
-            Debug.Log(angle + " " + selectedFloat);
+
+            if (!float.Equals(selectedValue.param, selectedFloat))
+            {
+                selectedValue.param = selectedFloat;
+                senderManager.Send(selectedValue);
+            }
             UpdateFloatText();
         }
     }

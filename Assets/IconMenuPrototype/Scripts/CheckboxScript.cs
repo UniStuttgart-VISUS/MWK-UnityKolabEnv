@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using HTC.UnityPlugin.Vive;
 
-public class CheckboxScript : MonoBehaviour, IPointerClickHandler
+public class CheckboxScript : UnityBoolInteraction, IPointerClickHandler
 {
     private bool isChecked;
     private GameObject cross;
     public bool initValueTrue;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         cross = this.transform.GetChild(1).gameObject;
         isChecked = initValueTrue;
+        base.Start();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -23,6 +24,8 @@ public class CheckboxScript : MonoBehaviour, IPointerClickHandler
         {
             cross.SetActive(isChecked);
             isChecked = !isChecked;
+            selectedValue.param = isChecked;
+            senderManager.Send(selectedValue);
         }       
     }
 }

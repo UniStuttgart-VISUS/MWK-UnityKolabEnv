@@ -9,23 +9,30 @@ public class VisParamMenu : MonoBehaviour
 {
     //public List<VarParameter> parameterList2;
     protected List<object> parameterList = new List<object>();
+    private List<object> parameterNameList = new List<object>();
+    //protected SortedDictionary<string, object> parameterList = new SortedDictionary<string, object>();
     private VisParamSenderManager senderManager;
     private VisVarSender varSender;
 
-    public void AddParameter(object p)
+    public void AddParameter(string name, object p)
     {
         //Debug.Log("[VisInteraction]: add parameter");
-        if (parameterList.Count < 30)
+        if (!parameterNameList.Contains(name))
         {
-            Debug.Log("[VisInteraction]: new parameter");
+            Debug.Log("[VisInteraction]: new parameter " + name);
             parameterList.Add(p);
-        }
-        else
+            parameterNameList.Add(name);
+        }else
         {
-            //Debug.Log("[VisInteraction]: parameter already in list");
-            int index = parameterList.IndexOf(p);
+            int index = parameterNameList.IndexOf(name);
             parameterList[index] = p;
         }
+        //else
+        //{
+        //    //Debug.Log("[VisInteraction]: parameter already in list");
+        //    int index = parameterList.IndexOf(p);
+        //    parameterList[index] = p;
+        //}
     }
 
     public void UpdateParameter()
