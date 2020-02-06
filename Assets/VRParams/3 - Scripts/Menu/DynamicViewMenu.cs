@@ -93,7 +93,10 @@ public class DynamicViewMenu : VisParamMenu
         }
         else if (enumInteraction.gameObject.active)
         {
-            description.InitDescription(enumInteraction.GetSelectedValue().name, string.Join(", ", enumInteraction.GetSelectedValue().param.ToArray()));//enumInteraction.GetSelectedValue().param[0]);
+            // remove selected value from enum list, to display all possible choices
+            List<string> enumChoices = new List<string>(enumInteraction.GetSelectedValue().param);
+            enumChoices.RemoveAt(0);
+            description.InitDescription(enumInteraction.GetSelectedValue().name, string.Join(", ", enumChoices.ToArray()));//enumInteraction.GetSelectedValue().param[0]);
         }
         else if (vec3Interaction.gameObject.active)
         {

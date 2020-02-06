@@ -50,7 +50,10 @@ public class EnumChanger : UnityEnumInteraction
     override public void StartInteraction(Parameter<List<string>> param, VisParamSender<List<string>> sender)
     {
         base.StartInteraction(param, sender);
-        enumList = selectedValue.param;
+        
+        // copy the list in the struct for display purposes
+        enumList = new List<string>(selectedValue.param);
+        
         // remove selected value
         Debug.Log("[EnumChanger] slected value: " + selectedValue.param[0] + ", Count: " + selectedValue.param.Count);
         enumList.RemoveAt(0);
