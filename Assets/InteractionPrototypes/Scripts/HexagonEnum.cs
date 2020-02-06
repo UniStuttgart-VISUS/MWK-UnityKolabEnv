@@ -38,13 +38,15 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
         gameObject.SetActive(true);
         setUpValuesList();
         
-        while (!values[frontElementIndx].Equals(selectedValue.param[0]))
+        while (!texts[frontElementIndx].text.Equals(selectedValue.param[0]))
         {
-            
-            rotate();
-            Debug.Log("[Integerinteraction]: selectedValue = " + selectedValue.param[0] + ", frontElement = " + values[frontElementIndx] + ", " + !values[frontElementIndx].Equals(selectedValue.param[0]));
-        }
 
+            if (!isRotating)
+            {
+                rotate();
+            }
+            Debug.Log("[Integerinteraction]: selectedValue = " + selectedValue.param[0] + ", frontElement = " + texts[frontElementIndx].text + ", " + !values[frontElementIndx].Equals(selectedValue.param[0]));
+        }
 
         Debug.Log("[VisEnumInteraction]: Enum param successful started");
     }
@@ -60,20 +62,19 @@ public class HexagonEnum : UnityEnumInteraction, IPointerClickHandler
 
     private void setUpValuesList()
     {
-        if (totalsides > values.Count)
-        {
-            int diff = totalsides - values.Count;
+        //if (totalsides > values.Count)
+        //{
+        //    int diff = totalsides - values.Count;
 
-            for (int i = 0; i < diff; i++ )
-            {
-                if (i >= values.Count)
-                {
-                    i = 0;
-                }
-                values.Add(values[i]);
-            }
-        }
-
+        //    for (int i = 0; i < diff; i++ )
+        //    {
+        //        if (i >= values.Count)
+        //        {
+        //            i = 0;
+        //        }
+        //        values.Add(values[i]);
+        //    }
+        //}
 
         // get the text fields in rotation direction
         texts = GetComponentsInChildren<Text>();
