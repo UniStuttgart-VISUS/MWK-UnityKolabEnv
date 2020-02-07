@@ -300,7 +300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.5890045, y: 0.5629883}
+  m_AnchoredPosition: {x: -1.5889893, y: 0.5629883}
   m_SizeDelta: {x: 1000, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5756575799561985142
@@ -378,6 +378,16 @@ MonoBehaviour:
   targetTransform: {fileID: 5756575799956498590}
   itemDisplay: {fileID: 5051069212055820497, guid: ac6da9f69e7c01542b6160590ddc7697,
     type: 3}
+  boolinteraction: {fileID: 0}
+  boolSender: {fileID: 0}
+  intInteraction: {fileID: 0}
+  intSender: {fileID: 0}
+  enumInteraction: {fileID: 0}
+  enumSender: {fileID: 0}
+  floatInteraction: {fileID: 0}
+  floatSender: {fileID: 0}
+  vec3Interaction: {fileID: 0}
+  vec3Sender: {fileID: 0}
 --- !u!64 &5756575800216367862
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -435,6 +445,18 @@ MonoBehaviour:
   leftHandRole: 1
   minimizedMenu: {fileID: 0}
   maximizedMenu: {fileID: 0}
+  listDisplay: {fileID: 0}
+  description: {fileID: 0}
+  boolinteraction: {fileID: 0}
+  boolSender: {fileID: 0}
+  intInteraction: {fileID: 0}
+  intSender: {fileID: 0}
+  enumInteraction: {fileID: 0}
+  enumSender: {fileID: 0}
+  floatInteraction: {fileID: 0}
+  floatSender: {fileID: 0}
+  vec3Interaction: {fileID: 0}
+  vec3Sender: {fileID: 0}
 --- !u!1 &5756575799572417106
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,7 +535,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Description Box
 --- !u!1 &5756575799956498591
 GameObject:
   m_ObjectHideFlags: 0

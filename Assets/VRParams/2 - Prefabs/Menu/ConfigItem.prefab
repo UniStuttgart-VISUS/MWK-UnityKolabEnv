@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5118304012497065868
 CanvasRenderer:
@@ -67,18 +67,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 1
+    m_MinSize: 0
+    m_MaxSize: 25
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Parameter Item
 --- !u!1 &8583828738119408160
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +195,17 @@ MonoBehaviour:
     name: 
   toggle: {fileID: -9170543779683963155}
   descriptionBox: {fileID: 0}
+  boolinteraction: {fileID: 0}
+  boolSender: {fileID: 0}
+  intInteraction: {fileID: 0}
+  intSender: {fileID: 0}
+  enumInteraction: {fileID: 0}
+  enumSender: {fileID: 0}
+  floatInteraction: {fileID: 0}
+  floatSender: {fileID: 0}
+  vec3Interaction: {fileID: 0}
+  vec3Sender: {fileID: 0}
+  currentType: 0
 --- !u!114 &-9170543779683963155
 MonoBehaviour:
   m_ObjectHideFlags: 0
