@@ -74,7 +74,7 @@ Be aware that the source code may depend on git submodules and you should check 
 
 * inviwo: 
     ```
-    git clone --recursive https://github.com/geringsj/inviwo
+    git clone --recurse-submodules https://github.com/geringsj/inviwo
     cd inviwo
     git checkout mint
     *configure with CMake and compile*
@@ -146,15 +146,15 @@ The MegaMol graph shown above uses volume rendering modules to render a volumetr
 ### 4.2 Inviwo VR-Interop Projects
 
 When starting inviwo the first time you are presented with example projects that are bundled with inviwo.
-One simple example project is **boron.inv**.
+One simple example project is **boron.inv**, shown below.
 
 ![Inviwo boron.inv example project](images/Inviwo-Vrinterop-1.png "Inviwo boron.inv example project")
 
-To make an inviwo project VR-ready you need to adapt the project network to render two images - one for the left eye and one for the right. The two resulting images should be exported to UnityKolabEnv using **Spout** processors with their Sender Name properties set to ``/UnityInterop/DefaultNameLeft`` and ``/UnityInterop/DefaultNameRight`` for the left and right image, respectively.
+To make an inviwo project VR-ready you need to adapt the inviwo processor network to render two images - one for the left eye and one for the right. The two resulting images should be exported to UnityKolabEnv using **Spout** processors with their Sender Name properties set to ``/UnityInterop/DefaultNameLeft`` and ``/UnityInterop/DefaultNameRight`` for the left and right image, respectively.
 
 You need a **ZmqReceiver** processor to receive rendering data broadcasted by UnityKolabEnv and a **ZmqVolumeBoxProcessor** to broadcast bounding box information to UnityKolabEnv.  The ZmqReceiver processor needs to be configured to receive certain data values and pass them to the appropriate processors in the processor network.  This provides inviwo with the VR rendering parameters to render images that correspond to the scene in VR.
 
-In the *AddParameter* propertiy of the ZmqReceiver add the following **Properties** and connect them to the network. Make sure to use the **Address** values stated below, or else received data may not be assigned correctly to the properties. In the image below you can see an example configuration of an inviwo network for VR rendering with UnityKolabEnv. The processors marked red are processors that are responsible for communicating VR rendering data - either receiving rendering state and distributing it in the network (ZmqRecevier) or broadcasting rendering results back to UnityKolabEnv (Spout, ZmqVolumeBoxProcessor).
+In the *AddParameter* propertiy of the ZmqReceiver add the following **Properties** and connect them to processors in the network. Make sure to use the **Address** values stated below, or else received data may not be assigned correctly to the properties. In the image below you can see an example configuration of an inviwo network for VR rendering with UnityKolabEnv. The processors marked red are processors that are responsible for communicating VR rendering data - either receiving rendering state and distributing it in the network (ZmqRecevier) or broadcasting rendering results back to UnityKolabEnv (Spout, ZmqVolumeBoxProcessor).
 
 The inviwo **mint** branch at [github.com/geringsj/inviwo](https://github.com/geringsj/inviwo/tree/mint) contains a VR-ready example project at ``inviwo/data/workspaces/boron-interop.inv`` that extends the *boron.inv* and uses all VR interop features currently implemented. Note that some properties and property values of the *ZmqReceiver* processor (e.g. the addresses mentioned below) are not shown in the inviwo GUI and you need to inspect the project file in a text editor to see the full configuration of the processor.
 
@@ -162,13 +162,62 @@ The inviwo **mint** branch at [github.com/geringsj/inviwo](https://github.com/ge
 |----------|------|---------|-------------|
 | Stereo Camera | StereoCam | StereoCameraViewRelative | Pass the configuration of the left and right camera to the corresponding processors in the network rendering the left and right image. |
 | CameraProjection | CamProjection | CameraProjection | Pass the camera projection configuration to all processors with a camera. Also connect the *Canvas Size* property to the *Spout* processors. |
-| TransferFunction (optional) | TransferFunction | TransferFunction | Adding and connecting the TransferFunction property enables Transfer Function manipulation in VR. |
-| FloatVec3 (optional) | CuttingPlanePoint | CuttingPlanePoint | Connecting the Cutting Plane Point an Normal to the **Mesh Clipping** processor enables using the Cutting Plane in the VR environment. |
-| FloatVec3 (optional) | CuttingPlaneNormal | CuttingPlaneNormal | Connecting the Cutting Plane Point an Normal to the **Mesh Clipping** processor enables using the Cutting Plane in the VR environment. |
+| TransferFunction (optional) | TransferFunction | TransferFunction | Adding and connecting the TransferFunction property enables manipulating the Transfer Function Widget in VR. |
+| FloatVec3 (optional) | CuttingPlanePoint | CuttingPlanePoint | Connecting the Cutting Plane Point, Normal and State to the **Mesh Clipping** processor enables using the Cutting Plane Widget in the VR environment. Use all three of them at once. |
+| FloatVec3 (optional) | CuttingPlaneNormal | CuttingPlaneNormal | Connecting the Cutting Plane Point, Normal and State to the **Mesh Clipping** processor enables using the Cutting Plane Widget in the VR environment. Use all three of them at once. |
+| Bool (optional) | CuttingPlaneState | CuttingPlaneState | Connecting the Cutting Plane Point, Normal and State to the **Mesh Clipping** processor enables using the Cutting Plane Widget in the VR environment. Use all three of them at once. |
 
 ![boron.inv example adapted for VR rendering](images/Inviwo-Vrinterop-2.png "boron.inv example adapted for VR rendering")
 
-## 5. Set up the KolabLoader
+## 5. Setting up KolabLoader
+
+The KolabLoader has two responsibilities: 
+1. Write the configuration file ``BaseSpoutInteropsettings.json`` and provide a GUI to manipulate its configurations
+2. Act as launcher application for standalone builds of UnityKolabEnv 
+
+``BaseSpoutInteropsettings.json`` is located in the user directory at ``AppData\LocalLow\UlmUniversity\`` and contains user-specific configuration regarding collaborative network sessions (e.g. username), paths to the MegaMol and inviwo executables as well as the directory where project files for the renderers are located.
+
+Download and build the source code for KolabLoader from [github.com/UniStuttgart-VISUS/MWK-KolabLoader](https://github.com/UniStuttgart-VISUS/MWK-KolabLoader).
+KolabLoader comes with a Visual Studio Solution file and was tested only on Windows. 
+
+After building the project the application is located in ``MWK-KolabLoader\KolabLoader\bin\Debug\KolabLoader.exe``.
+Starting the KolabLoader you will see the following GUI:
+
+![The KolabLoader UI](images/KolabLoader.png "The KolabLoader UI")
+
+There are three sections thatyou need to provide with inputs: Your user data, the path to workspace/project data on your system, and paths to the MegaMol, inviwo and UnityKolabEnv executables. 
+Note that the inviwo and MegaMol executables are expected to support VR sessions as described above, i.e. they are compiled with VR support. 
+The Unity exutable configured in the GUI is called when you use the *Session Start* button in the KolabLuader GUI to start a session, thus a path to an executable build of UnityKolabEnv is expected and only used for starting UnityKolabEnv sessions from the KolabLoader. 
+
+The inviwo and MegaMol executables however are used by UnityKolabEnv to start VR projects found in the path for the workspace/project directory. 
+This means that you need to place your inviwo and MegaMol VR-project files into one joint directory and make UnityKolabEnv make aware of it.
+The Login and Passwort fields are placeholders for now, your Name and Institution are displayed in VR remote sessions as identification. 
+The Session Key is used as the name for network sessions you start or would like to join. If a network session with that name does not exist when starting UnityKolanEnv, a new session with that name will be initialized. If a network session with that name already exists, UnityKolabEnv will join that session.
+
+Below you can see the contents of a JSON configuration file. 
+Note that the comments explaining the JSON parameters are not valid JSON code and should be removed when using this configuration. 
+In addition to the user identification, project and executable paths the file also stores several options that manage network session creation, rendering and collision detection for local collaborative sessions.
+```JSON
+{
+    "_nickname": "geringsj",
+    "_institution": "VISUS",
+    "_username": "geringsj",
+    "_password": "undefined",
+    "_workspacesPath": "D:\\geringsj\\code\\MWK\\BaseSpoutInterop\\demo-datasets",
+    "_session": "Test-Default",
+    "_projectPath": "D:/geringsj/code/MWK/BaseSpoutInterop/BaseSpoutInterop",
+    "_inviwoPath": "D:\\geringsj\\code\\MWK\\BaseSpoutInterop\\inviwo\\build\\bin\\Release\\inviwo.exe",
+    "_megamolPath": "D:\\geringsj\\code\\MWK\\megamol-interop\\bin\\mmconsole.exe",
+    "_useInviwoPositioning": false, // unused, legacy
+    "_rttVisualization": false, // unused, legacy
+    "_createRoomOnLoad": false, // immediately starts a session when starting UnityKolanEnv
+    "_autoJoinFirstRoomOnLoad": false, // joins first network session found when starting UnityKolanEnv
+    "_externalRendererMode": true,
+    "_desktopMode": false, // disables stereo rendering
+    "_collisionSN": [ "574687918", "662006397" ], // allows user collision detection in in local sessions
+    "toolTipHandler": { "instanceID": -2714 }
+}
+```
 
 # Interacting with the Kolab Environment
 
